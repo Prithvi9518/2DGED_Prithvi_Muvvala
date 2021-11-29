@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6"
+    },
+
+    /* Added to support Intellisense for JS files outside current file */
+    "include": [
+        "Engine/**/*",
+        "Games/**/*",
+    ],
+
+    /* We can also exclude folders from the current project */
+    "exclude": [
+        "Games/Pong"
+    ]
+}
