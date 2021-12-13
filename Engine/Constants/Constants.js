@@ -18,7 +18,7 @@ const ActorType = {
     NPC: 7,
     Player: 8,
     Camera: 9,
-    HUD: 10
+    HUD: 11
 
     // Add as many actor types as your game needs here BUT remember that the 
     // assigned number will determine drawn sort order...

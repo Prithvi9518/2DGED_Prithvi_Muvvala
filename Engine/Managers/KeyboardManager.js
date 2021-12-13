@@ -7,7 +7,17 @@
  
  class KeyboardManager {
  
-    constructor() {
+    get id() {
+        return this._id;
+    }
+
+    set id(id) {
+        this._id = id;
+    }
+
+    constructor(id) {
+        this.id = id;
+
         this.keyState = {};
  
         window.addEventListener("keydown", (event) => {
@@ -25,6 +35,7 @@
      * @returns {Boolean} True if pressed, otherwise false
      */
     isKeyDown(code) {
+        
         if (this.keyState[code]) {
             return true;
         }

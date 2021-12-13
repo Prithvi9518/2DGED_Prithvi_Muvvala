@@ -6,27 +6,49 @@
  * @class SpriteArtist
  */
 
-class SpriteArtist extends Artist {
+ class SpriteArtist extends Artist {
 
+    get spriteSheet() {
+        return this._spriteSheet;
+    }
     get sourcePosition() {
         return this._sourcePosition;
     }
     get sourceDimensions() {
         return this._sourceDimensions;
     }
+    get fixedPosition() {
+        return this._fixedPosition;
+    }
 
+    set spriteSheet(value) {
+        this._spriteSheet = value;
+    }
     set sourcePosition(value) {
         this._sourcePosition = value;
     }
     set sourceDimensions(value) {
         this._sourceDimensions = value;
     }
+    set fixedPosition(fixedPosition) {
+        this._fixedPosition = fixedPosition;
+    }
 
-    constructor(context, spriteSheet, alpha, sourcePosition, sourceDimensions) {
-        super(context, spriteSheet, alpha);
+    constructor(
+        context, 
+        alpha, 
+        spriteSheet, 
+        sourcePosition, 
+        sourceDimensions, 
+        fixedPosition = false
+    ) {
+        super(context, alpha);
 
+        this.spriteSheet = spriteSheet;
         this.sourcePosition = sourcePosition;
         this.sourceDimensions = sourceDimensions;
+
+        this.fixedPosition = fixedPosition;
     }
 
     /**
@@ -51,9 +73,13 @@ class SpriteArtist extends Artist {
         // This will allow us to restore later
         this.context.save();
 
-        // Apply the camera transformations to the scene 
-        // (i.e. to enable camera zoom, pan, rotate)
-        activeCamera.setContext(this.context);
+        // If the position of this sprite is not fixed in place
+        if (!this.fixedPosition) {
+        
+            // Apply the camera transformations to the scene 
+            // (i.e. to enable camera zoom, pan, rotate)
+            activeCamera.setContext(this.context);
+        }
 
         // Access the transform for the parent that this artist is attached to
         let transform = parent.transform;
@@ -91,10 +117,11 @@ class SpriteArtist extends Artist {
     clone() {
         return new SpriteArtist(
             this.context,
-            this.spriteSheet,
             this.alpha,
-            this.sourcePosition,
-            this.sourceDimensions
+            this.spriteSheet,
+            this.sourcePosition.clone(),
+            this.sourceDimensions.clone(),
+            this.fixedPosition
         );
     }
 }

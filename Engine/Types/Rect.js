@@ -135,10 +135,14 @@ class Rect {
      * @param {Transform2D} transform 
      */
     transform(transform) {
+
         this.x = transform.translation.x;
         this.y = transform.translation.y;
-        this.width = transform.scale.x * transform.dimensions.x;
-        this.height = transform.scale.y * transform.dimensions.y;
+        // this.width = transform.dimensions.x * transform.scale.x;
+        // this.height = transform.dimensions.y * transform.scale.y;
+
+        this.width = this.originalWidth * transform.scale.x * transform.dimensions.x;
+        this.height = this.originalHeight * transform.scale.y * transform.dimensions.y;
     }
 
     /**
@@ -178,6 +182,7 @@ class Rect {
      * @returns true if otherRect is contained within this Rect.
      */
     contains(otherRect) {
+
         let enclosingRect = this.getEnclosingRect(otherRect);
 
         return (
@@ -194,6 +199,7 @@ class Rect {
      * @returns true if otherRect is currently intersecting this Rect. 
      */
     intersects(otherRect) {
+
         let enclosingRect = this.getEnclosingRect(otherRect);
 
         return (
@@ -209,6 +215,7 @@ class Rect {
      * @returns a new rect which encloses both this Rect and otherRect.
      */
     getEnclosingRect(otherRect) {
+
         if (
             otherRect == null ||
             otherRect == undefined ||
@@ -243,6 +250,7 @@ class Rect {
         // If a stroke style has been provided
         // Then add a stroke to the rect
         if (strokeStyle !== null) {
+
             context.strokeStyle = strokeStyle;
 
             context.strokeRect(
@@ -256,6 +264,7 @@ class Rect {
         // If a fill style has been provided
         // Then add fill to the rect
         if (fillStyle !== null) {
+
             context.fillStyle = fillStyle;
 
             context.fillRect(

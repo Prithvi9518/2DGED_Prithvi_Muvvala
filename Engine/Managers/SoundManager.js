@@ -81,10 +81,12 @@ class SoundManager {
 
     /**
      * 
+     * @param {*} id 
      * @param {*} notificationCenter 
      * @param {*} cueArray 
      */
-    constructor(notificationCenter, cueArray) {
+    constructor(id, notificationCenter, cueArray) {
+        this.id = id;
         this.notificationCenter = notificationCenter;
         this.cueArray = cueArray;
 

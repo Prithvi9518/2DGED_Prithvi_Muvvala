@@ -5,8 +5,11 @@
  * @version 1.0
  * @class RectangleSpriteArtist
  */
-class RectangleSpriteArtist extends Artist {
+ class RectangleSpriteArtist extends Artist {
 
+    get alpha() {
+        return this._alpha;
+    }
     get lineWidth() {
         return this._lineWidth;
     }
@@ -16,10 +19,13 @@ class RectangleSpriteArtist extends Artist {
     get fillStyle() {
         return this._fillStyle;
     }
-    get alpha() {
-        return this._alpha;
+    get fixedPosition() {
+        return this._fixedPosition;
     }
 
+    set alpha(alpha) {
+        this._alpha = (alpha > 1 || alpha < 0) ? 1 : alpha;
+    }
     set lineWidth(lineWidth) {
         this._lineWidth = lineWidth;
     }
@@ -29,16 +35,25 @@ class RectangleSpriteArtist extends Artist {
     set fillStyle(fillStyle) {
         this._fillStyle = fillStyle;
     }
-    set alpha(alpha) {
-        this._alpha = (alpha > 1 || alpha < 0) ? 1 : alpha;
+    set fixedPosition(fixedPosition) {
+        this._fixedPosition = fixedPosition;
     }
 
-    constructor(context, lineWidth, strokeStyle, fillStyle, alpha = 1) {
+    constructor(
+        context,
+        alpha,
+        lineWidth,
+        strokeStyle,
+        fillStyle,
+        fixedPosition = false
+    ) {
         super(context, alpha);
-        
+
         this.lineWidth = lineWidth;
         this.strokeStyle = strokeStyle;
         this.fillStyle = fillStyle;
+
+        this.fixedPosition = fixedPosition;
     }
 
     /**
@@ -66,9 +81,13 @@ class RectangleSpriteArtist extends Artist {
         // Save whatever context settings were used before this (color, line, text styles)
         this.context.save();
 
-        // Apply the camera transformations to the scene 
-        // (i.e. to enable camera zoom, pan, rotate)
-        activeCamera.setContext(this.context);
+        // If the position of this sprite is not fixed in place
+        if (!this.fixedPosition) {
+
+            // Apply the camera transformations to the scene 
+            // (i.e. to enable camera zoom, pan, rotate)
+            activeCamera.setContext(this.context);
+        }
 
         // Access the transform for the parent that this artist is attached to
         let transform = parent.transform;
@@ -96,19 +115,21 @@ class RectangleSpriteArtist extends Artist {
 
     equals(other) {
         return super.equals(other)
+            && this.alpha === other.alpha
             && this.lineWidth === other.lineWidth
             && this.strokeStyle === other.strokeStyle
             && this.fillStyle === other.fillStyle
-            && this.alpha === other.Alpha;
+            && this.fixedPosition === other.fixedPosition
     }
 
     clone() {
         return new RectangleSpriteArtist(
             this.context,
+            this.alpha,
             this.lineWidth,
             this.strokeStyle,
             this.fillStyle,
-            this.alpha
+            this.fixedPosition
         );
     }
 
@@ -117,7 +138,8 @@ class RectangleSpriteArtist extends Artist {
             this.lineWidth + "," +
             this.strokeStyle + "," +
             this.fillStyle + "," +
-            this.alpha +
-        "]";
+            this.alpha + "," +
+            this.fixedPosition +
+            "]";
     }
 }

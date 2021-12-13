@@ -23,9 +23,6 @@ function start() {
     // This will allow us to keep track of the time in our game
     gameTime = new GameTime();
 
-    // Load game elements
-    load();
-
     // Initialize game elements
     initialize();
 
@@ -95,13 +92,14 @@ function initialize() {
     // example, do your sprites require a camera in their constructor? If
     // so, you should initialize your camera before attemptng to initialize
     // your sprites...
-    
+    initializeCameras();
     initializeSprites();
 }
 
 function initializeNotificationCenter() {
 
     // TO DO: Initialize notification center
+    notificationCenter = new NotificationCenter();
 }
 
 function initializeManagers() {
@@ -109,10 +107,57 @@ function initializeManagers() {
     // TO DO: Initialize managers
 
     // Initialize camera manager?
+    cameraManager = new CameraManager(
+        "Camera Manager"
+    );
+
     // Initialize object manager?
+    objectManager = new ObjectManager(
+        "Object Manager",
+        notificationCenter,
+        context,
+        StatusType.Drawn | StatusType.Updated,
+        cameraManager
+    );
     // Initialize game manager?
     // Initialize sound manager?
+    // soundManager = new SoundManager(
+    //     "Sound Manager",
+    //     notificationCenter,
+    //     GameData.AUDIO_CUE_ARRAY
+    // );
+
     // Initialize keyboard manager?
+    keyboardManager = new KeyboardManager(
+        "Keyboard Manager"
+    );
+
+}
+
+function initializeCameras() {
+
+    let transform = new Transform2D(
+        Vector2.Zero,
+        0,
+        Vector2.One,
+        new Vector2(
+            canvas.clientWidth / 2,
+            canvas.clientHeight / 2
+        ),
+        new Vector2(
+            canvas.clientWidth,
+            canvas.clientHeight
+        )
+    );
+
+    let camera = new Camera2D(
+        "Camera 1",
+        transform,
+        ActorType.Camera,
+        StatusType.Updated
+    );
+
+    cameraManager.add(camera);
 }
 
 function initializeSprites() {
@@ -120,10 +165,49 @@ function initializeSprites() {
     // TO DO: Initialize sprites
 
     // Initialize background?
+    initializeBackground();
     // Initialize platforms?
     // Initialize players?
     // Initialize enemies?
     // Initialize pickups?
+}
+
+function initializeBackground()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        Vector2.Zero,
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        new Vector2(canvas.clientWidth, canvas.clientHeight)
+    );
+
+    artist = new SpriteArtist(
+        context,
+        1,
+        document.getElementById("knightmare_background_1"),
+        Vector2.Zero,
+        new Vector2(384, 240),
+        true
+    );
+
+    sprite = new Sprite(
+        "Background 1",
+        transform,
+        ActorType.Background,
+        CollisionType.NotCollidable,
+        StatusType.Drawn,
+        artist,
+        0,
+        0
+    );
+
+    objectManager.add(sprite);
+
 }
 
 function resetGame() {
@@ -134,3 +218,6 @@ function resetGame() {
 
 // Start the game once the page has loaded
 window.addEventListener("load", start);
+
+
+

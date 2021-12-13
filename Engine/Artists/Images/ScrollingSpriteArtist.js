@@ -4,10 +4,10 @@
  * @version 1.0
  * @class ScrollingSpriteArtist
  */
-class ScrollingSpriteArtist extends Artist {
+ class ScrollingSpriteArtist extends Artist {
 
-    get spritesheet() {
-        return this._spritesheet;
+    get spriteSheet() {
+        return this._spriteSheet;
     }
     get sourcePosition() {
         return this._sourcePosition;
@@ -16,8 +16,8 @@ class ScrollingSpriteArtist extends Artist {
         return this._sourceDimensions;
     }
 
-    set spritesheet(spritesheet) {
-        this._spritesheet = spritesheet;
+    set spriteSheet(spriteSheet) {
+        this._spriteSheet = spriteSheet;
     }
     set sourcePosition(sourcePosition) {
         this._sourcePosition = sourcePosition;
@@ -28,14 +28,16 @@ class ScrollingSpriteArtist extends Artist {
 
     constructor(
         context,
-        spriteSheet,
         alpha,
+        spriteSheet,
         sourcePosition,
         sourceDimensions,
         screenWidth,
         screenHeight,
     ) {
-        super(context, spriteSheet, alpha);
+        super(context, alpha);
+
+        this.spriteSheet = spriteSheet;
 
         this.sourcePosition = sourcePosition;
         this.sourceDimensions = sourceDimensions;
@@ -170,8 +172,8 @@ class ScrollingSpriteArtist extends Artist {
     clone() {
         return new ScrollingSpriteArtist(
             this.context,
-            this.spriteSheet,
             this.alpha,
+            this.spriteSheet,
             this.sourcePosition.clone(),
             this.sourceDimensions.clone(),
             this.screenWidth,

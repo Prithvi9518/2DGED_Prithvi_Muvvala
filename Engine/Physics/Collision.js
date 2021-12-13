@@ -1,6 +1,7 @@
 /**
  * Provides functions relating to CD/CR
- * @author
+ * 
+ * @author Niall McGuinnesss
  * @version 1.0
  * @class Collision
  */
@@ -13,7 +14,8 @@ const CollisionLocationType = {
 
 class Collision {
 
-    // Used to determine on what side we collides with spriteB - normally only used for platforms
+    // Used to determine on what side spriteA has collided with spriteB
+    // Typically only used for collision with geometry
     static GetCollisionLocationType(spriteA, spriteB) {
 
         let boundingBoxA = new Rect(
@@ -47,14 +49,20 @@ class Collision {
 
                 if (vY > 0) {
                     collisionLocationType = CollisionLocationType.Top;
-                } else {
+                } 
+                
+                else {
                     collisionLocationType = CollisionLocationType.Bottom;
                 }
-            } else {
-                
+            }
+
+            else {
+
                 if (vX > 0) {
                     collisionLocationType = CollisionLocationType.Left;
-                } else {
+                } 
+                
+                else {
                     collisionLocationType = CollisionLocationType.Right;
                 }
             }

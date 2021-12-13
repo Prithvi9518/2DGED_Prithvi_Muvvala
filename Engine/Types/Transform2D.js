@@ -111,20 +111,26 @@ class Transform2D {
      * @param {number} rotationInRadians Floating-point angle in radians to rotate the sprite (+ve = CW, -ve=CCW)
      * @param {Vector2} scale Vector2 with the scale of the sprite on the screen
      * @param {Vector2} origin Vector2 centre of rotation for the image between (0,0) and (w,h) of the original image
-     * @param {Vector2} dimensions Vector2 original dimensions of the sprite in the image 
+     * @param {Vector2} dimensions Vector2 original dimensions of the sprite in the image
+     * @param {number} explodeBoundingBoxInPixels
      * @memberof Transform2D
      */
-    constructor(translation, rotationInRadians, scale, origin, dimensions) {
+    constructor(
+        translation, 
+        rotationInRadians, 
+        scale, 
+        origin, 
+        dimensions, 
+        explodeBoundingBoxInPixels = 0
+    ) {
         this.translation = translation;
         this.rotationInRadians = rotationInRadians;
         this.scale = scale;
         this.origin = origin;
         this.dimensions = dimensions;
+        this.explodeBoundingBoxInPixels = explodeBoundingBoxInPixels;
 
-        // Currently internal - will expose later
-        this.explodeBoundingBoxInPixels = 0;
-
-        // Entirely internal
+        // Internal variables
         this.boundingBox = null;
         this.isDirty = true;
         
@@ -134,6 +140,7 @@ class Transform2D {
         this.originalScale = scale.clone();
         this.originalOrigin = origin.clone();
         this.originalDimensions = dimensions.clone();
+        this.originalExplodeBoundingBoxInPixels = explodeBoundingBoxInPixels;
     }
 
     /**
@@ -215,6 +222,7 @@ class Transform2D {
         this.scale = this.originalScale.clone();
         this.origin = this.originalOrigin.clone();
         this.dimensions = this.originalDimensions.clone();
+        this.explodeBoundingBoxInPixels = this.originalExplodeBoundingBoxInPixels;
     }
 
     equals(other) {
@@ -224,7 +232,8 @@ class Transform2D {
             this.rotationInRadians === other.rotationInRadians &&
             this.scale.equals(other.scale) &&
             this.origin.equals(other.origin) &&
-            this.dimensions.equals(other.dimensions)
+            this.dimensions.equals(other.dimensions) &&
+            this.explodeBoundingBoxInPixels === other.explodeBoundingBoxInPixels
         );
     }
 
@@ -234,7 +243,8 @@ class Transform2D {
             this.rotationInRadians,
             this.scale.clone(),
             this.origin.clone(),
-            this.dimensions.clone()
+            this.dimensions.clone(),
+            this.explodeBoundingBoxInPixels
         );
     }
 
@@ -250,6 +260,8 @@ class Transform2D {
             this.origin.toString() +
             "," +
             this.dimensions.toString() +
+            "," +
+            this.explodeBoundingBoxInPixels +
             "]"
         );
     }

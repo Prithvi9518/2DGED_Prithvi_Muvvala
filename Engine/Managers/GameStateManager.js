@@ -7,13 +7,10 @@
  * @class GameStateManager
  */
 
-class GameStateManager {
+ class GameStateManager {
 
     constructor(id) {
         this.id = id;
-
-        this.context = null;
-        this.debugEnabled = false;
     }
 
     update(gameTime) {

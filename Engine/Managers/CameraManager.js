@@ -4,7 +4,7 @@
  * @version 1.0
  * @class CameraManager
  */
-class CameraManager {
+ class CameraManager {
 
   get activeCamera() {
     return this._cameras[this.activeCameraIndex];

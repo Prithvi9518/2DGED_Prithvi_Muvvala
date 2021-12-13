@@ -37,6 +37,7 @@ const NotificationType = {
 
     GameState: "GameState",
     Menu: "Menu",
+    UI: "UI",
     Sound: "Sound"
 
     // Add more here as necessary
@@ -66,8 +67,10 @@ const NotificationAction = {
     SetVolume: "SetVolume",
     SetVolumeByTheme: "SetVolumeByTheme",
     SetVolumeAll: "SetVolumeAll",
-    ResetVolumeAll: "ResetVolumeAll"
+    ResetVolumeAll: "ResetVolumeAll",
 
+    UpdateHealthBar: "UpdateHealthBar",
+    
     // Add more here as required
 };
 

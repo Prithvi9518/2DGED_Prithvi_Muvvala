@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <title>Knightmare</title>
 
+    <!-- Include Stylesheets -->
+    <link rel="stylesheet" href="css/knightmare.css" />
+
     <!-- Add JQuery Support -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
@@ -18,22 +21,70 @@
 
     <div id = "game_window" class = "wrapper">
 
-      <div id="menu_block">
+      <!-- <div id="menu_block"> -->
 
-        <!-- TODO: Add menus-->
+        <!-- TODO: Add menus -->
 
-      </div>
+      <!-- </div> -->
 
       <!-- Create Canvas -->
       <canvas id="main_canvas" width="850" height="460"></canvas>
     </div>
 
     <!-- Load Sprite Assets -->
-    <img id="knightmare_background_1" class="sprite" src="/Games/Knightmare/assets/sea-background.png" />
-    <img id="green_plains_tileset" class="sprite" src="/Games/Knightmare/assets/green-plains-tileset.png" />
-    <img id="player_knight_sprite_sheet" class="sprite" src="/Games/Knightmare/assets/player_knight_sprite_sheet.png" />
+    <img id="knightmare_background_1" class="sprite" src="assets/sea-background.png" />
+    <img id="green_plains_tileset" class="sprite" src="assets/green-plains-tileset.png" />
+    <img id="player_knight_sprite_sheet" class="sprite" src="assets/player_knight_sprite_sheet.png" />
 
 
+    <!-- Load Engine Scripts -->
+    <script src="../../Engine/Constants/Constants.js"></script>
+    <script src="../../Engine/Time/GameTime.js"></script>
+
+    <script src="../../Engine/Time/StopWatch.js"></script>
+    <script src="../../Engine/Time/AnimationTimer.js"></script>
+
+    <script src="../../Engine/Utilities/GDUtilities.js"></script>
+
+    <script src="../../Engine/Types/Vector2.js"></script>
+    <script src="../../Engine/Types/Transform2D.js"></script>
+    <script src="../../Engine/Types/Rect.js"></script>
+    <script src="../../Engine/Types/Circle.js"></script>
+
+    <script src="../../Engine/Physics/Body.js"></script>
+    <script src="../../Engine/Physics/Collision.js"></script>
+
+    <script src="../../Engine/Notification/NotificationCenter.js"></script>
+
+    <script src="../../Engine/Artists/Base/Artist.js"></script>
+    <script src="../../Engine/Artists/Images/SpriteArtist.js"></script>
+    <script src="../../Engine/Artists/Images/AnimatedSpriteArtist.js"></script>
+    <script src="../../Engine/Artists/Images/ScrollingSpriteArtist.js"></script>
+    <script src="../../Engine/Artists/Primitives/RectangleSpriteArtist.js"></script>
+    <script src="../../Engine/Artists/Primitives/TextSpriteArtist.js"></script>
+
+    <script src="../../Engine/Actors/Base/Actor2D.js"></script>
+    <script src="../../Engine/Actors/Sprites/Sprite.js"></script>
+    <script src="../../Engine/Actors/Sprites/MoveableSprite.js"></script>
+    <script src="../../Engine/Actors/Cameras/Camera2D.js"></script>
+
+    <script src="../../Engine/Managers/ObjectManager.js"></script>
+    <script src="../../Engine/Managers/KeyboardManager.js"></script>
+    <script src="../../Engine/Managers/MouseManager.js"></script>
+    <script src="../../Engine/Managers/SoundManager.js"></script>
+    <script src="../../Engine/Managers/CameraManager.js"></script>
+    <script src="../../Engine/Managers/GameStateManager.js"></script>
+    <script src="../../Engine/Managers/MenuManager.js"></script>
+    <script src="../../Engine/Managers/UIManager.js"></script>
+
+    <script src="../../Engine/Parameters/ContextParameters.js"></script>
+    <script src="../../Engine/Debug/DebugDrawer.js"></script>
+
+    <!-- Load Game Scripts -->
+    <script src="js/Constants/Constants.js"></script>
+
+    <!-- Load Game -->
+    <script src="js/knightmare.js"></script>
 
 </body>
 

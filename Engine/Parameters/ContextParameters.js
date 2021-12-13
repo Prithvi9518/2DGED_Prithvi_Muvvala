@@ -4,9 +4,9 @@
  * @version 1.0
  * @see https://simon.html5.org/dump/html5-canvas-cheat-sheet.html
  */
-class ColorParameters {
+ class ColorParameters {
 
-    static DEFAULT_STROKE_FILL_SHADOW = "rgb(0,0,0)";
+    static DEFAULT_STROKE_FILL_SHADOW = "black";
 
     constructor(
         strokeStyle,
@@ -16,7 +16,6 @@ class ColorParameters {
         shadowBlur,
         shadowColor
     ) {
-
         this.strokeStyle = strokeStyle || ColorParameters.DEFAULT_STROKE_FILL_SHADOW;
         this.fillStyle = fillStyle || ColorParameters.DEFAULT_STROKE_FILL_SHADOW;
 
@@ -52,7 +51,7 @@ class ColorParameters {
             this.strokeStyle + "," + this.fillStyle + "," +
             this.shadowOffsetX + "," + this.shadowOffsetY + "," +
             this.shadowBlur + "," + this.shadowColor + "," +
-            "]";
+        "]";
     }
 
     clone() {
