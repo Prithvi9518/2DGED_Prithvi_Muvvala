@@ -5,7 +5,7 @@
  * @version 1.0
  * @class Sprite
  */
-class Sprite extends Actor2D {
+ class Sprite extends Actor2D {
 
     get artist() {
         return this._artist;

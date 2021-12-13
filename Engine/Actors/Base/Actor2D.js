@@ -7,7 +7,7 @@
  * @version 1.1
  * @class Actor2D
  */
-class Actor2D {
+ class Actor2D {
 
     get id() {
         return this._id;
@@ -21,12 +21,8 @@ class Actor2D {
     get statusType() {
         return this._statusType;
     }
-
     get controllers() {
         return this._controllers;
-    }
-    get collisionPrimitive() {
-        return this._collisionPrimitive;
     }
 
     set id(id) {
@@ -44,20 +40,17 @@ class Actor2D {
     set controllers(controllers) {
         this._controllers = controllers;
     }
-    set collisionPrimitive(collisionPrimitive) {
-        this._collisionPrimitive = collisionPrimitive;
-    }
 
     constructor(id, transform, actorType, collisionType, statusType) {
+        
         this.id = id;
         this.transform = transform;
-        
+
         this.actorType = actorType;
         this.collisionType = collisionType;
         this.statusType = statusType;
 
         this.controllers = [];
-        this.collisionPrimitive = null;
     }
 
     /**
@@ -67,6 +60,7 @@ class Actor2D {
      * @memberof Actor2D
      */
     attachController(controller) {
+
         if (this.controllers == undefined) {
             this.controllers = [];
         }
@@ -81,6 +75,7 @@ class Actor2D {
      * @memberof Actor2D
      */
     detachControllerByID(id) {
+
         for (let i = 0; i < this.controllers.length; i++) {
             if (this.controllers[i].id.equals(id)) {
                 this.controllers.splice(i, 1);
@@ -97,6 +92,7 @@ class Actor2D {
      * @memberof Actor2D
      */
     update(gameTime) {
+
         if (this.controllers == undefined) return;
 
         for (let i = 0; i < this.controllers.length; i++) {
@@ -106,9 +102,10 @@ class Actor2D {
     }
 
     equals(other) {
+
         return GDUtility.IsSameTypeAsTarget(this, other) && (
             this.id === other.id &&
-            this.actorType === other.ActorType &&
+            this.actorType === other.actorType &&
             this.transform.equals(other.transform)
         );
     }
@@ -129,16 +126,12 @@ class Actor2D {
             clone.attachController(controller.clone());
         }
 
-        // Clone collision primitive (if present)
-        if (this.collisionPrimitive) {
-            clone.collisionPrimitive = this.collisionPrimitive.clone();
-        }
-
         // Return cloned actor
         return clone;
     }
 
     toString() {
+
         return (
             "[" +
             this.id +

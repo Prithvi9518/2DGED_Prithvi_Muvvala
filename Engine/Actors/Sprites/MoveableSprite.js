@@ -1,11 +1,12 @@
 /**
- * Represents a drawn player character or non-player character within a game with position information (e.g. player, enemy)
+ * Represents a drawn player character or non-player character within a game with position information 
+ * (e.g. player, enemy)
+ * 
  * @author
  * @version 1.0
  * @class PlayerSprite
  */
-
-class MoveableSprite extends Sprite {
+ class MoveableSprite extends Sprite {
 
     get body() {
         return this._body;
@@ -19,26 +20,26 @@ class MoveableSprite extends Sprite {
 
     constructor(
         id,
+        transform,
         actorType,
         collisionType,
-        transform2D,
-        artist,
         statusType,
+        artist,
         scrollSpeedMultiplier,
         layerDepth
     ) {
         super(
             id,
+            transform,
             actorType,
             collisionType,
-            transform2D,
-            artist,
             statusType,
+            artist,
             scrollSpeedMultiplier,
             layerDepth
         );
 
-        body = new Body();
+        this.body = new Body();
     }
 
     equals(other) {
@@ -57,11 +58,11 @@ class MoveableSprite extends Sprite {
         // Make a clone of the actor
         let clone = new MoveableSprite(
             this.id,
+            this.transform.clone(),
             this.actorType,
             this.collisionType,
-            this.transform.clone(),
-            this.artist.clone(),
             this.statusType,
+            this.artist.clone(),
             this.scrollSpeedMultiplier,
             this.layerDepth
         );
