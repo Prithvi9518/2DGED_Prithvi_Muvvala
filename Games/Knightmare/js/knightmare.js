@@ -211,15 +211,40 @@ function initializeBackground()
 
 }
 
+
 function initializePlatform()
 {
     let transform;
     let artist;
     let sprite;
-    let spriteClone;
+    let spriteClone = null;
 
+    for(let i=0; i<23; i++)
+    {
+        let spriteIndex = 1;
+
+        if(i==0)
+        {
+            spriteIndex = 0;
+        }
+        else if(i==22)
+        {
+            spriteIndex = 2;
+        }
+
+        initializeGround(i, spriteIndex, transform, artist, sprite, spriteClone);
+        initializeUnderGround(i, spriteIndex,transform, artist, sprite, spriteClone);
+        initializeBedrock(i, spriteIndex,transform, artist, sprite, spriteClone);
+
+
+    }
+}
+
+function initializeGround(loopIndex,spriteIndex,transform, artist, sprite, spriteClone)
+{
+    
     transform = new Transform2D(
-        GameData.PLATFORM_DATA[0].translation,
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex].translation,
         GameData.PLATFORM_DATA[0].rotation,
         GameData.PLATFORM_DATA[0].scale,
         GameData.PLATFORM_DATA[0].origin,
@@ -231,12 +256,12 @@ function initializePlatform()
         context,
         1,
         GameData.PLATFORM_DATA[0].spriteSheet,
-        GameData.PLATFORM_DATA[0].sourcePosition,
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex].sourcePosition,
         GameData.PLATFORM_DATA[0].sourceDimensions
-    );
+    ); 
 
     sprite = new Sprite(
-        GameData.PLATFORM_DATA[0].id,
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex].id,
         transform,
         GameData.PLATFORM_DATA[0].actorType,
         GameData.PLATFORM_DATA[0].collisionType,
@@ -246,29 +271,119 @@ function initializePlatform()
         GameData.PLATFORM_DATA[0].layerDepth
     );
 
-    for (let i = 0; i < 5; i++) {
 
-        // Clone sprite
-        spriteClone = sprite.clone();
+    spriteClone = sprite.clone();
+    spriteClone.id = spriteClone.id + " " + loopIndex;
 
-        // Update id
-        spriteClone.id = spriteClone.id + " " + i;
-
-        // Update translation
-        spriteClone.transform.setTranslation(
-            Vector2.Add(
-                sprite.transform.translation, new Vector2(
-                    (GameData.PLATFORM_DATA[0].sourceDimensions.x-1) * GameData.PLATFORM_DATA[0].scale.x * i,
-                    0
-                    )
+    spriteClone.transform.setTranslation(
+        Vector2.Add(
+            sprite.transform.translation, new Vector2(
+                (GameData.PLATFORM_DATA[0].sourceDimensions.x-1) * GameData.PLATFORM_DATA[0].scale.x * loopIndex,
+                0
                 )
-            );
+            )
+    );
 
-        // Add to object manager
-        objectManager.add(spriteClone);
-    }
+    objectManager.add(spriteClone);
 
 }
+
+function initializeUnderGround(loopIndex, spriteIndex,transform, artist, sprite, spriteClone)
+{
+
+    transform = new Transform2D(
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+3].translation,
+        GameData.PLATFORM_DATA[0].rotation,
+        GameData.PLATFORM_DATA[0].scale,
+        GameData.PLATFORM_DATA[0].origin,
+        GameData.PLATFORM_DATA[0].sourceDimensions,
+        GameData.PLATFORM_DATA[0].explodeBoundingBoxInPixels
+    );
+
+    artist = new SpriteArtist(
+        context,
+        1,
+        GameData.PLATFORM_DATA[0].spriteSheet,
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+3].sourcePosition,
+        GameData.PLATFORM_DATA[0].sourceDimensions
+    ); 
+
+    sprite = new Sprite(
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+3].id,
+        transform,
+        GameData.PLATFORM_DATA[0].actorType,
+        GameData.PLATFORM_DATA[0].collisionType,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        0,
+        GameData.PLATFORM_DATA[0].layerDepth
+    );
+
+
+    spriteClone = sprite.clone();
+    spriteClone.id = spriteClone.id + " " + loopIndex;
+
+    spriteClone.transform.setTranslation(
+        Vector2.Add(
+            sprite.transform.translation, new Vector2(
+                (GameData.PLATFORM_DATA[0].sourceDimensions.x-1) * GameData.PLATFORM_DATA[0].scale.x * loopIndex,
+                0
+                )
+            )
+    );
+
+    objectManager.add(spriteClone);
+
+}
+
+function initializeBedrock(loopIndex, spriteIndex,transform, artist, sprite, spriteClone)
+{
+
+    transform = new Transform2D(
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+6].translation,
+        GameData.PLATFORM_DATA[0].rotation,
+        GameData.PLATFORM_DATA[0].scale,
+        GameData.PLATFORM_DATA[0].origin,
+        GameData.PLATFORM_DATA[0].sourceDimensions,
+        GameData.PLATFORM_DATA[0].explodeBoundingBoxInPixels
+    );
+
+    artist = new SpriteArtist(
+        context,
+        1,
+        GameData.PLATFORM_DATA[0].spriteSheet,
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+6].sourcePosition,
+        GameData.PLATFORM_DATA[0].sourceDimensions
+    ); 
+
+    sprite = new Sprite(
+        GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex+6].id,
+        transform,
+        GameData.PLATFORM_DATA[0].actorType,
+        GameData.PLATFORM_DATA[0].collisionType,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        0,
+        GameData.PLATFORM_DATA[0].layerDepth
+    );
+
+
+    spriteClone = sprite.clone();
+    spriteClone.id = spriteClone.id + " " + loopIndex;
+
+    spriteClone.transform.setTranslation(
+        Vector2.Add(
+            sprite.transform.translation, new Vector2(
+                (GameData.PLATFORM_DATA[0].sourceDimensions.x-1) * GameData.PLATFORM_DATA[0].scale.x * loopIndex,
+                0
+                )
+            )
+    );
+
+    objectManager.add(spriteClone);
+
+}
+
 
 function resetGame() {
 
