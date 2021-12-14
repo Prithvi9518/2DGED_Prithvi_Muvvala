@@ -15,6 +15,7 @@ class MouseManager {
     }
 
     constructor(id) {
+        
         this.id = id;
 
         this.clickPosition = null;

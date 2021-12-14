@@ -58,7 +58,7 @@
 
     registerForNotifications() {
 
-        // When a 'sprite' event fires, call the 'handleSpriteNotification' function of 'this' object
+        // When a 'sprite' event/notification fires, call the 'handleSpriteNotification' function of 'this' object
         this.notificationCenter.register(
             NotificationType.Sprite,
             this,

@@ -167,6 +167,7 @@ function initializeSprites() {
     // Initialize background?
     initializeBackground();
     // Initialize platforms?
+    initializePlatform();
     // Initialize players?
     // Initialize enemies?
     // Initialize pickups?
@@ -179,34 +180,93 @@ function initializeBackground()
     let sprite;
 
     transform = new Transform2D(
-        Vector2.Zero,
-        0,
-        Vector2.One,
-        Vector2.Zero,
+        GameData.BACKGROUND_DATA[0].translation,
+        GameData.BACKGROUND_DATA[0].rotation,
+        GameData.BACKGROUND_DATA[0].scale,
+        GameData.BACKGROUND_DATA[0].origin,
         new Vector2(canvas.clientWidth, canvas.clientHeight)
     );
 
     artist = new SpriteArtist(
         context,
         1,
-        document.getElementById("knightmare_background_1"),
-        Vector2.Zero,
-        new Vector2(384, 240),
-        true
+        GameData.BACKGROUND_DATA[0].spriteSheet,
+        GameData.BACKGROUND_DATA[0].sourcePosition,
+        GameData.BACKGROUND_DATA[0].sourceDimensions,
+        GameData.BACKGROUND_DATA[0].fixedPosition
     );
 
     sprite = new Sprite(
-        "Background 1",
+        GameData.BACKGROUND_DATA[0].id,
         transform,
-        ActorType.Background,
-        CollisionType.NotCollidable,
+        GameData.BACKGROUND_DATA[0].actorType,
+        GameData.BACKGROUND_DATA[0].collisionType,
         StatusType.Drawn,
         artist,
-        0,
-        0
+        GameData.BACKGROUND_DATA[0].scrollSpeedMultiplier,
+        GameData.BACKGROUND_DATA[0].layerDepth
     );
 
     objectManager.add(sprite);
+
+}
+
+function initializePlatform()
+{
+    let transform;
+    let artist;
+    let sprite;
+    let spriteClone;
+
+    transform = new Transform2D(
+        GameData.PLATFORM_DATA[0].translation,
+        GameData.PLATFORM_DATA[0].rotation,
+        GameData.PLATFORM_DATA[0].scale,
+        GameData.PLATFORM_DATA[0].origin,
+        GameData.PLATFORM_DATA[0].sourceDimensions,
+        GameData.PLATFORM_DATA[0].explodeBoundingBoxInPixels
+    );
+
+    artist = new SpriteArtist(
+        context,
+        1,
+        GameData.PLATFORM_DATA[0].spriteSheet,
+        GameData.PLATFORM_DATA[0].sourcePosition,
+        GameData.PLATFORM_DATA[0].sourceDimensions
+    );
+
+    sprite = new Sprite(
+        GameData.PLATFORM_DATA[0].id,
+        transform,
+        GameData.PLATFORM_DATA[0].actorType,
+        GameData.PLATFORM_DATA[0].collisionType,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        0,
+        GameData.PLATFORM_DATA[0].layerDepth
+    );
+
+    for (let i = 0; i < 5; i++) {
+
+        // Clone sprite
+        spriteClone = sprite.clone();
+
+        // Update id
+        spriteClone.id = spriteClone.id + " " + i;
+
+        // Update translation
+        spriteClone.transform.setTranslation(
+            Vector2.Add(
+                sprite.transform.translation, new Vector2(
+                    (GameData.PLATFORM_DATA[0].sourceDimensions.x-1) * GameData.PLATFORM_DATA[0].scale.x * i,
+                    0
+                    )
+                )
+            );
+
+        // Add to object manager
+        objectManager.add(spriteClone);
+    }
 
 }
 

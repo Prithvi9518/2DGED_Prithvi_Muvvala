@@ -75,9 +75,48 @@
      * @param {Sprite} parent
      * @memberof ScrollingSpriteArtist
      */
+
+    count = 0;
     updateHorizontalScrolling(parent, activeCamera) {
 
-        // TO DO ...
+        let rightScrollPositionX = parent.transform.translation.x
+            + (parent.transform.dimensions.x * (1 - parent.scrollSpeedMultiplier));
+
+        let leftScrollPositionX = parent.transform.translation.x
+            - (parent.transform.dimensions.x * (1 - parent.scrollSpeedMultiplier));
+
+        if ((activeCamera.transform.translation.x + activeCamera.transform.origin.x) >= rightScrollPositionX) {
+
+            parent.transform.translation.x += parent.transform.dimensions.x;
+        }
+
+        if ((activeCamera.transform.translation.x + activeCamera.transform.origin.x) <= leftScrollPositionX) {
+
+            parent.transform.translation.x -= parent.transform.dimensions.x;
+        }
+
+        // if (
+        //     activeCamera.transform.translation.x >=
+        //     (parent.transform.translation.x + parent.translation.x * parent.scrollSpeedMultiplier) + scrollPositionX
+        // ) {
+
+        //     parent.transform.translation.x += parent.transform.dimensions.x;
+
+        //     // console.log(parent.transform.translation.x);
+        //     console.log(scrollPositionX);
+        //     // console.log(activeCamera.transform.translation.x);
+
+        //     // console.log(scrollPositionX - parent.transform.translation.x);
+        //     console.log("-------------------------");
+        // }
+
+        // if (
+        //     activeCamera.transform.translation.x <=
+        //     (parent.transform.translation.x * parent.scrollSpeedMultiplier) - scrollPositionX
+        // ) {
+
+        //     parent.transform.translation.x -= parent.transform.dimensions.x;
+        // }
     }
 
     /**
@@ -182,10 +221,10 @@
     }
 
     toString() {
-        return "[" + 
-            this.spriteSheet + "," + 
-            this.sourcePosition + "," + 
-            this.sourceDimensions + 
-        "]";
+        return "[" +
+            this.spriteSheet + "," +
+            this.sourcePosition + "," +
+            this.sourceDimensions +
+            "]";
     }
 }

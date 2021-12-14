@@ -5,17 +5,18 @@
  * @version 1.0
  * @class Body
  */
+
  const FrictionType = {
-    Low: 0.9,
-    Normal: 0.7,
-    High: 0.5
+    Low: 0.09,
+    Normal: 0.07,
+    High: 0.05
 };
 
 const GravityType = {
     Off: 0,
-    Weak: 0.2,
-    Normal: 0.4,
-    Strong: 0.7
+    Weak: 0.02,
+    Normal: 0.04,
+    Strong: 0.07
 };
 
 class Body {
@@ -50,7 +51,7 @@ class Body {
     }
 
     set velocityX(velocityX) {
-        
+
         if (velocityX <= this.maximumSpeed) {
             this._velocityX = velocityX;
         }
@@ -64,7 +65,7 @@ class Body {
     }
 
     constructor(maximumSpeed, gravity, friction) {
-        
+
         this.maximumSpeed = this.originalMaximumSpeed = maximumSpeed;
         this.gravity = this.originalGravity = gravity;
         this.friction = this.originalFriction = friction;
@@ -89,30 +90,33 @@ class Body {
         this.friction = this.originalFriction;
     }
 
-    applyGravity() {
+    applyGravity(gameTime) {
 
-        this.velocityY += this.gravity;
+        this.velocityY += this.gravity * gameTime.elapsedTimeInMs;
     }
 
-    applyFriction() {
-        
-        this.velocityX *= this.friction;
-    }
+    applyFriction(gameTime) {
 
-    applyFrictionX() {
-        
-        this.velocityX *= this.friction;
+        this.velocityX *= (this.friction / gameTime.elapsedTimeInMs);
     }
 
     applyFrictionY() {
-        
+
         this.velocityY *= this.friction;
     }
 
     setVelocity(velocity) {
-        
-        this.velocityX = velocity.x;
-        this.velocityY = velocity.y;
+
+        this.setVelocityX(velocity.x);
+        this.setVelocityY(velocity.y);
+    }
+
+    setVelocityX(velocity) {
+        this.velocityX = velocity;
+    }
+
+    setVelocityY(velocity) {
+        this.velocityY = velocity;
     }
 
     addVelocity(velocity) {
@@ -122,7 +126,8 @@ class Body {
     }
 
     addVelocityX(deltaVelocityX) {
-        
+
+        // Don't allow this physics body to exceed it's assigned maximum speed
         if (Math.abs(this.velocityX + deltaVelocityX) <= this.maximumSpeed) {
             this.velocityX += deltaVelocityX;
         }
@@ -130,6 +135,7 @@ class Body {
 
     addVelocityY(deltaVelocityY) {
 
+        // Don't allow this physics body to exceed it's assigned maximum speed
         if (Math.abs(this.velocityY + deltaVelocityY) <= this.maximumSpeed) {
             this.velocityY += deltaVelocityY;
         }
@@ -149,13 +155,13 @@ class Body {
             this.friction + ", " +
             this.velocityX + ", " +
             this.velocityY +
-        "]";
+            "]";
     }
 
     clone() {
         return new Body(
-            this.maximumSpeed, 
-            this.gravity, 
+            this.maximumSpeed,
+            this.gravity,
             this.friction
         );
     }
