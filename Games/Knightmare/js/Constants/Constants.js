@@ -117,4 +117,118 @@ class GameData
 
     ];
 
+    static KNIGHT_START_POSITION = new Vector2(100, 300);
+    static KNIGHT_MOVE_KEYS = [Keys.A, Keys.D, Keys.Space];
+    static KNIGHT_RUN_VELOCITY = 0.1;
+    static KNIGHT_JUMP_VELOCITY = 0.6;
+
+    static KNIGHT_ANIMATION_DATA = {
+
+        id: "Knight Animation Data",
+        spriteSheet: document.getElementById("player_knight_sprite_sheet"),
+
+        // Animations
+        takes: {
+
+            // Animation 1
+            "Idle": {
+    
+            frameRatePerSec: 2,
+    
+            // -1 = Loop forever
+            //  0 = Run once (no loop)
+            //  N = Loop N times
+            maxLoopCount: -1,
+    
+            startFrameIndex: 0,
+            endFrameIndex: 4,
+    
+            // Notice that I chose the largest of all the widths taken from the frames
+            // array below
+            boundingBoxDimensions: new Vector2(17, 22),
+    
+            frames: [
+    
+                // This list of rects just represent the positions
+                // and dimension of each individual animation frame
+                // on the sprite sheet
+                new Rect(24, 26, 17, 22),    // Idle frame 1
+                new Rect(88, 27, 17, 21),    // Idle frame 2
+                new Rect(152, 28, 17, 20),    // Idle frame 3
+                new Rect(216, 27, 17, 21),    // Idle frame 4
+                new Rect(280, 26, 17, 22),    // Idle frame 5
+
+            ]
+            },
+    
+            // // Animation 2
+            // "Run Left": {
+    
+            // frameRatePerSec: 12,
+    
+            // // -1 = Loop forever
+            // //  0 = Run once (no loop)
+            // //  N = Loop N times
+            // maxLoopCount: -1,
+    
+            // startFrameIndex: 0,
+            // endFrameIndex: 8,
+    
+            // // Notice that I chose the largest of all the widths taken from the frames
+            // // array below
+            // boundingBoxDimensions: new Vector2(49, 54),
+    
+            // frames: [
+            //     new Rect(0, 305, 47, 54),     // Animation frame 1
+            //     new Rect(55, 305, 44, 54),    // Animation frame 2
+            //     new Rect(107, 305, 39, 54),   // Animation frame 3
+            //     new Rect(152, 305, 46, 54),   // Animation frame 4
+            //     new Rect(208, 305, 49, 54),   // Animation frame 5
+            //     new Rect(265, 305, 46, 54),   // Animation frame 6
+            //     new Rect(320, 305, 42, 54),   // Animation frame 7
+            //     new Rect(380, 305, 35, 54),   // Animation frame 8
+            //     new Rect(425, 305, 35, 54)    // Animation frame 9
+            // ]
+            // },
+    
+            // // Animation 3
+            // "Run Right": {
+    
+            // frameRatePerSec: 12,
+    
+            // // -1 = Loop forever
+            // //  0 = Run once (no loop)
+            // //  N = Loop N times
+            // maxLoopCount: -1,
+    
+            // startFrameIndex: 0,
+            // endFrameIndex: 8,
+    
+            // // Notice that I chose the largest of all the widths taken from the frames
+            // // array below
+            // boundingBoxDimensions: new Vector2(49, 54),
+    
+            // frames: [
+    
+            //     // This list of rects just represent the positions
+            //     // and dimension of each individual animation frame
+            //     // on the sprite sheet
+    
+            //     new Rect(414, 385, 47, 54),   // Animation frame 1
+            //     new Rect(362, 385, 44, 54),   // Animation frame 2
+            //     new Rect(314, 385, 39, 54),   // Animation frame 3
+            //     new Rect(265, 385, 46, 54),   // Animation frame 4
+            //     new Rect(205, 385, 49, 54),   // Animation frame 5
+            //     new Rect(150, 385, 46, 54),   // Animation frame 6
+            //     new Rect(96, 385, 46, 54),    // Animation frame 7
+            //     new Rect(45, 385, 35, 54),    // Animation frame 8
+            //     new Rect(0, 385, 35, 54)      // Animation frame 9
+            // ]
+            // },
+        }
+
+
+
+    };
+
 }

@@ -169,8 +169,69 @@ function initializeSprites() {
     // Initialize platforms?
     initializePlatform();
     // Initialize players?
+    initializePlayer();
     // Initialize enemies?
     // Initialize pickups?
+}
+
+function initializePlayer()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    artist = new AnimatedSpriteArtist(
+        context,                                                // Context
+        1,                                                      // Alpha
+        GameData.KNIGHT_ANIMATION_DATA                          // Animation Data
+    );
+
+    // Set animation
+    artist.setTake("Idle");
+
+    transform = new Transform2D(
+        GameData.KNIGHT_START_POSITION,                         // Translation
+        0,                                                      // Rotation
+        new Vector2(2.5,2.5),                                            // Scale
+        Vector2.Zero,                                           // Origin
+        artist.getBoundingBoxByTakeName("Idle"),                // Dimensions
+        0                                                       // Explode By
+    );
+
+    // The moveable sprite is a sprite which has an attached physics body. The
+    // attached physics body allows us to move the sprite in a particular way.
+    // For example, we can apply velocity to the physics body, to move it in a
+    // particular direction. If we apply a velocity in the -y direction, the 
+    // physics body will move upwards. If we apply a velocity in the +x 
+    // direction, the physics body will move to the left. The physics body, in
+    // turn, moves the sprite. This is done by updating the position of the
+    // sprite to match the position of the physics body. Additionally, forces
+    // are automatically applied to the physics body every update. This 
+    // includes gravity and friction. We can define how much gravity and how
+    // much friction is applied to the physics body by setting those values
+    // directly (see below an example of how this works). We can also set the
+    // max speed of the physics body to define how fast we want to allow it to
+    // move.
+
+    sprite = new MoveableSprite(
+        "Player",                                               // ID
+        transform,                                              // Transform
+        ActorType.Player,                                       // ActorType
+        CollisionType.Collidable,                               // CollisionType
+        StatusType.Updated | StatusType.Drawn,                  // StatusType
+        artist,                                                 // Artist
+        1,                                                      // ScrollSpeedMultipler
+        1                                                       // LayerDepth
+    );
+
+    // Set characteristics of the body attached to the moveable sprite
+    // Play around with these values and see what happens.
+    sprite.body.maximumSpeed = 6;
+    sprite.body.friction = FrictionType.Low;
+    sprite.body.gravity = GravityType.Weak;
+
+    objectManager.add(sprite);
+
 }
 
 function initializeBackground()
