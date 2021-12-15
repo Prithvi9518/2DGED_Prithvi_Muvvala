@@ -14,8 +14,12 @@ let objectManager;
 let keyboardManager;
 let soundManager;
 
+let debugDrawer;
+
 // TO DO:
 // Add more managers as necessary
+
+const debugMode = true;
 
 function start() {
 
@@ -59,6 +63,14 @@ function update(gameTime) {
     cameraManager.update(gameTime);
 
     // TO DO: Update other managers
+
+    if (debugMode) {
+
+        // Call the update method of the debug drawer class
+        // to update debug info
+        debugDrawer.update(gameTime);
+    }
+
 }
 
 function draw(gameTime) {
@@ -69,6 +81,15 @@ function draw(gameTime) {
     // Call the draw method of the object manager class
     // to draw all sprites
     objectManager.draw(gameTime);
+
+
+    if (debugMode) {
+
+        // Call the draw method of the debug drawer class
+        // to display debug info
+        debugDrawer.draw(gameTime);
+    }
+
 }
 
 function clearCanvas() {
@@ -94,6 +115,14 @@ function initialize() {
     // your sprites...
     initializeCameras();
     initializeSprites();
+
+
+    if (debugMode) {
+
+        // Initialize debug drawer
+        initializeDebugDrawer();
+    }
+
 }
 
 function initializeNotificationCenter() {
@@ -223,12 +252,23 @@ function initializePlayer()
         1,                                                      // ScrollSpeedMultipler
         1                                                       // LayerDepth
     );
-
+5
     // Set characteristics of the body attached to the moveable sprite
     // Play around with these values and see what happens.
     sprite.body.maximumSpeed = 6;
     sprite.body.friction = FrictionType.Low;
     sprite.body.gravity = GravityType.Weak;
+
+    sprite.attachController(
+        new PlayerMoveController(
+            notificationCenter,
+            keyboardManager,
+            objectManager,
+            GameData.KNIGHT_MOVE_KEYS,
+            GameData.KNIGHT_RUN_VELOCITY,
+            GameData.KNIGHT_JUMP_VELOCITY
+        )
+    );
 
     objectManager.add(sprite);
 
@@ -443,6 +483,16 @@ function initializeBedrock(loopIndex, spriteIndex,transform, artist, sprite, spr
 
     objectManager.add(spriteClone);
 
+}
+
+function initializeDebugDrawer()
+{
+    debugDrawer = new DebugDrawer(
+        "Debug Drawer",
+        context,
+        objectManager,
+        cameraManager
+    );
 }
 
 

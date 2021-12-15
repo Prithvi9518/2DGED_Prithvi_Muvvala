@@ -117,9 +117,9 @@ class GameData
 
     ];
 
-    static KNIGHT_START_POSITION = new Vector2(100, 300);
+    static KNIGHT_START_POSITION = new Vector2(100, 292);
     static KNIGHT_MOVE_KEYS = [Keys.A, Keys.D, Keys.Space];
-    static KNIGHT_RUN_VELOCITY = 0.1;
+    static KNIGHT_RUN_VELOCITY = 0.3;
     static KNIGHT_JUMP_VELOCITY = 0.6;
 
     static KNIGHT_ANIMATION_DATA = {
@@ -145,7 +145,7 @@ class GameData
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
-            boundingBoxDimensions: new Vector2(17, 22),
+            boundingBoxDimensions: new Vector2(21, 24),
     
             frames: [
     
@@ -161,35 +161,34 @@ class GameData
             ]
             },
     
-            // // Animation 2
-            // "Run Left": {
+            // Animation 2
+            "Run": {
     
-            // frameRatePerSec: 12,
+            frameRatePerSec: 12,
     
-            // // -1 = Loop forever
-            // //  0 = Run once (no loop)
-            // //  N = Loop N times
-            // maxLoopCount: -1,
+            // -1 = Loop forever
+            //  0 = Run once (no loop)
+            //  N = Loop N times
+            maxLoopCount: -1,
     
-            // startFrameIndex: 0,
-            // endFrameIndex: 8,
+            startFrameIndex: 0,
+            endFrameIndex: 7,
     
-            // // Notice that I chose the largest of all the widths taken from the frames
-            // // array below
-            // boundingBoxDimensions: new Vector2(49, 54),
+            // Notice that I chose the largest of all the widths taken from the frames
+            // array below
+            boundingBoxDimensions: new Vector2(21, 24),
     
-            // frames: [
-            //     new Rect(0, 305, 47, 54),     // Animation frame 1
-            //     new Rect(55, 305, 44, 54),    // Animation frame 2
-            //     new Rect(107, 305, 39, 54),   // Animation frame 3
-            //     new Rect(152, 305, 46, 54),   // Animation frame 4
-            //     new Rect(208, 305, 49, 54),   // Animation frame 5
-            //     new Rect(265, 305, 46, 54),   // Animation frame 6
-            //     new Rect(320, 305, 42, 54),   // Animation frame 7
-            //     new Rect(380, 305, 35, 54),   // Animation frame 8
-            //     new Rect(425, 305, 35, 54)    // Animation frame 9
-            // ]
-            // },
+            frames: [
+                new Rect(25, 89, 15, 22),     // Animation frame 1
+                new Rect(89, 88, 14, 23),    // Animation frame 2
+                new Rect(153, 89, 15, 23),   // Animation frame 3
+                new Rect(216, 90, 17, 22),   // Animation frame 4
+                new Rect(279, 89, 19, 21),   // Animation frame 5
+                new Rect(342, 88, 21, 22),   // Animation frame 6
+                new Rect(407, 89, 19, 23),   // Animation frame 7
+                new Rect(472, 90, 17, 22),   // Animation frame 8
+            ]
+            },
     
             // // Animation 3
             // "Run Right": {
