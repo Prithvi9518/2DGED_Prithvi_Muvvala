@@ -117,7 +117,7 @@ class GameData
 
     ];
 
-    static KNIGHT_START_POSITION = new Vector2(100, 292);
+    static KNIGHT_START_POSITION = new Vector2(100, 252);
     static KNIGHT_MOVE_KEYS = [Keys.A, Keys.D, Keys.Space];
     static KNIGHT_RUN_VELOCITY = 0.3;
     static KNIGHT_JUMP_VELOCITY = 0.6;
@@ -145,7 +145,7 @@ class GameData
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
-            boundingBoxDimensions: new Vector2(21, 24),
+            boundingBoxDimensions: new Vector2(21, 23),
     
             frames: [
     
@@ -176,7 +176,7 @@ class GameData
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
-            boundingBoxDimensions: new Vector2(21, 24),
+            boundingBoxDimensions: new Vector2(21, 23),
     
             frames: [
                 new Rect(25, 89, 15, 22),     // Animation frame 1

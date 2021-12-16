@@ -14,6 +14,7 @@
 
 const GravityType = {
     Off: 0,
+    VeryWeak: 0.005,
     Weak: 0.02,
     Normal: 0.04,
     Strong: 0.07

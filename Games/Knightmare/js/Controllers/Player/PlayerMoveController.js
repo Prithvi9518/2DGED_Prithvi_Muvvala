@@ -90,7 +90,7 @@
 
             // Apply velocity to begin moving the player up
             // This gives the effect of jumping 
-            parent.body.addVelocityY(-this.jumpVelocity * gameTime.elapsedTimeInMs);
+            parent.body.setVelocityY(-this.jumpVelocity * gameTime.elapsedTimeInMs);
 
             // Create a jump sound notification
             // notificationCenter.notify(
@@ -143,6 +143,7 @@
             // CollisionLocationType.Bottom     if the player has collided with a platform below
             // CollisionLocationType.Top        if the player has collided with a platform above
             // null                             if no collision has taken place
+
 
             let collisionLocationType = Collision.GetCollisionLocationType(
                 parent,
@@ -341,6 +342,8 @@
                 parent.body.velocityY
             )
         );
+
+        console.log(parent.body.velocityY);
     }
 
     equals(other) {
