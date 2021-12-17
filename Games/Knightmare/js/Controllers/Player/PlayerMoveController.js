@@ -60,7 +60,7 @@
             parent.body.addVelocityX(-this.runVelocity * gameTime.elapsedTimeInMs);
 
             // Update the player's animation
-            parent.artist.setTake("Run");
+            parent.artist.setTake("Run Right");
         }
 
         // If the move right key is pressed
@@ -70,7 +70,7 @@
             parent.body.addVelocityX(this.runVelocity * gameTime.elapsedTimeInMs);
 
             // Update the player's animation
-            parent.artist.setTake("Run");
+            parent.artist.setTake("Run Right");
         }
     }
 
@@ -343,7 +343,6 @@
             )
         );
 
-        console.log(parent.body.velocityY);
     }
 
     equals(other) {

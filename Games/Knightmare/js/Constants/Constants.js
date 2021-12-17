@@ -23,25 +23,6 @@ class GameData
 
     ];
 
-    // static PLATFORM_DATA = [
-
-    //     {
-    //         id: "Platform 1",
-    //         spriteSheet: document.getElementById("green_plains_tileset"),
-    //         sourcePosition: new Vector2(16,16),
-    //         sourceDimensions: new Vector2(16,16),
-    //         translation: new Vector2(0,350),
-    //         rotation: 0,
-    //         scale: new Vector2(2.5,2.5),
-    //         origin: Vector2.Zero,
-    //         actorType: ActorType.Platform,
-    //         collisionType: CollisionType.Collidable,
-    //         layerDepth: 0,
-    //         explodeBoundingBoxInPixels: -6
-    //     }
-
-    // ];
-
     static PLATFORM_DATA = [
 
         {
@@ -56,7 +37,7 @@ class GameData
             scale: new Vector2(2.5,2.5),
             origin: Vector2.Zero,
 
-            platformSpriteData: [
+            platformSpriteData: [       // Data for different tiles inside the green_plains_tileset spritesheet
                 {
                     id: "Grass 1",
                     sourcePosition: new Vector2(16,16),
@@ -117,10 +98,14 @@ class GameData
 
     ];
 
+    // Player knight data
     static KNIGHT_START_POSITION = new Vector2(100, 252);
     static KNIGHT_MOVE_KEYS = [Keys.A, Keys.D, Keys.Space];
     static KNIGHT_RUN_VELOCITY = 0.3;
-    static KNIGHT_JUMP_VELOCITY = 0.6;
+    static KNIGHT_JUMP_VELOCITY = 0.8;
+
+    static KNIGHT_TRANSFORM_SCALE = new Vector2(2.5,2.5);
+    static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,23);
 
     static KNIGHT_ANIMATION_DATA = {
 
@@ -145,7 +130,7 @@ class GameData
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
-            boundingBoxDimensions: new Vector2(21, 23),
+            boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
     
             frames: [
     
@@ -162,7 +147,7 @@ class GameData
             },
     
             // Animation 2
-            "Run": {
+            "Run Right": {
     
             frameRatePerSec: 12,
     
@@ -176,7 +161,7 @@ class GameData
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
-            boundingBoxDimensions: new Vector2(21, 23),
+            boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
     
             frames: [
                 new Rect(25, 89, 15, 22),     // Animation frame 1

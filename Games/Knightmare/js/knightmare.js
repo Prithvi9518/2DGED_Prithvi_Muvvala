@@ -113,6 +113,7 @@ function initialize() {
     // example, do your sprites require a camera in their constructor? If
     // so, you should initialize your camera before attemptng to initialize
     // your sprites...
+
     initializeCameras();
     initializeSprites();
 
@@ -221,7 +222,7 @@ function initializePlayer()
     transform = new Transform2D(
         GameData.KNIGHT_START_POSITION,                         // Translation
         0,                                                      // Rotation
-        new Vector2(2.5,2.5),                                            // Scale
+        GameData.KNIGHT_TRANSFORM_SCALE,                        // Scale
         Vector2.Zero,                                           // Origin
         artist.getBoundingBoxByTakeName("Idle"),                // Dimensions
         0                                                       // Explode By
@@ -256,8 +257,8 @@ function initializePlayer()
     // Set characteristics of the body attached to the moveable sprite
     // Play around with these values and see what happens.
     sprite.body.maximumSpeed = 6;
-    sprite.body.friction = FrictionType.Low;
-    sprite.body.gravity = GravityType.Weak;
+    sprite.body.friction = FrictionType.VeryLow;
+    sprite.body.gravity = GravityType.Normal;
 
     sprite.attachController(
         new PlayerMoveController(
@@ -320,10 +321,13 @@ function initializePlatform()
     let sprite;
     let spriteClone = null;
 
-    for(let i=0; i<23; i++)
+    for(let i=0; i<23; i++) // 23 tiles
     {
-        let spriteIndex = 1;
+        let spriteIndex = 1; // This game requires multiple tiles for the ground and the soil beneath the ground.
+                             // spriteIndex is used to select the correct sprite information
+                             // from GameData.PLATFORM_DATA.plaformSpriteData
 
+        // spriteIndex is changed depending on whether the tile is the first or last tile in the row.
         if(i==0)
         {
             spriteIndex = 0;
@@ -343,6 +347,8 @@ function initializePlatform()
 
 function initializeGround(loopIndex,spriteIndex,transform, artist, sprite, spriteClone)
 {
+
+    // loopIndex is used to translate the sprites by different distances when cloning them
     
     transform = new Transform2D(
         GameData.PLATFORM_DATA[0].platformSpriteData[spriteIndex].translation,
