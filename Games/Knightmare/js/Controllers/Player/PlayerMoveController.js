@@ -60,7 +60,7 @@
             parent.body.addVelocityX(-this.runVelocity * gameTime.elapsedTimeInMs);
 
             // Update the player's animation
-            parent.artist.setTake("Run Right");
+            parent.artist.setTake("Run Left");
         }
 
         // If the move right key is pressed

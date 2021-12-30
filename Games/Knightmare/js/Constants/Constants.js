@@ -137,11 +137,11 @@ class GameData
                 // This list of rects just represent the positions
                 // and dimension of each individual animation frame
                 // on the sprite sheet
-                new Rect(24, 26, 17, 22),    // Idle frame 1
-                new Rect(88, 27, 17, 21),    // Idle frame 2
-                new Rect(152, 28, 17, 20),    // Idle frame 3
-                new Rect(216, 27, 17, 21),    // Idle frame 4
-                new Rect(280, 26, 17, 22),    // Idle frame 5
+                new Rect(3, 0, 17, 22),    // Idle frame 1
+                new Rect(67, 1, 17, 21),    // Idle frame 2
+                new Rect(131, 2, 17, 20),    // Idle frame 3
+                new Rect(195, 1, 17, 21),    // Idle frame 4
+                new Rect(259, 0, 17, 22),    // Idle frame 5
 
             ]
             },
@@ -164,51 +164,46 @@ class GameData
             boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
     
             frames: [
-                new Rect(25, 89, 15, 22),     // Animation frame 1
-                new Rect(89, 88, 14, 23),    // Animation frame 2
-                new Rect(153, 89, 15, 23),   // Animation frame 3
-                new Rect(216, 90, 17, 22),   // Animation frame 4
-                new Rect(279, 89, 19, 21),   // Animation frame 5
-                new Rect(342, 88, 21, 22),   // Animation frame 6
-                new Rect(407, 89, 19, 23),   // Animation frame 7
-                new Rect(472, 90, 17, 22),   // Animation frame 8
+                new Rect(4, 63, 15, 22),     // Animation frame 1
+                new Rect(68, 62, 14, 23),    // Animation frame 2
+                new Rect(132, 63, 15, 23),   // Animation frame 3
+                new Rect(195, 64, 17, 22),   // Animation frame 4
+                new Rect(258, 63, 19, 21),   // Animation frame 5
+                new Rect(321, 62, 21, 22),   // Animation frame 6
+                new Rect(386, 63, 19, 23),   // Animation frame 7
+                new Rect(451, 64, 17, 22),   // Animation frame 8
             ]
             },
+
+            // Animation 3
+            "Run Left": {
     
-            // // Animation 3
-            // "Run Right": {
+                frameRatePerSec: 12,
+        
+                // -1 = Loop forever
+                //  0 = Run once (no loop)
+                //  N = Loop N times
+                maxLoopCount: -1,
+        
+                startFrameIndex: 0,
+                endFrameIndex: 7,
+        
+                // Notice that I chose the largest of all the widths taken from the frames
+                // array below
+                boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
+        
+                frames: [
+                    new Rect(965, 63, 15, 22),     // Animation frame 1
+                    new Rect(902, 62, 14, 23),    // Animation frame 2
+                    new Rect(837, 63, 15, 23),   // Animation frame 3
+                    new Rect(772, 64, 17, 22),   // Animation frame 4
+                    new Rect(707, 63, 19, 21),   // Animation frame 5
+                    new Rect(642, 62, 21, 22),   // Animation frame 6
+                    new Rect(579, 63, 19, 23),   // Animation frame 7
+                    new Rect(516, 64, 17, 22),   // Animation frame 8
+                ]
+                }
     
-            // frameRatePerSec: 12,
-    
-            // // -1 = Loop forever
-            // //  0 = Run once (no loop)
-            // //  N = Loop N times
-            // maxLoopCount: -1,
-    
-            // startFrameIndex: 0,
-            // endFrameIndex: 8,
-    
-            // // Notice that I chose the largest of all the widths taken from the frames
-            // // array below
-            // boundingBoxDimensions: new Vector2(49, 54),
-    
-            // frames: [
-    
-            //     // This list of rects just represent the positions
-            //     // and dimension of each individual animation frame
-            //     // on the sprite sheet
-    
-            //     new Rect(414, 385, 47, 54),   // Animation frame 1
-            //     new Rect(362, 385, 44, 54),   // Animation frame 2
-            //     new Rect(314, 385, 39, 54),   // Animation frame 3
-            //     new Rect(265, 385, 46, 54),   // Animation frame 4
-            //     new Rect(205, 385, 49, 54),   // Animation frame 5
-            //     new Rect(150, 385, 46, 54),   // Animation frame 6
-            //     new Rect(96, 385, 46, 54),    // Animation frame 7
-            //     new Rect(45, 385, 35, 54),    // Animation frame 8
-            //     new Rect(0, 385, 35, 54)      // Animation frame 9
-            // ]
-            // },
         }
 
 
