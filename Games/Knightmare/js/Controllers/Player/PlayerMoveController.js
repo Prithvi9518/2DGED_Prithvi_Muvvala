@@ -29,6 +29,7 @@
         this.applyForces(gameTime, parent);
         this.handleInput(gameTime, parent);
         this.checkCollisions(parent);
+        this.checkBoundaries(parent);
         this.applyInput(parent);
     }
 
@@ -115,6 +116,21 @@
         this.handlePlatformCollision(parent);
         this.handlePickupCollision(parent);
         this.handleEnemyCollision(parent);
+    }
+
+    checkBoundaries(parent) {
+
+        if(parent.transform.boundingBox.x < 0)
+        {
+            parent.transform.setTranslation(new Vector2(0,parent.transform.translation.y));
+        }
+        else if(parent.transform.boundingBox.x > (canvas.clientWidth - parent.transform.boundingBox.width))
+        {
+            parent.transform.setTranslation(new Vector2
+                    (canvas.clientWidth - parent.transform.boundingBox.width,
+                    parent.transform.translation.y));
+        }
+
     }
 
     handlePlatformCollision(parent) {

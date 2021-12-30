@@ -201,6 +201,7 @@ function initializeSprites() {
     // Initialize players?
     initializePlayer();
     // Initialize enemies?
+    initializeEnemies();
     // Initialize pickups?
 }
 
@@ -253,11 +254,11 @@ function initializePlayer()
         1,                                                      // ScrollSpeedMultipler
         1                                                       // LayerDepth
     );
-5
+
     // Set characteristics of the body attached to the moveable sprite
     // Play around with these values and see what happens.
     sprite.body.maximumSpeed = 6;
-    sprite.body.friction = FrictionType.VeryLow;
+    sprite.body.friction = FrictionType.Low;
     sprite.body.gravity = GravityType.Normal;
 
     sprite.attachController(
@@ -275,6 +276,57 @@ function initializePlayer()
 
 }
 
+function initializeEnemies()
+{
+    initializeSlime();
+}
+
+function initializeSlime()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    artist = new AnimatedSpriteArtist(
+        context,
+        1,
+        GameData.ENEMY_DATA[0]
+    );
+
+    // Set animation
+    artist.setTake("Move Right");
+
+    transform = new Transform2D(
+        new Vector2(500, 331),
+        0,
+        new Vector2(2,2),
+        Vector2.Zero,
+        artist.getBoundingBoxByTakeName("Move Right"),
+        0
+    );
+
+    sprite = new MoveableSprite(
+        "OSlime",
+        transform,
+        ActorType.Enemy,
+        CollisionType.Collidable,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    sprite.body.maximumSpeed = 6;
+    sprite.body.friction = FrictionType.Normal;
+    sprite.body.gravity = GravityType.Normal;
+
+    // Attach controller
+
+    objectManager.add(sprite);
+
+}
+
+// #region Background
 function initializeBackground()
 {
     let transform;
@@ -312,8 +364,9 @@ function initializeBackground()
     objectManager.add(sprite);
 
 }
+// #endregion
 
-
+// #region Ground
 function initializePlatform()
 {
     let transform;
@@ -490,6 +543,9 @@ function initializeBedrock(loopIndex, spriteIndex,transform, artist, sprite, spr
     objectManager.add(spriteClone);
 
 }
+// #endregion
+
+
 
 function initializeDebugDrawer()
 {

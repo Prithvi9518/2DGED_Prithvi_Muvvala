@@ -105,7 +105,7 @@ class GameData
     static KNIGHT_JUMP_VELOCITY = 0.8;
 
     static KNIGHT_TRANSFORM_SCALE = new Vector2(2.5,2.5);
-    static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,23);
+    static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,24);
 
     static KNIGHT_ANIMATION_DATA = {
 
@@ -209,5 +209,66 @@ class GameData
 
 
     };
+
+    static ENEMY_DATA = [
+
+        {
+            //Orange Slime
+            id: "Orange Slime",
+            spriteSheet: document.getElementById("enemy_sprite_sheet"),
+
+            takes: {
+
+                //Animation 1
+                "Move Right": {
+
+                    frameRatePerSec: 6,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(49,5,14,11),
+                        new Rect(64,6,16,10),
+                        new Rect(82,4,12,12)
+                    ]
+
+                },
+
+                //Animation 2
+                "Move Left": {
+
+                    frameRatePerSec: 6,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(82,4,12,12),
+                        new Rect(64,6,16,10),
+                        new Rect(49,5,14,11)
+                    ]
+
+                }
+
+            }
+
+        }
+        
+    ];
 
 }
