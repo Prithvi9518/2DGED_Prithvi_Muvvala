@@ -321,6 +321,13 @@ function initializeSlime()
     sprite.body.gravity = GravityType.Normal;
 
     // Attach controller
+    sprite.attachController(
+        new SlimeMoveController(
+            new Vector2(10,0),
+            1000,
+            1
+        )
+    );
 
     objectManager.add(sprite);
 
