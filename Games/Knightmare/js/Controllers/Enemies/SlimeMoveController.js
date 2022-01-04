@@ -33,8 +33,6 @@ class SlimeMoveController {
         }
 
         this.timeSinceLastMoveInMs += gameTime.elapsedTimeInMs;
-        this.timeSinceLastInvert += gameTime.elapsedTimeInMs;
-
     }
 
     clone() {
@@ -50,6 +48,8 @@ class SlimeMoveController {
     followPlayer(parent)
     {
         let player = objectManager.get(ActorType.Player)[0];
+
+        if(player==null) return;
 
         // Calculate the different between the positions of player and enemy in x-axis.
         // Divide the difference by its magnitude to get a result of either -1 or 1, and assign this value to moveDirection variable

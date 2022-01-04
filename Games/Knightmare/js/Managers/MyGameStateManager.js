@@ -98,6 +98,8 @@ class MyGameStateManager extends GameStateManager {
         {
             let player = objectManager.get(ActorType.Player)[0];
 
+            if(player==null) return;
+
             this.notificationCenter.notify(
                 new Notification(
                     NotificationType.Sprite,    // Type

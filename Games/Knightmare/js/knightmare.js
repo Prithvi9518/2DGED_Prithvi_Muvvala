@@ -14,6 +14,7 @@ let objectManager;
 let keyboardManager;
 let soundManager;
 let gameStateManager;
+let spawnManager;
 
 let debugDrawer;
 
@@ -66,6 +67,8 @@ function update(gameTime) {
     // TO DO: Update other managers
 
     gameStateManager.update(gameTime);
+
+    spawnManager.update(gameTime);
 
     if (debugMode) {
 
@@ -158,6 +161,12 @@ function initializeManagers() {
         "Game State Manager",
         notificationCenter,
         50
+    );
+
+    spawnManager = new SpawnManager(
+        "Spawn Manager",
+        objectManager,
+        2000
     );
 
     // Initialize sound manager?

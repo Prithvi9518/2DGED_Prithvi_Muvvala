@@ -288,13 +288,17 @@
             if (parent.transform.boundingBox.intersects(enemy.transform.boundingBox)) {
 
                 // Your code here...
+                let playerBoundingBox = parent.transform.boundingBox;
+                let enemyBoundingBox = enemy.transform.boundingBox;
 
                 // Remove enemy only if enemy gets hit by the player's sword.
                 // If the enemy makes contact with any part of the player's sprite other than the sword,
                 // decrease player health (Removing the player as a temporary measure until a health system is added)
                 if(
-                    (parent.artist.getCurrentTake() == "Run Right" && parent.transform.translation.x < enemy.transform.translation.x)
-                    || (parent.artist.getCurrentTake() == "Run Left" &&  parent.transform.translation.x > enemy.transform.translation.x)
+                    (parent.artist.getCurrentTake() == "Run Right" &&
+                     enemyBoundingBox.x + enemyBoundingBox.width >= playerBoundingBox.x + playerBoundingBox.width) || 
+                    (parent.artist.getCurrentTake() == "Run Left" && 
+                     enemyBoundingBox.x + enemyBoundingBox.width <= playerBoundingBox.x + playerBoundingBox.width)
                   )
                   {
                     // Remove the enemy?
@@ -313,9 +317,15 @@
                           new Notification(
                               NotificationType.GameState,
                               NotificationAction.Health,
-                              [-10]
+                              [-5]
                           )
                       );
+
+                      // Push player back
+                      let pushDirection = parent.transform.translation.x - enemy.transform.translation.x;
+                      pushDirection = pushDirection/Math.abs(pushDirection);
+                      
+                      parent.transform.translateBy(new Vector2(pushDirection * 27, -5));
                       
                   }
 
