@@ -105,7 +105,9 @@ class GameData
     static KNIGHT_JUMP_VELOCITY = 0.8;
 
     static KNIGHT_TRANSFORM_SCALE = new Vector2(2.5,2.5);
-    static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,24);
+    // static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,24);
+    static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(23,24);
+
 
     static KNIGHT_ANIMATION_DATA = {
 
@@ -118,7 +120,8 @@ class GameData
             // Animation 1
             "Idle": {
     
-            frameRatePerSec: 2,
+            // frameRatePerSec: 2,
+            frameRatePerSec: 1,
     
             // -1 = Loop forever
             //  0 = Run once (no loop)
@@ -126,7 +129,8 @@ class GameData
             maxLoopCount: -1,
     
             startFrameIndex: 0,
-            endFrameIndex: 4,
+            // endFrameIndex: 4,
+            endFrameIndex: 1,
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
@@ -137,11 +141,13 @@ class GameData
                 // This list of rects just represent the positions
                 // and dimension of each individual animation frame
                 // on the sprite sheet
-                new Rect(3, 0, 17, 22),    // Idle frame 1
-                new Rect(67, 1, 17, 21),    // Idle frame 2
-                new Rect(131, 2, 17, 20),    // Idle frame 3
-                new Rect(195, 1, 17, 21),    // Idle frame 4
-                new Rect(259, 0, 17, 22),    // Idle frame 5
+                // new Rect(3, 0, 17, 22),    // Idle frame 1
+                // new Rect(67, 1, 17, 21),    // Idle frame 2
+                // new Rect(131, 2, 17, 20),    // Idle frame 3
+                // new Rect(195, 1, 17, 21),    // Idle frame 4
+                // new Rect(259, 0, 17, 22),    // Idle frame 5
+                new Rect(5, 35, 23, 25),
+                new Rect(37, 36, 23, 24)
 
             ]
             },
@@ -149,7 +155,8 @@ class GameData
             // Animation 2
             "Run Right": {
     
-            frameRatePerSec: 12,
+            // frameRatePerSec: 12,
+            frameRatePerSec: 6,
     
             // -1 = Loop forever
             //  0 = Run once (no loop)
@@ -157,28 +164,36 @@ class GameData
             maxLoopCount: -1,
     
             startFrameIndex: 0,
-            endFrameIndex: 7,
+            // endFrameIndex: 7,
+            endFrameIndex: 3,
     
             // Notice that I chose the largest of all the widths taken from the frames
             // array below
             boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
     
             frames: [
-                new Rect(4, 63, 15, 22),     // Animation frame 1
-                new Rect(68, 62, 14, 23),    // Animation frame 2
-                new Rect(132, 63, 15, 23),   // Animation frame 3
-                new Rect(195, 64, 17, 22),   // Animation frame 4
-                new Rect(258, 63, 19, 21),   // Animation frame 5
-                new Rect(321, 62, 21, 22),   // Animation frame 6
-                new Rect(386, 63, 19, 23),   // Animation frame 7
-                new Rect(451, 64, 17, 22),   // Animation frame 8
+                // new Rect(4, 63, 15, 22),     // Animation frame 1
+                // new Rect(68, 62, 14, 23),    // Animation frame 2
+                // new Rect(132, 63, 15, 23),   // Animation frame 3
+                // new Rect(195, 64, 17, 22),   // Animation frame 4
+                // new Rect(258, 63, 19, 21),   // Animation frame 5
+                // new Rect(321, 62, 21, 22),   // Animation frame 6
+                // new Rect(386, 63, 19, 23),   // Animation frame 7
+                // new Rect(451, 64, 17, 22),   // Animation frame 8
+
+                new Rect(69, 35, 23, 25),
+                new Rect(101, 35, 23, 25),
+                new Rect(133, 35, 23, 25),
+                new Rect(165, 35, 23, 25)
+
             ]
             },
 
             // Animation 3
             "Run Left": {
     
-                frameRatePerSec: 12,
+                // frameRatePerSec: 12,
+                frameRatePerSec: 6,
         
                 // -1 = Loop forever
                 //  0 = Run once (no loop)
@@ -186,21 +201,28 @@ class GameData
                 maxLoopCount: -1,
         
                 startFrameIndex: 0,
-                endFrameIndex: 7,
+                // endFrameIndex: 7,
+                endFrameIndex: 3,
         
                 // Notice that I chose the largest of all the widths taken from the frames
                 // array below
                 boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
         
                 frames: [
-                    new Rect(965, 63, 15, 22),     // Animation frame 1
-                    new Rect(902, 62, 14, 23),    // Animation frame 2
-                    new Rect(837, 63, 15, 23),   // Animation frame 3
-                    new Rect(772, 64, 17, 22),   // Animation frame 4
-                    new Rect(707, 63, 19, 21),   // Animation frame 5
-                    new Rect(642, 62, 21, 22),   // Animation frame 6
-                    new Rect(579, 63, 19, 23),   // Animation frame 7
-                    new Rect(516, 64, 17, 22),   // Animation frame 8
+                    // new Rect(965, 63, 15, 22),     // Animation frame 1
+                    // new Rect(902, 62, 14, 23),    // Animation frame 2
+                    // new Rect(837, 63, 15, 23),   // Animation frame 3
+                    // new Rect(772, 64, 17, 22),   // Animation frame 4
+                    // new Rect(707, 63, 19, 21),   // Animation frame 5
+                    // new Rect(642, 62, 21, 22),   // Animation frame 6
+                    // new Rect(579, 63, 19, 23),   // Animation frame 7
+                    // new Rect(516, 64, 17, 22),   // Animation frame 8
+
+                    new Rect(68, 3, 23, 25),
+                    new Rect(100, 3, 23, 25),
+                    new Rect(132, 3, 23, 25),
+                    new Rect(164, 3, 23, 25),
+
                 ]
                 }
     
@@ -222,7 +244,7 @@ class GameData
                 //Animation 1
                 "Move Right": {
 
-                    frameRatePerSec: 6,
+                    frameRatePerSec: 3,
 
                     // -1 = Loop forever
                     //  0 = Run once (no loop)

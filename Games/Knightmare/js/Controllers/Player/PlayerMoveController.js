@@ -291,6 +291,15 @@
 
                 // Play a sound?
                 // Remove the enemy?
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sprite,    // Type
+                        NotificationAction.Remove,  // Action
+                        [enemy]                     // Arguments
+                    )
+                );
+
+
                 // Update the player's health?
 
                 // Uncomment the below code to create three notifications

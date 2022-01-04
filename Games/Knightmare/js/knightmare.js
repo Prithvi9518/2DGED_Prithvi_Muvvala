@@ -258,7 +258,7 @@ function initializePlayer()
     // Set characteristics of the body attached to the moveable sprite
     // Play around with these values and see what happens.
     sprite.body.maximumSpeed = 6;
-    sprite.body.friction = FrictionType.Low;
+    sprite.body.friction = FrictionType.VeryLow;
     sprite.body.gravity = GravityType.Normal;
 
     sprite.attachController(
@@ -323,8 +323,9 @@ function initializeSlime()
     // Attach controller
     sprite.attachController(
         new SlimeMoveController(
+            objectManager,
             new Vector2(10,0),
-            1000,
+            500,
             1
         )
     );
