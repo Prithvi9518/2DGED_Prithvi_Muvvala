@@ -130,6 +130,12 @@
         }
     }
 
+    // Added by Prithvi Muvvala
+    getCurrentTake()
+    {
+        return this.currentTakeName;
+    }
+
     getBoundingBoxByTakeName(takeName) {
 
         // If the take exists

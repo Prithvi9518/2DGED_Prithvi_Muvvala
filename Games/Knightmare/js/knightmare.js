@@ -13,6 +13,7 @@ let cameraManager;
 let objectManager;
 let keyboardManager;
 let soundManager;
+let gameStateManager;
 
 let debugDrawer;
 
@@ -63,6 +64,8 @@ function update(gameTime) {
     cameraManager.update(gameTime);
 
     // TO DO: Update other managers
+
+    gameStateManager.update(gameTime);
 
     if (debugMode) {
 
@@ -149,7 +152,14 @@ function initializeManagers() {
         StatusType.Drawn | StatusType.Updated,
         cameraManager
     );
+
     // Initialize game manager?
+    gameStateManager = new MyGameStateManager(
+        "Game State Manager",
+        notificationCenter,
+        50
+    );
+
     // Initialize sound manager?
     // soundManager = new SoundManager(
     //     "Sound Manager",
@@ -204,6 +214,8 @@ function initializeSprites() {
     initializeEnemies();
     // Initialize pickups?
 }
+
+// #region Player
 
 function initializePlayer()
 {
@@ -276,6 +288,10 @@ function initializePlayer()
 
 }
 
+// #endregion
+
+// #region Enemies
+
 function initializeEnemies()
 {
     initializeSlime();
@@ -333,6 +349,8 @@ function initializeSlime()
     objectManager.add(sprite);
 
 }
+
+// #endregion
 
 // #region Background
 function initializeBackground()

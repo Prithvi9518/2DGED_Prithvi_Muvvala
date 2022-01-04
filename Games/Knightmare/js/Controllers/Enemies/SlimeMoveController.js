@@ -47,14 +47,12 @@ class SlimeMoveController {
 
     }
 
-    invertDirection() {
-        this.moveDirection = -this.moveDirection;
-    }
-
     followPlayer(parent)
     {
         let player = objectManager.get(ActorType.Player)[0];
-        console.log(player);
+
+        // Calculate the different between the positions of player and enemy in x-axis.
+        // Divide the difference by its magnitude to get a result of either -1 or 1, and assign this value to moveDirection variable
         let difference = (player.transform.translation.x - parent.transform.translation.x);
         this.moveDirection = difference / Math.abs(difference);
     }

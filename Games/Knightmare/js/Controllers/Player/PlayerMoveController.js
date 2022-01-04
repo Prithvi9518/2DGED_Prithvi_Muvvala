@@ -289,16 +289,37 @@
 
                 // Your code here...
 
-                // Play a sound?
-                // Remove the enemy?
-                this.notificationCenter.notify(
-                    new Notification(
-                        NotificationType.Sprite,    // Type
-                        NotificationAction.Remove,  // Action
-                        [enemy]                     // Arguments
-                    )
-                );
+                // Remove enemy only if enemy gets hit by the player's sword.
+                // If the enemy makes contact with any part of the player's sprite other than the sword,
+                // decrease player health (Removing the player as a temporary measure until a health system is added)
+                if(
+                    (parent.artist.getCurrentTake() == "Run Right" && parent.transform.translation.x < enemy.transform.translation.x)
+                    || (parent.artist.getCurrentTake() == "Run Left" &&  parent.transform.translation.x > enemy.transform.translation.x)
+                  )
+                  {
+                    // Remove the enemy?
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.Sprite,    // Type
+                            NotificationAction.Remove,  // Action
+                            [enemy]                     // Arguments
+                        )
+                    );
+                  }
+                  else
+                  {
+                      // Decrease player health.
+                      this.notificationCenter.notify(
+                          new Notification(
+                              NotificationType.GameState,
+                              NotificationAction.Health,
+                              [-10]
+                          )
+                      );
+                      
+                  }
 
+                // Play a sound?
 
                 // Update the player's health?
 
