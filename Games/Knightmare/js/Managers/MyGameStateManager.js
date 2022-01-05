@@ -10,6 +10,14 @@ class MyGameStateManager extends GameStateManager {
         return this._playerHealth;
     }
 
+    get playerScore() {
+        return this._playerScore;
+    }
+
+    set playerScore(value) {
+        this._playerScore = value;
+    }
+
     set playerHealth(value) {
         this._playerHealth = value;
     }
@@ -21,6 +29,7 @@ class MyGameStateManager extends GameStateManager {
         this.notificationCenter = notificationCenter;
 
         this.playerHealth = initialPlayerHealth;
+        this.playerScore = 0;
         
         this.registerForNotifications();
     }
@@ -51,6 +60,10 @@ class MyGameStateManager extends GameStateManager {
 
             // Add more cases here...
 
+            case NotificationAction.Score: 
+                this.handleScoreChange(notification.notificationArguments);
+                break;
+
             default:
                 break;
         }
@@ -64,7 +77,7 @@ class MyGameStateManager extends GameStateManager {
 
         this.playerHealth += amount;
 
-        console.log(this.playerHealth);
+        console.log("Health: " + this.playerHealth);
 
         // Maybe update a health variable?
         // Maybe update a UI element?
@@ -84,6 +97,14 @@ class MyGameStateManager extends GameStateManager {
         // Add your code here...
         // Maybe update an ammo variable?
         // Maybe update a UI element?
+    }
+
+    handleScoreChange(argArray) {
+        let amount = argArray[0];
+
+        this.playerScore += amount;
+
+        console.log("Player Score: " + this.playerScore);
     }
 
     update(gameTime) {

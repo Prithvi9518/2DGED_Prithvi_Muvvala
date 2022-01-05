@@ -14,6 +14,8 @@ let objectManager;
 let keyboardManager;
 let soundManager;
 let gameStateManager;
+let menuManager;
+
 let spawnManager;
 
 let debugDrawer;
@@ -32,8 +34,15 @@ function start() {
     // Initialize game elements
     initialize();
 
-    // TO DO: Publish an event to pause the object manager 
-    // and show the menu
+    // Publish an event to pause the object manager, by setting its StatusType
+    // to off (i.e. no update, no draw). This, in turn, shows the menu.
+    notificationCenter.notify(
+        new Notification(
+            NotificationType.Menu,
+            NotificationAction.ShowMenuChanged,
+            [StatusType.Off]
+        )
+    );
 
     // Start the game loop
     window.requestAnimationFrame(animate);
@@ -65,6 +74,8 @@ function update(gameTime) {
     cameraManager.update(gameTime);
 
     // TO DO: Update other managers
+
+    menuManager.update(gameTime);
 
     gameStateManager.update(gameTime);
 
@@ -163,12 +174,6 @@ function initializeManagers() {
         50
     );
 
-    spawnManager = new SpawnManager(
-        "Spawn Manager",
-        objectManager,
-        2000
-    );
-
     // Initialize sound manager?
     // soundManager = new SoundManager(
     //     "Sound Manager",
@@ -181,8 +186,23 @@ function initializeManagers() {
         "Keyboard Manager"
     );
 
+    // Initialize menu manager
+    menuManager = new MyMenuManager(
+        "Menu Manager",
+        notificationCenter,
+        keyboardManager
+    );
+
+    // Initialize spawn manager
+    spawnManager = new SpawnManager(
+        "Spawn Manager",
+        objectManager,
+        3500
+    );
+
 }
 
+// #region Camera
 function initializeCameras() {
 
     let transform = new Transform2D(
@@ -208,6 +228,7 @@ function initializeCameras() {
 
     cameraManager.add(camera);
 }
+// #endregion
 
 function initializeSprites() {
 
@@ -215,12 +236,15 @@ function initializeSprites() {
 
     // Initialize background?
     initializeBackground();
+
     // Initialize platforms?
     initializePlatform();
+
     // Initialize players?
     initializePlayer();
+
     // Initialize enemies?
-    initializeEnemies();
+
     // Initialize pickups?
 }
 
@@ -290,68 +314,6 @@ function initializePlayer()
             GameData.KNIGHT_MOVE_KEYS,
             GameData.KNIGHT_RUN_VELOCITY,
             GameData.KNIGHT_JUMP_VELOCITY
-        )
-    );
-
-    objectManager.add(sprite);
-
-}
-
-// #endregion
-
-// #region Enemies
-
-function initializeEnemies()
-{
-    initializeSlime();
-}
-
-function initializeSlime()
-{
-    let transform;
-    let artist;
-    let sprite;
-
-    artist = new AnimatedSpriteArtist(
-        context,
-        1,
-        GameData.ENEMY_DATA[0]
-    );
-
-    // Set animation
-    artist.setTake("Move Right");
-
-    transform = new Transform2D(
-        new Vector2(500, 331),
-        0,
-        new Vector2(2,2),
-        Vector2.Zero,
-        artist.getBoundingBoxByTakeName("Move Right"),
-        0
-    );
-
-    sprite = new MoveableSprite(
-        "OSlime",
-        transform,
-        ActorType.Enemy,
-        CollisionType.Collidable,
-        StatusType.Updated | StatusType.Drawn,
-        artist,
-        1,
-        1
-    );
-
-    sprite.body.maximumSpeed = 6;
-    sprite.body.friction = FrictionType.Normal;
-    sprite.body.gravity = GravityType.Normal;
-
-    // Attach controller
-    sprite.attachController(
-        new SlimeMoveController(
-            objectManager,
-            new Vector2(10,0),
-            500,
-            1
         )
     );
 

@@ -309,6 +309,16 @@
                             [enemy]                     // Arguments
                         )
                     );
+
+                    // Update player score
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.GameState,
+                            NotificationAction.Score,
+                            [10]
+                        )
+                    );
+
                   }
                   else
                   {

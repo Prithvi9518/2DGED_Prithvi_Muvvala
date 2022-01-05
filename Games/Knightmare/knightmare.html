@@ -21,11 +21,33 @@
 
     <div id = "game_window" class = "wrapper">
 
-      <!-- <div id="menu_block"> -->
+      <div id="menu_block">
 
         <!-- TODO: Add menus -->
 
-      <!-- </div> -->
+        <!-- Main Menu -->
+        <div id="main_menu" class="menu">
+            <h1>Knightmare</h1>
+            <ul>
+                <li><a href="javascript:void(0)" class="button play">Start Game</a></li>
+                <li><a href="javascript:void(0)" id="audio_button" class="button">Toggle Audio</a></li>
+                <li><a href="javascript:void(0)" class="button control">Control Menu</a></li>
+                <li><a href="javascript:void(0)" class="button exit">Exit Game</a></li>
+            </ul>
+        </div>
+
+        <!-- Exit Menu -->
+        <div id="exit_menu" class="menu hidden">
+            <h1>Thanks for playing!</h1>
+        </div>
+
+        <!-- Control Menu -->
+        <div id="control_menu" class="menu hidden">
+            <h1>This is the control menu!</h1>
+        </div>
+        
+
+      </div>
 
       <!-- Create Canvas -->
       <canvas id="main_canvas" width="850" height="460"></canvas>
@@ -86,6 +108,7 @@
     <script src="js/Constants/Constants.js"></script>
     
     <script src="js/Managers/MyGameStateManager.js"></script>
+    <script src="js/Managers/MyMenuManager.js"></script>
     <script src="js/Managers/SpawnManager.js"></script>
 
 

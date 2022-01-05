@@ -27,36 +27,64 @@ body {
     border: 1px solid black;
 }
 
-/* #menu_block {
-    position: absolute;
+#menu_block {
+    /* position: absolute;
     width: 850;
     height: 460;
     left: 0;
     top: 0;
 
     text-align: center;
+    color: white; */
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    text-align: center;
     color: white;
-} */
+
+}
 
 .menu {
-    position: absolute;
+    /* position: absolute;
     
     display: flex;
     flex-direction: column;
     justify-content: center;
     
     width: 850;
-    height: 468;
+    height: 460;
+    left: 0;
+    top: 0; */
+
+    position: absolute;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
+
 }
 
 #main_menu {
-    background-image: url('../assets/images/ui/menu-background.png');
+    background-image: url('../assets/purple-clouds-background.jpg');
+    background-size: cover;
 }
 
 #exit_menu {
     background-color: black;
+}
+
+#control_menu {
+    background-color: pink;
+    color: goldenrod;
 }
 
 #main_canvas {

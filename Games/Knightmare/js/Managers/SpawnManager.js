@@ -11,6 +11,8 @@ class SpawnManager {
         this.timeSinceLastSpawnInMs = 0;
         this.numSpawned = 0;
 
+        this.initializeSlime(600);
+
     }
 
     initializeSlime(posX)
