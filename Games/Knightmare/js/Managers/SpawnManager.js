@@ -67,8 +67,63 @@ class SpawnManager {
         this.objectManager.add(sprite);
     }
 
+    initializeBat(posX)
+    {
+        let transform;
+        let artist;
+        let sprite;
+
+        artist = new AnimatedSpriteArtist(
+            context,
+            1,
+            GameData.ENEMY_DATA[1]
+        );
+
+        // Set animation
+        artist.setTake("Move Right");
+
+        transform = new Transform2D(
+            new Vector2(posX, 100),
+            0,
+            new Vector2(4,4),
+            Vector2.Zero,
+            artist.getBoundingBoxByTakeName("Move Right"),
+            0
+        );
+
+        sprite = new MoveableSprite(
+            "R_Bat " + this.numSpawned,
+            transform,
+            ActorType.Enemy,
+            CollisionType.Collidable,
+            StatusType.Updated | StatusType.Drawn,
+            artist,
+            1,
+            1
+        );
+
+        sprite.body.maximumSpeed = 6;
+        sprite.body.friction = FrictionType.Normal;
+        sprite.body.gravity = GravityType.Normal;
+
+        // Attach controller
+        // sprite.attachController(
+        //     new SlimeMoveController(
+        //         this.objectManager,
+        //         new Vector2(10,0),
+        //         500,
+        //         1
+        //     )
+        // );
+
+        this.objectManager.add(sprite);
+    } 
+
     update(gameTime)
     {
+        // Check object manager's status type to prevent enemies from being initialized before the player starts the game.
+        if(objectManager.statusType == 0) return;
+
         let player = this.objectManager.get(ActorType.Player)[0];
 
         if(player == null) return;
@@ -80,6 +135,7 @@ class SpawnManager {
             if(enemyPosX < player.transform.translation.x + 30 && enemyPosX > player.transform.translation-30) return;
 
             this.initializeSlime(enemyPosX);
+            this.numSpawned++;
 
             this.timeSinceLastSpawnInMs = 0;
         }

@@ -98,14 +98,16 @@ class GameData
 
     ];
 
-    // Player knight data
+    // Player Data
+    static INITIAL_PLAYER_HEALTH = 50;
+
+    // Player knight sprite data
     static KNIGHT_START_POSITION = new Vector2(100, 252);
     static KNIGHT_MOVE_KEYS = [Keys.A, Keys.D, Keys.Space];
     static KNIGHT_RUN_VELOCITY = 0.3;
     static KNIGHT_JUMP_VELOCITY = 0.8;
 
     static KNIGHT_TRANSFORM_SCALE = new Vector2(2.5,2.5);
-    // static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(21,24);
     static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(23,24);
 
 
@@ -237,7 +239,7 @@ class GameData
         {
             //Orange Slime
             id: "Orange Slime",
-            spriteSheet: document.getElementById("enemy_sprite_sheet"),
+            spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
 
             takes: {
 
@@ -289,8 +291,70 @@ class GameData
 
             }
 
+        },
+
+        {
+            // Red Bat
+            id: "R_Bat",
+            spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
+
+            takes: {
+
+                // Animation 1
+                "Move Right": {
+
+                    frameRatePerSec: 3,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 3,
+
+                    boundingBoxDimensions: new Vector2(10,7),
+
+                    frames: [
+                        new Rect(0,27,8,6),
+                        new Rect(9,26,10,6),
+                        new Rect(20,28,8,7),
+                        new Rect(29,29,10,6)
+                    ]
+
+                },
+
+                // Animation 2
+                "Move Left": {
+                    
+                    frameRatePerSec: 4,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 3,
+
+                    boundingBoxDimensions: new Vector2(10,7),
+
+                    frames: [
+                        new Rect(73,27,8,6),
+                        new Rect(62,26,10,6),
+                        new Rect(53,28,8,7),
+                        new Rect(42,29,10,6)
+                    ]
+
+                }
+
+            }
+
         }
         
     ];
+
+    // Enemy spawn data
+    static ENEMY_SPAWN_INTERVAL = 3500;
 
 }

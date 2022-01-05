@@ -20,9 +20,6 @@ let spawnManager;
 
 let debugDrawer;
 
-// TO DO:
-// Add more managers as necessary
-
 const debugMode = true;
 
 function start() {
@@ -74,15 +71,11 @@ function update(gameTime) {
     cameraManager.update(gameTime);
 
     // TO DO: Update other managers
-
     menuManager.update(gameTime);
-
     gameStateManager.update(gameTime);
-
     spawnManager.update(gameTime);
 
     if (debugMode) {
-
         // Call the update method of the debug drawer class
         // to update debug info
         debugDrawer.update(gameTime);
@@ -99,7 +92,6 @@ function draw(gameTime) {
     // to draw all sprites
     objectManager.draw(gameTime);
 
-
     if (debugMode) {
 
         // Call the draw method of the debug drawer class
@@ -110,10 +102,10 @@ function draw(gameTime) {
 }
 
 function clearCanvas() {
-
     // Clear the canvas
     context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 }
+
 
 /** GAME SPECIFIC CODE BELOW - CHANGE AS NECESSARY */
 
@@ -144,7 +136,6 @@ function initialize() {
 }
 
 function initializeNotificationCenter() {
-
     // TO DO: Initialize notification center
     notificationCenter = new NotificationCenter();
 }
@@ -153,12 +144,12 @@ function initializeManagers() {
 
     // TO DO: Initialize managers
 
-    // Initialize camera manager?
+    // Initialize camera manager
     cameraManager = new CameraManager(
         "Camera Manager"
     );
 
-    // Initialize object manager?
+    // Initialize object manager
     objectManager = new ObjectManager(
         "Object Manager",
         notificationCenter,
@@ -167,21 +158,21 @@ function initializeManagers() {
         cameraManager
     );
 
-    // Initialize game manager?
+    // Initialize game manager
     gameStateManager = new MyGameStateManager(
         "Game State Manager",
         notificationCenter,
-        50
+        GameData.INITIAL_PLAYER_HEALTH
     );
 
-    // Initialize sound manager?
+    // Initialize sound manager
     // soundManager = new SoundManager(
     //     "Sound Manager",
     //     notificationCenter,
     //     GameData.AUDIO_CUE_ARRAY
     // );
 
-    // Initialize keyboard manager?
+    // Initialize keyboard manager
     keyboardManager = new KeyboardManager(
         "Keyboard Manager"
     );
@@ -197,7 +188,7 @@ function initializeManagers() {
     spawnManager = new SpawnManager(
         "Spawn Manager",
         objectManager,
-        3500
+        GameData.ENEMY_SPAWN_INTERVAL
     );
 
 }
