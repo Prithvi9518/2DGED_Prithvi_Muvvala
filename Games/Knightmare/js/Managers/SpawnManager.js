@@ -11,10 +11,11 @@ class SpawnManager {
         this.timeSinceLastSpawnInMs = 0;
         this.numSpawned = 0;
 
-        this.initializeSlime(600);
+        this.initializeBat(100);
 
     }
 
+    // #region Slime
     initializeSlime(posX)
     {
         let transform;
@@ -66,7 +67,9 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     }
+    // #endregion
 
+    // #region Bat
     initializeBat(posX)
     {
         let transform;
@@ -82,8 +85,10 @@ class SpawnManager {
         // Set animation
         artist.setTake("Move Right");
 
+        let startPos = new Vector2(posX, 200);
+
         transform = new Transform2D(
-            new Vector2(posX, 100),
+            startPos,
             0,
             new Vector2(4,4),
             Vector2.Zero,
@@ -102,22 +107,34 @@ class SpawnManager {
             1
         );
 
-        sprite.body.maximumSpeed = 6;
+        sprite.body.maximumSpeed = 100;
         sprite.body.friction = FrictionType.Normal;
         sprite.body.gravity = GravityType.Normal;
 
         // Attach controller
-        // sprite.attachController(
-        //     new SlimeMoveController(
-        //         this.objectManager,
-        //         new Vector2(10,0),
-        //         500,
-        //         1
-        //     )
-        // );
+        sprite.attachController(
+            new BatMoveController(
+                this.objectManager,
+                150,
+                300,
+                3,
+                3
+            )
+        );
 
         this.objectManager.add(sprite);
     } 
+    // #endregion
+
+    spawnSlime(playerPosX)
+    {
+        let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
+
+        if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
+
+        this.initializeSlime(enemyPosX);
+        this.numSpawned++;
+    }
 
     update(gameTime)
     {
@@ -130,13 +147,9 @@ class SpawnManager {
 
         if(this.timeSinceLastSpawnInMs >= this.spawnInterval)
         {
-            let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
-
-            if(enemyPosX < player.transform.translation.x + 30 && enemyPosX > player.transform.translation-30) return;
-
-            this.initializeSlime(enemyPosX);
-            this.numSpawned++;
-
+            let playerPosX = player.transform.translation.x;
+            
+            this.spawnSlime(playerPosX);
             this.timeSinceLastSpawnInMs = 0;
         }
 
