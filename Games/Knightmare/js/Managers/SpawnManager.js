@@ -1,17 +1,19 @@
 class SpawnManager {
 
 
-    constructor(id, objectManager, spawnInterval)
+    constructor(id, notificationCenter, objectManager, spawnInterval)
     {
         this.id = id;
+        this.notificationCenter = notificationCenter;
         this.objectManager = objectManager;
         this.spawnInterval = spawnInterval;
 
         // Internal Variables
-        this.timeSinceLastSpawnInMs = 0;
+        this.timeSinceLastSlimeSpawnInMs = 0;
+        this.timeSinceLastBatSpawnInMs = 0;
         this.numSpawned = 0;
 
-        this.initializeBat(100);
+        this.initializeSlime(500);
 
     }
 
@@ -111,13 +113,21 @@ class SpawnManager {
         sprite.body.friction = FrictionType.Normal;
         sprite.body.gravity = GravityType.Normal;
 
+        let xVel;
+
+        if(posX <=0)
+            xVel = 3;
+        else
+            xVel = -3;
+
         // Attach controller
         sprite.attachController(
             new BatMoveController(
+                this.notificationCenter,
                 this.objectManager,
                 150,
                 300,
-                3,
+                xVel,
                 3
             )
         );
@@ -136,6 +146,19 @@ class SpawnManager {
         this.numSpawned++;
     }
 
+    spawnBat()
+    {
+        // Randomly picks either 0 or 1
+        let sideToSpawn = Math.floor(Math.random()*2);
+
+        // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
+        let enemyPosX = sideToSpawn*950 - 50;
+
+        this.initializeBat(enemyPosX);
+        this.numSpawned++;
+
+    }
+
     update(gameTime)
     {
         // Check object manager's status type to prevent enemies from being initialized before the player starts the game.
@@ -144,16 +167,23 @@ class SpawnManager {
         let player = this.objectManager.get(ActorType.Player)[0];
 
         if(player == null) return;
+        
+        let playerPosX = player.transform.translation.x;
 
-        if(this.timeSinceLastSpawnInMs >= this.spawnInterval)
+        if(this.timeSinceLastSlimeSpawnInMs >= this.spawnInterval)
         {
-            let playerPosX = player.transform.translation.x;
-            
             this.spawnSlime(playerPosX);
-            this.timeSinceLastSpawnInMs = 0;
+            this.timeSinceLastSlimeSpawnInMs = 0;
+        }
+        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.spawnInterval)
+        {
+            this.spawnBat(playerPosX);
+            this.timeSinceLastBatSpawnInMs = 0;
         }
 
-        this.timeSinceLastSpawnInMs += gameTime.elapsedTimeInMs;
+        this.timeSinceLastSlimeSpawnInMs += gameTime.elapsedTimeInMs;
+        this.timeSinceLastBatSpawnInMs += gameTime.elapsedTimeInMs;
+
 
     }
 
