@@ -15,7 +15,7 @@ class MyGameStateManager extends GameStateManager {
     }
 
     get currentLevel() {
-        return this._currentLevel;
+        return this._previousLevel;
     }
 
     set playerScore(value) {
@@ -27,18 +27,21 @@ class MyGameStateManager extends GameStateManager {
     }
 
     set currentLevel(value) {
-        this._currentLevel = value;
+        this._previousLevel = value;
     }
 
-    constructor(id, notificationCenter, initialPlayerHealth) {
+    constructor(id, notificationCenter, objectManager, initialPlayerHealth) {
         
         super(id);
 
         this.notificationCenter = notificationCenter;
+        this.objectManager = objectManager;
 
         this.playerHealth = initialPlayerHealth;
         this.playerScore = 0;
         this.currentLevel = 1;
+
+        console.log("Current Level: " + this.currentLevel);
         
         this.registerForNotifications();
     }
@@ -57,14 +60,6 @@ class MyGameStateManager extends GameStateManager {
 
             case NotificationAction.Health:
                 this.handleHealthStateChange(notification.notificationArguments);
-                break;
-
-            case NotificationAction.Inventory:
-                this.handleInventoryStateChange(notification.notificationArguments);
-                break;
-
-            case NotificationAction.Ammo:
-                this.handleAmmoStateChange(notification.notificationArguments);
                 break;
 
             // Add more cases here...
@@ -89,39 +84,6 @@ class MyGameStateManager extends GameStateManager {
         console.log("Health: " + this.playerHealth);
 
         // Maybe update a health variable?
-        // Maybe update a UI element?
-    }
-
-    handleInventoryStateChange(argArray) {
-        console.log(argArray);
-
-        // Add your code here...
-        // Maybe update an inventory array?
-        // Maybe update a UI element
-    }
-
-    handleAmmoStateChange(argArray) {
-        console.log(argArray);
-
-        // Add your code here...
-        // Maybe update an ammo variable?
-        // Maybe update a UI element?
-    }
-
-    handleScoreChange(argArray) {
-        let amount = argArray[0];
-
-        this.playerScore += amount;
-
-        console.log("Player Score: " + this.playerScore);
-    }
-
-    update(gameTime) {
-
-        // Add your code here...
-        
-        // For example, every update(), we could check the player's health. If
-        // the player's health is <= 0, then we can create a notification...
 
         // Update Health Bar
         this.notificationCenter.notify(
@@ -132,6 +94,15 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
+    }
+
+    handleScoreChange(argArray) {
+        let amount = argArray[0];
+
+        this.playerScore += amount;
+
+        console.log("Player Score: " + this.playerScore);
+
         // Update Score Text
         this.notificationCenter.notify(
             new Notification(
@@ -140,6 +111,57 @@ class MyGameStateManager extends GameStateManager {
                 [this.playerScore]
             )
         );
+
+        // Check if player has passed the score to proceed to the next level, and change the level if necessary
+        this.checkAndUpdateLevel();
+    }
+
+    checkAndUpdateLevel()
+    {
+        switch(this.playerScore)
+        {
+            case 100:
+                this.currentLevel = 2;
+                this.updateLevel();
+                break;
+            
+            default:
+                break;
+        }
+    }
+
+    updateLevel()
+    {
+        console.log("Current Level: " + this.currentLevel);
+
+        // Change Background
+        let background = this.objectManager.get(ActorType.Background);
+
+        console.log(background);
+
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.ChangeSprite,
+                [
+                    background[0],
+                    GameData.BACKGROUND_DATA[this.currentLevel-1].id,
+                    GameData.BACKGROUND_DATA[this.currentLevel-1].spriteSheet,
+                    GameData.BACKGROUND_DATA[this.currentLevel-1].sourcePosition,
+                    GameData.BACKGROUND_DATA[this.currentLevel-1].sourceDimensions,
+                ]
+            )
+        );
+
+    }
+
+
+    update(gameTime) {
+
+        // Add your code here...
+        
+        // For example, every update(), we could check the player's health. If
+        // the player's health is <= 0, then we can create a notification...
 
         // Remove player if health hits 0
         if(this.playerHealth <= 0)
@@ -156,7 +178,7 @@ class MyGameStateManager extends GameStateManager {
                 )
             );
         }
-
+        
 
 
 

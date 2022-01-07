@@ -118,7 +118,12 @@
             // New addition
             case NotificationAction.ChangeSprite:
                 
-                this.changeSpriteSourcePosition(notification.notificationArguments[0], notification.notificationArguments[1]);
+                this.changeSprite(
+                    notification.notificationArguments[0],
+                    notification.notificationArguments[1],
+                    notification.notificationArguments[2],
+                    notification.notificationArguments[3],
+                    notification.notificationArguments[4]);
                 break;
         }
     }
@@ -196,7 +201,7 @@
         }
     }
 
-    changeSpriteSourcePosition(sprite, newSourcePosition)
+    changeSprite(sprite, newId, newSpriteSheet, newSourcePosition, newSourceDimensions)
     {
         // Remember, this.sprites is a 2D array.
         // As such, we must first check to see if the relevant sub-array exists.
@@ -208,10 +213,13 @@
             // If the sprite is found
             if (index != -1) {
 
-                // Change sprite's source position
+                // Change spritesheet, source position and source dimensions
+                this.sprites[sprite.actorType][index].id = newId;
+                this.sprites[sprite.actorType][index].artist.spriteSheet = newSpriteSheet;
                 this.sprites[sprite.actorType][index].artist.sourcePosition = newSourcePosition;
+                this.sprites[sprite.actorType][index].artist.sourceDimensions = newSourceDimensions;
 
-                // Indicate that the source position was successfully changed
+                // Indicate that the variables were successfully changed
                 return true;
             }
 

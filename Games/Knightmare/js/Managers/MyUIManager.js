@@ -58,7 +58,13 @@ class MyUIManager extends UIManager {
                 new Notification(
                     NotificationType.Sprite,
                     NotificationAction.ChangeSprite,
-                    [heartSprites[heartSprites.length-i-1], GameData.HEART_SPRITE_DATA[1].sourcePosition]
+                    [
+                        heartSprites[heartSprites.length-i-1],
+                        GameData.HEART_SPRITE_DATA[1].id,
+                        GameData.HEART_SPRITE_DATA[1].spritesheet,
+                        GameData.HEART_SPRITE_DATA[1].sourcePosition,
+                        GameData.HEART_SPRITE_DATA[1].sourceDimensions
+                    ]
                 )
             );
         }
