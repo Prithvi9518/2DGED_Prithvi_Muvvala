@@ -12,9 +12,11 @@ let notificationCenter;
 let cameraManager;
 let objectManager;
 let keyboardManager;
+let mouseManager;
 let soundManager;
 let gameStateManager;
 let menuManager;
+let uiManager;
 
 let spawnManager;
 
@@ -73,6 +75,7 @@ function update(gameTime) {
     // TO DO: Update other managers
     menuManager.update(gameTime);
     gameStateManager.update(gameTime);
+    uiManager.update(gameTime);
     spawnManager.update(gameTime);
 
     if (debugMode) {
@@ -177,11 +180,23 @@ function initializeManagers() {
         "Keyboard Manager"
     );
 
+    mouseManager = new MouseManager(
+        "Mouse Manager"
+    );
+
     // Initialize menu manager
     menuManager = new MyMenuManager(
         "Menu Manager",
         notificationCenter,
         keyboardManager
+    );
+
+    // Initialize UI Manager
+    uiManager = new MyUIManager(
+        "UI Manager",
+        notificationCenter,
+        objectManager,
+        mouseManager
     );
 
     // Initialize spawn manager
@@ -238,6 +253,9 @@ function initializeSprites() {
     // Initialize enemies?
 
     // Initialize pickups?
+
+    initializeHud();
+    initializeOnScreenText();
 }
 
 // #region Player
@@ -534,7 +552,115 @@ function initializeBedrock(loopIndex, spriteIndex,transform, artist, sprite, spr
 }
 // #endregion
 
+function initializeHud()
+{
+    initializeHealthBar();
+    initializePauseButton();
+}
 
+function initializeHealthBar()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        GameData.HEART_SPRITE_DATA[0].translation,
+        GameData.HEART_SPRITE_DATA[0].rotation,
+        GameData.HEART_SPRITE_DATA[0].scale,
+        GameData.HEART_SPRITE_DATA[0].origin,
+        GameData.HEART_SPRITE_DATA[0].sourceDimensions
+    );
+
+    artist = new SpriteArtist(
+        context,
+        1,
+        GameData.HEART_SPRITE_DATA[0].spritesheet,
+        GameData.HEART_SPRITE_DATA[0].sourcePosition,
+        GameData.HEART_SPRITE_DATA[0].sourceDimensions,
+        GameData.HEART_SPRITE_DATA[0].fixedPosition
+    );
+
+    sprite = new Sprite(
+        GameData.HEART_SPRITE_DATA[0].id,
+        transform,
+        GameData.HEART_SPRITE_DATA[0].actorType,
+        GameData.HEART_SPRITE_DATA[0].collisionType,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        GameData.HEART_SPRITE_DATA[0].scrollSpeedMultiplier,
+        GameData.HEART_SPRITE_DATA[0].layerDepth
+    );
+
+    objectManager.add(sprite);
+
+    let spriteClone;
+
+    for(let i = 1; i <= 4; i++)
+    {
+        spriteClone = sprite.clone();
+        spriteClone.transform.translateBy(new Vector2(30*i,0));
+
+        objectManager.add(spriteClone);
+    }
+
+}
+
+function initializePauseButton()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        new Vector2(
+            canvas.clientWidth - 40,
+            10
+        ),
+        0,
+        new Vector2(3, 3),
+        Vector2.Zero,
+        new Vector2(10, 10),
+        0
+    );
+
+    artist = new SpriteArtist(
+        context,                                        // Context
+        1,                                              // Alpha
+        GameData.PAUSE_BUTTON_SPRITE_SHEET,             // Spritesheet
+        Vector2.Zero,                                   // Source Position
+        new Vector2(32, 32),                            // Source Dimension
+        
+        // Set this to true if you want the sprite to stay in one
+        // position on the screen (i.e., the sprite WON'T scroll
+        // off-screen if the camera moves right or left).
+
+        // Set this to false if you want the sprite to move with
+        // the world (i.e., the sprite WILL scroll off-screen when
+        // the camera moves to the right or to the left.
+
+        true                                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "Pause Button",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    // Add sprite to the object manager
+    objectManager.add(sprite);
+}
+
+function initializeOnScreenText()
+{
+
+}
 
 function initializeDebugDrawer()
 {

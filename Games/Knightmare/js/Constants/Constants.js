@@ -1,6 +1,7 @@
 class GameData
 {
-    static BACKGROUND_DIMENSIONS = new Vector2(384, 240);
+    static BACKGROUND_1_DIMENSIONS = new Vector2(384, 240);
+    static BACKGROUND_2_DIMENSIONS = new Vector2(1000,496);
 
     static BACKGROUND_DATA = [
 
@@ -8,7 +9,23 @@ class GameData
             id: "Background 1",
             spriteSheet: document.getElementById("knightmare_background_1"),
             sourcePosition: Vector2.Zero,
-            sourceDimensions: this.BACKGROUND_DIMENSIONS,
+            sourceDimensions: this.BACKGROUND_1_DIMENSIONS,
+            translation: Vector2.Zero,
+            rotation: 0,
+            scale: Vector2.One,
+            origin: Vector2.Zero,
+            actorType: ActorType.Background,
+            collisionType: CollisionType.NotCollidable,
+            layerDepth: 0,
+            scrollSpeedMultiplier: 0,
+            fixedPosition: true
+        },
+
+        {
+            id: "Background 2",
+            spriteSheet: document.getElementById("knightmare_background_2"),
+            sourcePosition: Vector2.Zero,
+            sourceDimensions: this.BACKGROUND_2_DIMENSIONS,
             translation: Vector2.Zero,
             rotation: 0,
             scale: Vector2.One,
@@ -99,7 +116,7 @@ class GameData
     ];
 
     // Player Data
-    static INITIAL_PLAYER_HEALTH = 50;
+    static INITIAL_PLAYER_HEALTH = 100;
 
     // Player knight sprite data
     static KNIGHT_START_POSITION = new Vector2(100, 252);
@@ -355,6 +372,47 @@ class GameData
     ];
 
     // Enemy spawn data
-    static ENEMY_SPAWN_INTERVAL = 3500;
+    static ENEMY_SPAWN_INTERVAL = 2500;
+
+    // UI data
+    static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");
+
+    static HEART_DIMENSIONS = new Vector2(140,131);
+
+    static HEART_SPRITE_DATA = [
+
+        {
+            id: "FullHeart",
+            spritesheet: document.getElementById("hearts"),
+            sourcePosition: new Vector2(35,44),
+            sourceDimensions: this.HEART_DIMENSIONS,
+            translation: new Vector2(10,10),
+            rotation: 0,
+            scale: new Vector2(0.2,0.2),
+            origin: Vector2.Zero,
+            actorType: ActorType.HUD,
+            collisionType: CollisionType.NotCollidable,
+            layerDepth: 1,
+            scrollSpeedMultiplier: 1,
+            fixedPosition: true
+        },
+
+        {
+            id: "HalfHeart",
+            spritesheet: document.getElementById("hearts"),
+            sourcePosition: new Vector2(469,44),
+            sourceDimensions: this.HEART_DIMENSIONS,
+            translation: new Vector2(50,10),
+            rotation: 0,
+            scale: new Vector2(0.2,0.2),
+            origin: Vector2.Zero,
+            actorType: ActorType.HUD,
+            collisionType: CollisionType.NotCollidable,
+            layerDepth: 1,
+            scrollSpeedMultiplier: 1,
+            fixedPosition: true
+        }
+
+    ];
 
 }

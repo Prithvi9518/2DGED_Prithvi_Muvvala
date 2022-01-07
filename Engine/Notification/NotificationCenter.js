@@ -75,6 +75,7 @@ const NotificationAction = {
 
     // Adding Score notifications
     Score: "Score"
+    
 };
 
 // Objects can register to particular notifications which they are

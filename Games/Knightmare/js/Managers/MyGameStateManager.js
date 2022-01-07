@@ -14,12 +14,20 @@ class MyGameStateManager extends GameStateManager {
         return this._playerScore;
     }
 
+    get currentLevel() {
+        return this._currentLevel;
+    }
+
     set playerScore(value) {
         this._playerScore = value;
     }
 
     set playerHealth(value) {
         this._playerHealth = value;
+    }
+
+    set currentLevel(value) {
+        this._currentLevel = value;
     }
 
     constructor(id, notificationCenter, initialPlayerHealth) {
@@ -30,6 +38,7 @@ class MyGameStateManager extends GameStateManager {
 
         this.playerHealth = initialPlayerHealth;
         this.playerScore = 0;
+        this.currentLevel = 1;
         
         this.registerForNotifications();
     }
@@ -114,6 +123,15 @@ class MyGameStateManager extends GameStateManager {
         // For example, every update(), we could check the player's health. If
         // the player's health is <= 0, then we can create a notification...
 
+        // Update Health Bar
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.UI,
+                NotificationAction.UpdateHealthBar,
+                [this.playerHealth]
+            )
+        );
+
         // Remove player
         if(this.playerHealth <= 0)
         {
@@ -129,6 +147,9 @@ class MyGameStateManager extends GameStateManager {
                 )
             );
         }
+
+
+
 
         // Play a sound?
         // Pause the game?
