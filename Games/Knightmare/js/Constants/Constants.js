@@ -377,7 +377,9 @@ class GameData
     // UI data
     static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");
 
-    static HEART_DIMENSIONS = new Vector2(140,131);
+    static FULL_HEART_DIMENSIONS = new Vector2(140,131);
+    static EMPTY_HEART_DIMENSIONS = new Vector2(140,130);
+
 
     static HEART_SPRITE_DATA = [
 
@@ -385,7 +387,7 @@ class GameData
             id: "FullHeart",
             spritesheet: document.getElementById("hearts"),
             sourcePosition: new Vector2(35,44),
-            sourceDimensions: this.HEART_DIMENSIONS,
+            sourceDimensions: this.FULL_HEART_DIMENSIONS,
             translation: new Vector2(10,10),
             rotation: 0,
             scale: new Vector2(0.2,0.2),
@@ -398,10 +400,10 @@ class GameData
         },
 
         {
-            id: "HalfHeart",
+            id: "EmptyHeart",
             spritesheet: document.getElementById("hearts"),
-            sourcePosition: new Vector2(469,44),
-            sourceDimensions: this.HEART_DIMENSIONS,
+            sourcePosition: new Vector2(252,175),
+            sourceDimensions: this.EMPTY_HEART_DIMENSIONS,
             translation: new Vector2(50,10),
             rotation: 0,
             scale: new Vector2(0.2,0.2),

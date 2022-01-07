@@ -327,7 +327,7 @@
                           new Notification(
                               NotificationType.GameState,
                               NotificationAction.Health,
-                              [-10]
+                              [-20]
                           )
                       );
 

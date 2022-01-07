@@ -39,28 +39,26 @@ class MyUIManager extends UIManager {
     updateHealthBar(health) {
 
         // TO DO: Your code here...
-        // let numFullHearts = Math.floor(health/20);
-        // let numHalfHearts = 5 - numFullHearts;
+        let numFullHearts = Math.floor(health/20);
+        let heartsToRemove = 5-numFullHearts;
+    
+        let uiSprites = this.objectManager.get(ActorType.HUD);
 
-        // let uiSprites = this.objectManager.get(ActorType.HUD);
-        // let fullHeartSprite = uiSprites[1];
-        // let halfHeartSprite = uiSprites[2];
-        // let fullHeartClone;
-        // let halfHeartClone;
+        let heartSprites = uiSprites.filter(function (el) {
+            return el.id.includes("Heart");
+        });
 
-        // for(let i = 0; i < numFullHearts-1; i++)
-        // {
-        //     fullHeartClone = fullHeartSprite.clone();
-        //     fullHeartClone.transform.translateBy(new Vector2(20*i,0));
-        //     this.objectManager.add(fullHeartClone);
-        // }
+        for(let i = 0; i < heartsToRemove; i++)
+        {
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sprite,
+                    NotificationAction.ChangeSprite,
+                    [heartSprites[heartSprites.length-i-1], GameData.HEART_SPRITE_DATA[1].sourcePosition]
+                )
+            );
+        }
 
-        // for(let i = 0; i < numHalfHearts-1; i++)
-        // {
-        //     halfHeartClone = halfHeartSprite.clone();
-        //     halfHeartClone.transform.translateBy(new Vector2(fullHeartClone.transform.translation.x + (20*i)));
-        //     this.objectManager.add(halfHeartClone);
-        // }
 
     }
 

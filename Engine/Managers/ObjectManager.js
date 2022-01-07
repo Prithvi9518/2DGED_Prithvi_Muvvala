@@ -114,6 +114,12 @@
 
                 this.removeAllByType(notification.notificationArguments[0]);
                 break;
+            
+            // New addition
+            case NotificationAction.ChangeSprite:
+                
+                this.changeSpriteSourcePosition(notification.notificationArguments[0], notification.notificationArguments[1]);
+                break;
         }
     }
 
@@ -169,6 +175,43 @@
 
                 // Indicate that the sprite was successfully removed from
                 // the this.sprites array
+                return true;
+            }
+
+            // Indicate that the operation was unsuccessful
+
+            // In this case, the operation was unsuccessful because the
+            // provided sprite didn't exist in the sprite's ActorType
+            // sub-array
+            return false;
+        }
+        else {
+
+            // Indicate that the operation was unsuccessful
+
+            // In this case, the operation was unsuccessful because a related
+            // sub-array for the provided sprite's ActorType doesn't exist in
+            // the this.sprites array.
+            return false;
+        }
+    }
+
+    changeSpriteSourcePosition(sprite, newSourcePosition)
+    {
+        // Remember, this.sprites is a 2D array.
+        // As such, we must first check to see if the relevant sub-array exists.
+        if (this.sprites[sprite.actorType]) {
+
+            // Check if the sprite exists in the array
+            let index = this.sprites[sprite.actorType].indexOf(sprite);
+
+            // If the sprite is found
+            if (index != -1) {
+
+                // Change sprite's source position
+                this.sprites[sprite.actorType][index].artist.sourcePosition = newSourcePosition;
+
+                // Indicate that the source position was successfully changed
                 return true;
             }
 
