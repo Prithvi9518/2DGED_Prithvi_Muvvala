@@ -31,6 +31,10 @@ class MyUIManager extends UIManager {
                 this.updateHealthBar(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.UpdateScoreText:
+                this.updateScoreText(notification.notificationArguments[0]);
+                break;
+
             default:
                 break;
         }
@@ -59,6 +63,16 @@ class MyUIManager extends UIManager {
             );
         }
 
+    }
+
+    updateScoreText(score) {
+
+        let uiSprites = this.objectManager.get(ActorType.HUD);
+        let scoreText = uiSprites.filter(function (el) {
+            return el.id == "ScoreText";
+        });
+
+        scoreText[0].artist.text = "Score: " + score;
 
     }
 

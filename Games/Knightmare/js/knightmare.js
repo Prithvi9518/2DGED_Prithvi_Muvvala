@@ -4,6 +4,17 @@ const canvas = document.getElementById("main_canvas");
 // Get a handle to our canvas 2D context
 const context = canvas.getContext("2d");
 
+// Load arcade-style font
+// Reference article:
+// https://stackoverflow.com/questions/29248182/how-do-i-put-custom-fonts-into-html5-canvas-easily/46751621
+const pixelFont = new FontFace('PixelFont', 'url(assets/PressStart2P-Regular.ttf)');
+
+pixelFont.load().then(function(font) {
+  // Add font on the html page
+  document.fonts.add(font);
+});
+
+
 /** CORE GAME LOOP CODE - DO NOT CHANGE */
 
 let gameTime;
@@ -659,7 +670,55 @@ function initializePauseButton()
 
 function initializeOnScreenText()
 {
+    let transform;
+    let artist;
+    let sprite;
 
+    transform = new Transform2D(
+        new Vector2(
+            (canvas.clientWidth / 2 - 40), 
+            10
+        ),
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        Vector2.Zero,
+        0
+    );
+
+    artist = new TextSpriteArtist(
+        context,                        // Context
+        1,                              // Alpha
+        "Score: 0",                     // Text
+        FontType.PixelatedFont,         // Font Type
+        Color.Black,                    // Color
+        TextAlignType.Left,             // Text Align
+        200,                            // Max Width
+
+        // Set this to true if you want the sprite to stay in one
+        // position on the screen (i.e., the sprite WON'T scroll
+        // off-screen if the camera moves right or left).
+
+        // Set this to false if you want the sprite to move with
+        // the world (i.e., the sprite WILL scroll off-screen when
+        // the camera moves to the right or to the left.
+
+        false                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "ScoreText",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    // Add sprite to object manager
+    objectManager.add(sprite);
 }
 
 function initializeDebugDrawer()

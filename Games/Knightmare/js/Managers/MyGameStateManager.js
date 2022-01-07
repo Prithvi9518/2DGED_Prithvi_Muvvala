@@ -132,7 +132,16 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Remove player
+        // Update Score Text
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.UI,
+                NotificationAction.UpdateScoreText,
+                [this.playerScore]
+            )
+        );
+
+        // Remove player if health hits 0
         if(this.playerHealth <= 0)
         {
             let player = objectManager.get(ActorType.Player)[0];

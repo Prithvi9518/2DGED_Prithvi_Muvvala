@@ -418,3 +418,11 @@ class GameData
     ];
 
 }
+
+// Fonts
+const FontType = {
+    InformationSmall: "12px Arial",
+    InformationMedium: "18px Arial",
+    InformationLarge: "24px Arial",
+    PixelatedFont: "14px PixelFont"
+  };

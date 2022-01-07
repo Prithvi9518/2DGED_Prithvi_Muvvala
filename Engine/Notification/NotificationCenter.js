@@ -77,7 +77,10 @@ const NotificationAction = {
     Score: "Score",
 
     // Adding change sprite notification
-    ChangeSprite: "Change Sprite"
+    ChangeSprite: "Change Sprite",
+
+    // Adding notification to update score text
+    UpdateScoreText: "UpdateScoreText"
     
 };
 
