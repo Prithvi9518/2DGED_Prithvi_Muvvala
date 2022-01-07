@@ -215,8 +215,7 @@ function initializeManagers() {
     spawnManager = new SpawnManager(
         "Spawn Manager",
         notificationCenter,
-        objectManager,
-        GameData.ENEMY_SPAWN_INTERVAL
+        objectManager
     );
 
 }

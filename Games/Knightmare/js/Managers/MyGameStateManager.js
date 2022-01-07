@@ -120,7 +120,7 @@ class MyGameStateManager extends GameStateManager {
     {
         switch(this.playerScore)
         {
-            case 100:
+            case 30:
                 this.currentLevel = 2;
                 this.updateLevel();
                 break;
@@ -135,7 +135,7 @@ class MyGameStateManager extends GameStateManager {
         console.log("Current Level: " + this.currentLevel);
 
         // Change Background
-        let background = this.objectManager.get(ActorType.Background);
+        let background = this.objectManager.get(ActorType.Background)[0];
 
         console.log(background);
 
@@ -144,12 +144,34 @@ class MyGameStateManager extends GameStateManager {
                 NotificationType.Sprite,
                 NotificationAction.ChangeSprite,
                 [
-                    background[0],
+                    background,
                     GameData.BACKGROUND_DATA[this.currentLevel-1].id,
                     GameData.BACKGROUND_DATA[this.currentLevel-1].spriteSheet,
                     GameData.BACKGROUND_DATA[this.currentLevel-1].sourcePosition,
                     GameData.BACKGROUND_DATA[this.currentLevel-1].sourceDimensions,
                 ]
+            )
+        );
+
+        // Resetting player position
+        let player = this.objectManager.get(ActorType.Player)[0];
+        player.transform.reset();
+
+        // Removing all existing enemies
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Enemy]
+            )
+        );
+
+        // Notify spawn manager to update spawn parameters
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.SpawnParameters,
+                NotificationAction.EditSpawnParameters,
+                [this.currentLevel]
             )
         );
 

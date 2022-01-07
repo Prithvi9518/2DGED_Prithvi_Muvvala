@@ -311,6 +311,62 @@ class GameData
         },
 
         {
+            // Green Slime
+            id: "Green Slime",
+            spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
+
+            takes: {
+
+                //Animation 1
+                "Move Right": {
+
+                    frameRatePerSec: 3,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(49,37,14,11),
+                        new Rect(64,38,16,10),
+                        new Rect(82,36,12,12)
+                    ]
+
+                },
+
+                //Animation 2
+                "Move Left": {
+
+                    frameRatePerSec: 6,
+
+                    // -1 = Loop forever
+                    //  0 = Run once (no loop)
+                    //  N = Loop N times
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(82,36,12,12),
+                        new Rect(64,38,16,10),
+                        new Rect(49,37,14,11)
+                    ]
+
+                }
+
+            }
+        },
+
+        {
             // Red Bat
             id: "R_Bat",
             spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
@@ -372,7 +428,11 @@ class GameData
     ];
 
     // Enemy spawn data
-    static ENEMY_SPAWN_INTERVAL = 2500;
+    static ENEMY_SPAWN_INTERVALS = [
+        2500,       // Level 1
+        1700,       // Level 2
+        800         // Level 3
+    ];
 
     // UI data
     static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");

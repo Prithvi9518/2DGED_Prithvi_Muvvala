@@ -1,20 +1,52 @@
 class SpawnManager {
 
 
-    constructor(id, notificationCenter, objectManager, spawnInterval)
+    constructor(id, notificationCenter, objectManager)
     {
         this.id = id;
         this.notificationCenter = notificationCenter;
         this.objectManager = objectManager;
-        this.spawnInterval = spawnInterval;
 
         // Internal Variables
         this.timeSinceLastSlimeSpawnInMs = 0;
         this.timeSinceLastBatSpawnInMs = 0;
         this.numSpawned = 0;
+        this.currentLevel = 1;
 
+        this.spawnInterval = GameData.ENEMY_SPAWN_INTERVALS[0];
+
+        this.registerForNotifications();
         this.initializeSlime(500);
 
+    }
+
+    registerForNotifications() {
+        this.notificationCenter.register(
+            NotificationType.SpawnParameters, 
+            this, 
+            this.handleSpawnParameterNotification
+        );
+    }
+
+    handleSpawnParameterNotification(notification)
+    {
+        switch (notification.notificationAction) {
+
+            case NotificationAction.EditSpawnParameters:
+                this.handleSpawnParametersChange(notification.notificationArguments);
+                break;
+
+            // Add more cases here...
+
+            default:
+                break;
+        }
+    }
+
+    handleSpawnParametersChange(level)
+    {
+        this.currentLevel = level;
+        this.spawnInterval = GameData.ENEMY_SPAWN_INTERVALS[level-1];
     }
 
     // #region Slime
@@ -27,7 +59,7 @@ class SpawnManager {
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[0]
+            GameData.ENEMY_DATA[this.currentLevel-1]
         );
 
         // Set animation
@@ -43,7 +75,7 @@ class SpawnManager {
         );
 
         sprite = new MoveableSprite(
-            "OSlime " + this.numSpawned,
+            GameData.ENEMY_DATA[this.currentLevel-1].id + " " + this.numSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,
@@ -81,7 +113,7 @@ class SpawnManager {
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[1]
+            GameData.ENEMY_DATA[2]
         );
 
         // Set animation

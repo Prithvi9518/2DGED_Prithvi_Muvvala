@@ -38,9 +38,11 @@ const NotificationType = {
     GameState: "GameState",
     Menu: "Menu",
     UI: "UI",
-    Sound: "Sound"
+    Sound: "Sound",
 
     // Add more here as necessary
+
+    SpawnParameters: "SpawnParameters"
 };
 
 // Here we try to think of ALL the unique actions in our game that may 
@@ -80,7 +82,10 @@ const NotificationAction = {
     ChangeSprite: "Change Sprite",
 
     // Adding notification to update score text
-    UpdateScoreText: "UpdateScoreText"
+    UpdateScoreText: "UpdateScoreText",
+
+    // Adding a notification action to enable editing certain parameters in the enemy spawn manager
+    EditSpawnParameters: "EditSpawnParameters"
     
 };
 
