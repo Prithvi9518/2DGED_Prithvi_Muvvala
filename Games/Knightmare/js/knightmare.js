@@ -137,9 +137,8 @@ function initialize() {
     // so, you should initialize your camera before attemptng to initialize
     // your sprites...
 
-    initializeCameras();
+    initializeCamera();
     initializeSprites();
-
 
     if (debugMode) {
 
@@ -150,13 +149,10 @@ function initialize() {
 }
 
 function initializeNotificationCenter() {
-    // TO DO: Initialize notification center
     notificationCenter = new NotificationCenter();
 }
 
 function initializeManagers() {
-
-    // TO DO: Initialize managers
 
     // Initialize camera manager
     cameraManager = new CameraManager(
@@ -192,6 +188,7 @@ function initializeManagers() {
         "Keyboard Manager"
     );
 
+    // Initialize mouse manager
     mouseManager = new MouseManager(
         "Mouse Manager"
     );
@@ -221,7 +218,7 @@ function initializeManagers() {
 }
 
 // #region Camera
-function initializeCameras() {
+function initializeCamera() {
 
     let transform = new Transform2D(
         Vector2.Zero,
@@ -250,18 +247,10 @@ function initializeCameras() {
 
 function initializeSprites() {
 
-    // TO DO: Initialize sprites
-
-    // Initialize background?
     initializeBackground();
-
-    // Initialize platforms?
     initializePlatform();
 
-    // Initialize players?
     initializePlayer();
-
-    // Initialize enemies?
 
     // Initialize pickups?
 
@@ -563,6 +552,7 @@ function initializeBedrock(loopIndex, spriteIndex,transform, artist, sprite, spr
 }
 // #endregion
 
+// #region UI
 function initializeHud()
 {
     initializeHealthBar();
@@ -670,13 +660,19 @@ function initializePauseButton()
 
 function initializeOnScreenText()
 {
+    initializeScoreText();
+    initializeLevelText();
+}
+
+function initializeScoreText()
+{
     let transform;
     let artist;
     let sprite;
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 40), 
+            (canvas.clientWidth / 2 - 100), 
             10
         ),
         0,
@@ -720,6 +716,61 @@ function initializeOnScreenText()
     // Add sprite to object manager
     objectManager.add(sprite);
 }
+
+function initializeLevelText()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        new Vector2(
+            (canvas.clientWidth / 2 + 60), 
+            10
+        ),
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        Vector2.Zero,
+        0
+    );
+
+    artist = new TextSpriteArtist(
+        context,                        // Context
+        1,                              // Alpha
+        "Level: 1",                     // Text
+        FontType.PixelatedFont,         // Font Type
+        Color.Black,                    // Color
+        TextAlignType.Left,             // Text Align
+        200,                            // Max Width
+
+        // Set this to true if you want the sprite to stay in one
+        // position on the screen (i.e., the sprite WON'T scroll
+        // off-screen if the camera moves right or left).
+
+        // Set this to false if you want the sprite to move with
+        // the world (i.e., the sprite WILL scroll off-screen when
+        // the camera moves to the right or to the left.
+
+        false                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "LevelText",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    // Add sprite to object manager
+    objectManager.add(sprite);
+}
+
+// #endregion
 
 function initializeDebugDrawer()
 {

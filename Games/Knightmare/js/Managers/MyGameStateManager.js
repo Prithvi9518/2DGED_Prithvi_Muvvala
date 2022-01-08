@@ -40,8 +40,6 @@ class MyGameStateManager extends GameStateManager {
         this.playerHealth = initialPlayerHealth;
         this.playerScore = 0;
         this.currentLevel = 1;
-
-        console.log("Current Level: " + this.currentLevel);
         
         this.registerForNotifications();
     }
@@ -79,13 +77,12 @@ class MyGameStateManager extends GameStateManager {
 
         // Add your own code here...
 
+        // Updating health variable
         this.playerHealth += amount;
 
         console.log("Health: " + this.playerHealth);
 
-        // Maybe update a health variable?
-
-        // Update Health Bar
+        // Updating Health Bar/Lives Display
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.UI,
@@ -99,11 +96,12 @@ class MyGameStateManager extends GameStateManager {
     handleScoreChange(argArray) {
         let amount = argArray[0];
 
+        // Updating score variable
         this.playerScore += amount;
 
         console.log("Player Score: " + this.playerScore);
 
-        // Update Score Text
+        // Updating Score Text to display current score
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.UI,
@@ -118,6 +116,9 @@ class MyGameStateManager extends GameStateManager {
 
     checkAndUpdateLevel()
     {
+
+        // Checking if the score has crossed the required amount to proceed to the next level.
+        // If the required score has been reached, update the current level variable, and call the updateLevel function
         switch(this.playerScore)
         {
             case 30:
@@ -132,13 +133,11 @@ class MyGameStateManager extends GameStateManager {
 
     updateLevel()
     {
-        console.log("Current Level: " + this.currentLevel);
-
         // Change Background
         let background = this.objectManager.get(ActorType.Background)[0];
 
-        console.log(background);
-
+        // Notifying the objectManager to change the data of the sprite(such as the id, spriteSheet, source position and dimensions)
+        // based on the current level being played.
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
@@ -166,11 +165,20 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Notify spawn manager to update spawn parameters
+        // Notify spawn manager to update spawn parameters (such as the spawning interval, enemy velocities, enemy sprites)
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.SpawnParameters,
                 NotificationAction.EditSpawnParameters,
+                [this.currentLevel]
+            )
+        );
+
+        // Update level text to display the current level
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.UI,
+                NotificationAction.UpdateLevelText,
                 [this.currentLevel]
             )
         );
@@ -199,6 +207,16 @@ class MyGameStateManager extends GameStateManager {
                     [player]                     // Arguments
                 )
             );
+
+            // Show game over menu
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Menu,
+                    NotificationAction.GameOver,
+                    [true]
+                )
+            );
+            
         }
         
 

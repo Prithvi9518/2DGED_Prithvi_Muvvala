@@ -87,6 +87,10 @@ body {
     color: goldenrod;
 }
 
+#game_over_menu {
+    background-color: black;
+}
+
 #main_canvas {
     left: 0;
     top: 0;

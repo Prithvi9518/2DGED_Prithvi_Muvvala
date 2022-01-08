@@ -92,7 +92,7 @@ function initialize() {
 
     initializeNotificationCenter();
     initializeManagers();
-    initializeCameras();
+    initializeCamera();
     initializeSprites();
 }
 
@@ -122,7 +122,7 @@ function initializeManagers() {
     );
 }
 
-function initializeCameras() {
+function initializeCamera() {
     
     let transform = new Transform2D(
         Vector2.Zero,

@@ -93,9 +93,8 @@ class SpawnManager {
         sprite.attachController(
             new SlimeMoveController(
                 this.objectManager,
-                new Vector2(10,0),
-                500,
-                1
+                new Vector2(10*this.currentLevel,0),
+                500
             )
         );
 
@@ -119,10 +118,8 @@ class SpawnManager {
         // Set animation
         artist.setTake("Move Right");
 
-        let startPos = new Vector2(posX, 200);
-
         transform = new Transform2D(
-            startPos,
+            new Vector2(posX, 200),
             0,
             new Vector2(4,4),
             Vector2.Zero,
@@ -160,7 +157,7 @@ class SpawnManager {
                 150,
                 300,
                 xVel,
-                3
+                3*(1 + 0.4*(this.currentLevel-1))
             )
         );
 

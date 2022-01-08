@@ -35,6 +35,10 @@ class MyUIManager extends UIManager {
                 this.updateScoreText(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.UpdateLevelText:
+                this.updateLevelText(notification.notificationArguments[0]);
+                break;
+
             default:
                 break;
         }
@@ -79,6 +83,17 @@ class MyUIManager extends UIManager {
         });
 
         scoreText[0].artist.text = "Score: " + score;
+
+    }
+
+    updateLevelText(level) {
+
+        let uiSprites = this.objectManager.get(ActorType.HUD);
+        let levelText = uiSprites.filter(function(el) {
+            return el.id == "LevelText";
+        });
+
+        levelText[0].artist.text = "Level: " + level;
 
     }
 

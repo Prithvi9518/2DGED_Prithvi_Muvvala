@@ -3,17 +3,16 @@ class SlimeMoveController {
     constructor(
         objectManager,
         moveVelocity,
-        intervalBetweenInMs,
-        moveDirection
+        intervalBetweenInMs
     )
     {
         this.objectManager = objectManager;
         this.moveVelocity = moveVelocity;
         this.intervalBetweenInMs = intervalBetweenInMs;
-        this.moveDirection = moveDirection;
         
 
         // Internal variables
+        this.moveDirection = 1;
         this.timeSinceLastMoveInMs = 0;
 
     }

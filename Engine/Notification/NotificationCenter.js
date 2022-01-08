@@ -84,8 +84,14 @@ const NotificationAction = {
     // Adding notification to update score text
     UpdateScoreText: "UpdateScoreText",
 
+    // Adding notification to update level text
+    UpdateLevelText: "UpdateLevelText",
+
     // Adding a notification action to enable editing certain parameters in the enemy spawn manager
-    EditSpawnParameters: "EditSpawnParameters"
+    EditSpawnParameters: "EditSpawnParameters",
+
+    // Adding a notification action to show game over menu
+    GameOver: "GameOver"
     
 };
 

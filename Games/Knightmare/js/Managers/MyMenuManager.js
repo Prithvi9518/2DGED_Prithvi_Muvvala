@@ -32,6 +32,11 @@ class MyMenuManager extends MenuManager {
                 this.showMenu(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.GameOver:
+
+                this.toggleGameOverMenu(notification.notificationArguments[0]);
+                break;
+
             default:
                 break;
         }
@@ -87,6 +92,10 @@ class MyMenuManager extends MenuManager {
         $('#control_menu').hide();
         $('#control_menu').addClass('hidden');
 
+        // Hide the game over menu
+        $('#game_over_menu').hide();
+        $('#game_over_menu').addClass('hidden');
+
         // Hide the YOUR_MENU menu
         // $('#YOUR_MENU_ID').hide();
         // $('#YOUR_MENU_ID').addClass('hidden');
@@ -134,6 +143,23 @@ class MyMenuManager extends MenuManager {
             $('#control_menu').show();
             $('#control_menu').removeClass('hidden');
         });
+    }
+
+    toggleGameOverMenu(isShown)
+    {
+        console.log("Hi");
+
+        if(isShown)
+        {
+            $('#game_over_menu').show();
+            $('#game_over_menu').removeClass('hidden');
+        }
+        else
+        {
+            $('#game_over_menu').hide();
+            $('#game_over_menu').addClass('hidden');
+        }
+        
     }
 
     update(gameTime) {
