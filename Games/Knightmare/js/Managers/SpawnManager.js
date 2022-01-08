@@ -6,7 +6,6 @@
  */
 class SpawnManager {
 
-
     constructor(id, notificationCenter, objectManager)
     {
         this.id = id;
@@ -14,6 +13,8 @@ class SpawnManager {
         this.objectManager = objectManager;
 
         // Internal Variables
+        this.isSpawning = true;
+
         this.timeSinceLastSlimeSpawnInMs = 0;
         this.timeSinceLastBatSpawnInMs = 0;
 
@@ -44,9 +45,17 @@ class SpawnManager {
                 this.handleSpawnParametersChange(notification.notificationArguments);
                 break;
 
+            case NotificationAction.ToggleSpawning:
+                this.toggleSpawning(notification.notificationArguments[0]);
+
             default:
                 break;
         }
+    }
+
+    toggleSpawning(spawning)
+    {
+        this.isSpawning = spawning;
     }
 
     // Change the currentLevel and spawnInterval variables depending on the level being played.
@@ -199,7 +208,7 @@ class SpawnManager {
     update(gameTime)
     {
         // Check object manager's status type to prevent enemies from being initialized before the player starts the game.
-        if(objectManager.statusType == 0) return;
+        if(objectManager.statusType == 0 || !this.isSpawning) return;
 
         let player = this.objectManager.get(ActorType.Player)[0];
 

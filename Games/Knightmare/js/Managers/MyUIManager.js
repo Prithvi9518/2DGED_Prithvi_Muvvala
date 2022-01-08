@@ -39,6 +39,10 @@ class MyUIManager extends UIManager {
                 this.updateLevelText(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.UpdateLevelFinishedText:
+                this.updateLevelFinishedText(notification.notificationArguments);
+                break;
+
             default:
                 break;
         }
@@ -113,6 +117,29 @@ class MyUIManager extends UIManager {
         });
 
         levelText[0].artist.text = "Level: " + level;
+
+    }
+
+    updateLevelFinishedText(argArray)
+    {
+        let statusType = argArray[0];
+        let level = argArray[1];
+
+        let countDownTime = argArray[2];
+
+        let levelFinishedText = this.objectManager.get(ActorType.HUD).filter(function (el) {
+            return el.id.includes("LevelFinishedText");
+        });
+ 
+        levelFinishedText.forEach(element => {
+            element.statusType = statusType;
+        });
+
+        if(countDownTime == null) return;
+
+        // Update Level Finished Text to show finished level and countdown until next level begins
+        levelFinishedText[0].artist.text = "You Have Finished Level " + level + "!";
+        levelFinishedText[1].artist.text = "Next Level Starts In " + countDownTime + "...";
 
     }
 

@@ -87,8 +87,14 @@ const NotificationAction = {
     // Adding notification to update level text
     UpdateLevelText: "UpdateLevelText",
 
+    // Adding notification to update level finished text
+    UpdateLevelFinishedText: "UpdateLevelFinishedText",
+
     // Adding a notification action to enable editing certain parameters in the enemy spawn manager
     EditSpawnParameters: "EditSpawnParameters",
+
+    // Adding a notification action to enable/disable spawning
+    ToggleSpawning: "ToggleSpawning",
 
     // Adding a notification action to show game over menu
     GameOverMenu: "GameOverMenu",

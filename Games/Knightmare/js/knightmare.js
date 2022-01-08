@@ -661,6 +661,8 @@ function initializeOnScreenText()
 {
     initializeScoreText();
     initializeLevelText();
+    initializeLevelFinishedText1();
+    initializeLevelFinishedText2();
 }
 
 function initializeScoreText()
@@ -689,15 +691,6 @@ function initializeScoreText()
         Color.Black,                    // Color
         TextAlignType.Left,             // Text Align
         200,                            // Max Width
-
-        // Set this to true if you want the sprite to stay in one
-        // position on the screen (i.e., the sprite WON'T scroll
-        // off-screen if the camera moves right or left).
-
-        // Set this to false if you want the sprite to move with
-        // the world (i.e., the sprite WILL scroll off-screen when
-        // the camera moves to the right or to the left.
-
         false                            // Fixed Position
     );
 
@@ -712,7 +705,6 @@ function initializeScoreText()
         1
     );
 
-    // Add sprite to object manager
     objectManager.add(sprite);
 }
 
@@ -742,15 +734,6 @@ function initializeLevelText()
         Color.Black,                    // Color
         TextAlignType.Left,             // Text Align
         200,                            // Max Width
-
-        // Set this to true if you want the sprite to stay in one
-        // position on the screen (i.e., the sprite WON'T scroll
-        // off-screen if the camera moves right or left).
-
-        // Set this to false if you want the sprite to move with
-        // the world (i.e., the sprite WILL scroll off-screen when
-        // the camera moves to the right or to the left.
-
         false                            // Fixed Position
     );
 
@@ -760,6 +743,95 @@ function initializeLevelText()
         ActorType.HUD,
         CollisionType.NotCollidable,
         StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    objectManager.add(sprite);
+}
+
+function initializeLevelFinishedText1()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        new Vector2(
+            (canvas.clientWidth / 2 - 170), 
+            70
+        ),
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        Vector2.Zero,
+        0
+    );
+
+    artist = new TextSpriteArtist(
+        context,                        // Context
+        1,                              // Alpha
+        "You Have Finished Level 1!",   // Text
+        FontType.PixelatedFont,         // Font Type
+        Color.Black,                    // Color
+        TextAlignType.Left,             // Text Align
+        500,                            // Max Width
+
+        false                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "LevelFinishedText1",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Off,
+        artist,
+        1,
+        1
+    );
+
+    // Add sprite to object manager
+    objectManager.add(sprite);
+}
+
+function initializeLevelFinishedText2()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        new Vector2(
+            (canvas.clientWidth / 2 - 170), 
+            110
+        ),
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        Vector2.Zero,
+        0
+    );
+
+    artist = new TextSpriteArtist(
+        context,                        // Context
+        1,                              // Alpha
+        "Next Level Starts In 5...",   // Text
+        FontType.PixelatedFont,         // Font Type
+        Color.Black,                    // Color
+        TextAlignType.Left,             // Text Align
+        500,                            // Max Width
+
+        false                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "LevelFinishedText2",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Off,
         artist,
         1,
         1
