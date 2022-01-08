@@ -32,7 +32,7 @@ class MyMenuManager extends MenuManager {
                 this.showMenu(notification.notificationArguments[0]);
                 break;
 
-            case NotificationAction.GameOver:
+            case NotificationAction.GameOverMenu:
 
                 this.toggleGameOverMenu(notification.notificationArguments[0]);
                 break;
@@ -147,19 +147,34 @@ class MyMenuManager extends MenuManager {
 
     toggleGameOverMenu(isShown)
     {
-        console.log("Hi");
-
         if(isShown)
         {
+            console.log("Hey");
+
             $('#game_over_menu').show();
             $('#game_over_menu').removeClass('hidden');
+
+            // If the restart button is clicked
+            $('.restart').click(function () {
+
+                // Notify game state manager to restart the game
+                notificationCenter.notify(
+                    new Notification(
+                        NotificationType.GameState,
+                        NotificationAction.Restart
+                    )
+                );
+                isShown = false;
+                // $('#game_over_menu').hide();
+                // $('#game_over_menu').addClass('hidden');
+            });
+
         }
         else
         {
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
         }
-        
     }
 
     update(gameTime) {

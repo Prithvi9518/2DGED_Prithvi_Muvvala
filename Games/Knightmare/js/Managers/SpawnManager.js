@@ -1,3 +1,9 @@
+
+/**
+ * This class is responsible for spawning all the enemies within the game.
+ *
+ * @class SpawnManager
+ */
 class SpawnManager {
 
 
@@ -10,16 +16,18 @@ class SpawnManager {
         // Internal Variables
         this.timeSinceLastSlimeSpawnInMs = 0;
         this.timeSinceLastBatSpawnInMs = 0;
+
         this.numSpawned = 0;
         this.currentLevel = 1;
 
         this.spawnInterval = GameData.ENEMY_SPAWN_INTERVALS[0];
 
         this.registerForNotifications();
-        this.initializeSlime(500);
 
+        this.initializeSlime(500);
     }
 
+    // We use NotificationType.SpawnParameters to handle notifications related to the SpawnManager class.
     registerForNotifications() {
         this.notificationCenter.register(
             NotificationType.SpawnParameters, 
@@ -36,13 +44,13 @@ class SpawnManager {
                 this.handleSpawnParametersChange(notification.notificationArguments);
                 break;
 
-            // Add more cases here...
-
             default:
                 break;
         }
     }
 
+    // Change the currentLevel and spawnInterval variables depending on the level being played.
+    // The spawn interval gets shorter as the level increases.
     handleSpawnParametersChange(level)
     {
         this.currentLevel = level;
@@ -195,7 +203,7 @@ class SpawnManager {
 
         let player = this.objectManager.get(ActorType.Player)[0];
 
-        if(player == null) return;
+        if(player.statusType == StatusType.Off || player == null) return;
         
         let playerPosX = player.transform.translation.x;
 

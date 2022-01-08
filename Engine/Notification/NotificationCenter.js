@@ -91,7 +91,10 @@ const NotificationAction = {
     EditSpawnParameters: "EditSpawnParameters",
 
     // Adding a notification action to show game over menu
-    GameOver: "GameOver"
+    GameOverMenu: "GameOverMenu",
+
+    // Adding a notification action to restart game
+    Restart: "Restart"
     
 };
 

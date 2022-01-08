@@ -56,6 +56,25 @@ class MyUIManager extends UIManager {
             return el.id.includes("Heart");
         });
 
+        // Draw full hearts
+        for(let i = 0; i < numFullHearts; i++)
+        {
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sprite,
+                    NotificationAction.ChangeSprite,
+                    [
+                        heartSprites[i],
+                        GameData.HEART_SPRITE_DATA[0].id,
+                        GameData.HEART_SPRITE_DATA[0].spritesheet,
+                        GameData.HEART_SPRITE_DATA[0].sourcePosition,
+                        GameData.HEART_SPRITE_DATA[0].sourceDimensions
+                    ]
+                )
+            );
+        }
+
+        // Draw empty hearts
         for(let i = 0; i < heartsToRemove; i++)
         {
             this.notificationCenter.notify(

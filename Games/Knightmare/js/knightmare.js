@@ -172,8 +172,7 @@ function initializeManagers() {
     gameStateManager = new MyGameStateManager(
         "Game State Manager",
         notificationCenter,
-        objectManager,
-        GameData.INITIAL_PLAYER_HEALTH
+        objectManager
     );
 
     // Initialize sound manager

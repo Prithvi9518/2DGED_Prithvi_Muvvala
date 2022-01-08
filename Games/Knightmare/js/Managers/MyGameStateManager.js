@@ -30,16 +30,23 @@ class MyGameStateManager extends GameStateManager {
         this._previousLevel = value;
     }
 
-    constructor(id, notificationCenter, objectManager, initialPlayerHealth) {
+    constructor(id, notificationCenter, objectManager) {
         
         super(id);
 
         this.notificationCenter = notificationCenter;
         this.objectManager = objectManager;
 
-        this.playerHealth = initialPlayerHealth;
+        // Internal Variables
+        this.playerHealth = GameData.INITIAL_PLAYER_HEALTH;
+
         this.playerScore = 0;
+
         this.currentLevel = 1;
+
+        // gameOverDelay and timeSincePlayerDied are used to display the game over menu after a short delay when the player dies.
+        this.gameOverDelayInMs = 2000;
+        this.timeSincePlayerDied = 0;
         
         this.registerForNotifications();
     }
@@ -66,6 +73,10 @@ class MyGameStateManager extends GameStateManager {
                 this.handleScoreChange(notification.notificationArguments);
                 break;
 
+            case NotificationAction.Restart:
+                this.handleGameRestart();
+                break;
+
             default:
                 break;
         }
@@ -77,7 +88,7 @@ class MyGameStateManager extends GameStateManager {
 
         // Add your own code here...
 
-        // Updating health variable
+        // Incrementing existing player health by the amount
         this.playerHealth += amount;
 
         console.log("Health: " + this.playerHealth);
@@ -96,7 +107,7 @@ class MyGameStateManager extends GameStateManager {
     handleScoreChange(argArray) {
         let amount = argArray[0];
 
-        // Updating score variable
+        // Incrementing existing score by the amount
         this.playerScore += amount;
 
         console.log("Player Score: " + this.playerScore);
@@ -110,17 +121,21 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Check if player has passed the score to proceed to the next level, and change the level if necessary
+        // Check if player has passed the required score to proceed to the next level, and change the level if necessary
         this.checkAndUpdateLevel();
     }
 
     checkAndUpdateLevel()
     {
-
         // Checking if the score has crossed the required amount to proceed to the next level.
         // If the required score has been reached, update the current level variable, and call the updateLevel function
         switch(this.playerScore)
         {
+            case 0: 
+                this.currentLevel = 1;
+                this.updateLevel();
+                break;
+
             case 30:
                 this.currentLevel = 2;
                 this.updateLevel();
@@ -133,11 +148,12 @@ class MyGameStateManager extends GameStateManager {
 
     updateLevel()
     {
-        // Change Background
+        // Get the background sprite from the object manager, and change it to a new background
         let background = this.objectManager.get(ActorType.Background)[0];
 
         // Notifying the objectManager to change the data of the sprite(such as the id, spriteSheet, source position and dimensions)
         // based on the current level being played.
+        // Depending on the currentLevel variable, a different background would be displayed.
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
@@ -156,7 +172,7 @@ class MyGameStateManager extends GameStateManager {
         let player = this.objectManager.get(ActorType.Player)[0];
         player.transform.reset();
 
-        // Removing all existing enemies
+        // Removing all existing enemies from the previous level
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
@@ -185,6 +201,33 @@ class MyGameStateManager extends GameStateManager {
 
     }
 
+    handleGameRestart()
+    {        
+        // Hide game over menu
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Menu,
+                NotificationAction.GameOverMenu,
+                [false]
+            )
+        );
+
+        // Reset player status type to Drawn | Updated
+        // (When a player's health hits 0, we set the player's status type to Off, and move the transform outside the canvas,
+        //  so we have to set it back to Drawn | Updated when the game restarts).
+        let player = this.objectManager.get(ActorType.Player)[0];
+        player.statusType = StatusType.Drawn | StatusType.Updated;
+
+        // Reset player health
+        // Adding (INITIAL_PLAYER_HEALTH - this.playerHealth) to the existing player health always ensures that the player starts
+        // with the full health.
+        this.handleHealthStateChange([GameData.INITIAL_PLAYER_HEALTH-this.playerHealth]);
+
+        // Reset score to 0 by subtracting the current player score from itself
+        this.handleScoreChange([-this.playerScore]);
+
+    }
+
 
     update(gameTime) {
 
@@ -193,34 +236,36 @@ class MyGameStateManager extends GameStateManager {
         // For example, every update(), we could check the player's health. If
         // the player's health is <= 0, then we can create a notification...
 
-        // Remove player if health hits 0
+        // If health hits 0, hide player by setting statusType to Off and translating the sprite outside of the canvas
         if(this.playerHealth <= 0)
         {
             let player = objectManager.get(ActorType.Player)[0];
 
-            if(player==null) return;
+            player.statusType = StatusType.Off;
+            player.transform.translation = new Vector2(-60,-60);
+            
+            // Start counting the time since player death
+            this.timeSincePlayerDied += gameTime.elapsedTimeInMs;
 
-            this.notificationCenter.notify(
-                new Notification(
-                    NotificationType.Sprite,    // Type
-                    NotificationAction.Remove,  // Action
-                    [player]                     // Arguments
-                )
-            );
+            // Display the game over menu after the short delay
+            if(this.timeSincePlayerDied > this.gameOverDelayInMs)
+            {
+                // We use NotificationAction.GameOverMenu and pass in a boolean as the argument.
+                // If true, display the menu. If false, hide the menu.
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Menu,
+                        NotificationAction.GameOverMenu,
+                        [true]
+                    )
+                );
 
-            // Show game over menu
-            this.notificationCenter.notify(
-                new Notification(
-                    NotificationType.Menu,
-                    NotificationAction.GameOver,
-                    [true]
-                )
-            );
+                // Resetting the time since player death and the game time back to 0
+                this.timeSincePlayerDied = 0;
+                gameTime = new GameTime();
+            }
             
         }
-        
-
-
 
         // Play a sound?
         // Pause the game?
