@@ -142,6 +142,7 @@ class MyUIManager extends UIManager {
         levelFinishedText[1].artist.text = "Next Level Starts In " + countDownTime + "...";
 
     }
+    
 
     /**
      * 
@@ -192,8 +193,25 @@ class MyUIManager extends UIManager {
                     // If the user clicks the flip gravity button...
 
                     if (hudSprite.id === "Pause Button") {
+                        
+                        // Display pause menu
+                        this.notificationCenter.notify(
+                            new Notification(
+                                NotificationType.Menu,
+                                NotificationAction.Pause,
+                                [true]
+                            )
+                        );
 
-                        console.log("You clicked the pause button!");
+                        // Pause the object manager
+                        this.notificationCenter.notify(
+                            new Notification(
+                                NotificationType.Menu,
+                                NotificationAction.ShowMenuChanged,
+                                [StatusType.Off]
+                            )
+                        );
+
                     }
 
                     if (hudSprite.id === "Exit Button") {

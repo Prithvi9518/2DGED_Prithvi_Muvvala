@@ -37,6 +37,11 @@ class MyMenuManager extends MenuManager {
                 this.toggleGameOverMenu(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.Pause:
+
+                this.togglePauseMenu(notification.notificationArguments[0]);
+                break;
+
             default:
                 break;
         }
@@ -96,6 +101,9 @@ class MyMenuManager extends MenuManager {
         $('#game_over_menu').hide();
         $('#game_over_menu').addClass('hidden');
 
+        $('#pause_menu').hide();
+        $('#pause_menu').addClass('hidden');
+
         // Hide the YOUR_MENU menu
         // $('#YOUR_MENU_ID').hide();
         // $('#YOUR_MENU_ID').addClass('hidden');
@@ -149,8 +157,6 @@ class MyMenuManager extends MenuManager {
     {
         if(isShown)
         {
-            console.log("Hey");
-
             $('#game_over_menu').show();
             $('#game_over_menu').removeClass('hidden');
 
@@ -165,8 +171,6 @@ class MyMenuManager extends MenuManager {
                     )
                 );
                 isShown = false;
-                // $('#game_over_menu').hide();
-                // $('#game_over_menu').addClass('hidden');
             });
 
         }
@@ -174,6 +178,39 @@ class MyMenuManager extends MenuManager {
         {
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
+        }
+    }
+
+    togglePauseMenu(isShown)
+    {
+        if(isShown)
+        {
+            $('#pause_menu').show();
+            $('#pause_menu').removeClass('hidden');
+
+            // If the resume button is clicked
+            $('.resume').click(function () {
+                
+                // Hide pause menu
+                $('#pause_menu').hide();
+                $('#pause_menu').addClass('hidden');
+
+                // Resume object manager
+                notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Menu,
+                        NotificationAction.ShowMenuChanged,
+                        [StatusType.Drawn | StatusType.Updated]
+                    )
+                );
+
+            });
+
+        }
+        else
+        {
+            $('#pause_menu').hide();
+            $('#pause_menu').addClass('hidden');
         }
     }
 

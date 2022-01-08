@@ -127,7 +127,6 @@ class GameData
     static KNIGHT_TRANSFORM_SCALE = new Vector2(2.5,2.5);
     static KNIGHT_BOUNDING_BOX_DIMENSIONS = new Vector2(23,24);
 
-
     static KNIGHT_ANIMATION_DATA = {
 
         id: "Knight Animation Data",
@@ -174,80 +173,44 @@ class GameData
             // Animation 2
             "Run Right": {
     
-            // frameRatePerSec: 12,
             frameRatePerSec: 6,
     
-            // -1 = Loop forever
-            //  0 = Run once (no loop)
-            //  N = Loop N times
             maxLoopCount: -1,
     
             startFrameIndex: 0,
-            // endFrameIndex: 7,
             endFrameIndex: 3,
-    
-            // Notice that I chose the largest of all the widths taken from the frames
-            // array below
+
             boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
     
             frames: [
-                // new Rect(4, 63, 15, 22),     // Animation frame 1
-                // new Rect(68, 62, 14, 23),    // Animation frame 2
-                // new Rect(132, 63, 15, 23),   // Animation frame 3
-                // new Rect(195, 64, 17, 22),   // Animation frame 4
-                // new Rect(258, 63, 19, 21),   // Animation frame 5
-                // new Rect(321, 62, 21, 22),   // Animation frame 6
-                // new Rect(386, 63, 19, 23),   // Animation frame 7
-                // new Rect(451, 64, 17, 22),   // Animation frame 8
-
                 new Rect(69, 35, 23, 25),
                 new Rect(101, 35, 23, 25),
                 new Rect(133, 35, 23, 25),
                 new Rect(165, 35, 23, 25)
-
             ]
             },
 
             // Animation 3
             "Run Left": {
     
-                // frameRatePerSec: 12,
                 frameRatePerSec: 6,
         
-                // -1 = Loop forever
-                //  0 = Run once (no loop)
-                //  N = Loop N times
                 maxLoopCount: -1,
         
                 startFrameIndex: 0,
-                // endFrameIndex: 7,
                 endFrameIndex: 3,
-        
-                // Notice that I chose the largest of all the widths taken from the frames
-                // array below
+
                 boundingBoxDimensions: this.KNIGHT_BOUNDING_BOX_DIMENSIONS,
         
                 frames: [
-                    // new Rect(965, 63, 15, 22),     // Animation frame 1
-                    // new Rect(902, 62, 14, 23),    // Animation frame 2
-                    // new Rect(837, 63, 15, 23),   // Animation frame 3
-                    // new Rect(772, 64, 17, 22),   // Animation frame 4
-                    // new Rect(707, 63, 19, 21),   // Animation frame 5
-                    // new Rect(642, 62, 21, 22),   // Animation frame 6
-                    // new Rect(579, 63, 19, 23),   // Animation frame 7
-                    // new Rect(516, 64, 17, 22),   // Animation frame 8
-
                     new Rect(68, 3, 23, 25),
                     new Rect(100, 3, 23, 25),
                     new Rect(132, 3, 23, 25),
                     new Rect(164, 3, 23, 25),
-
                 ]
                 }
     
         }
-
-
 
     };
 
@@ -265,9 +228,6 @@ class GameData
 
                     frameRatePerSec: 3,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -288,9 +248,6 @@ class GameData
 
                     frameRatePerSec: 6,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -322,9 +279,6 @@ class GameData
 
                     frameRatePerSec: 3,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -345,9 +299,6 @@ class GameData
 
                     frameRatePerSec: 6,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -378,9 +329,6 @@ class GameData
 
                     frameRatePerSec: 3,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -402,9 +350,6 @@ class GameData
                     
                     frameRatePerSec: 4,
 
-                    // -1 = Loop forever
-                    //  0 = Run once (no loop)
-                    //  N = Loop N times
                     maxLoopCount: -1,
             
                     startFrameIndex: 0,
@@ -436,6 +381,7 @@ class GameData
 
     // UI data
     static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");
+    static PAUSE_KEY = Keys.P;
 
     static FULL_HEART_DIMENSIONS = new Vector2(140,131);
     static EMPTY_HEART_DIMENSIONS = new Vector2(140,130);
@@ -477,6 +423,10 @@ class GameData
 
     ];
 
+    // Score thresholds for different levels
+    static LEVEL_2_THRESHOLD = 30;
+    static LEVEL_3_THRESHOLD = 500;
+
 }
 
 // Fonts
@@ -486,3 +436,4 @@ const FontType = {
     InformationLarge: "24px Arial",
     PixelatedFont: "14px PixelFont"
   };
+

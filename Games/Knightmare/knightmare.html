@@ -9,6 +9,11 @@
     <!-- Include Stylesheets -->
     <link rel="stylesheet" href="css/knightmare.css" />
 
+    <!-- Import Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Add JQuery Support -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
@@ -43,13 +48,23 @@
 
         <!-- Control Menu -->
         <div id="control_menu" class="menu hidden">
-            <h1>This is the control menu!</h1>
+            <h1>Controls</h1>
+            <h2>A- Move Left</h2>
+            <h2>D- Move Right</h2>
+            <h2>Spacebar- Jump</h2>
+
         </div>
 
         <!-- Game Over Menu -->
         <div id="game_over_menu" class="menu hidden">
             <h1>Game Over!</h1>
             <li><a href="javascript:void(0)" class="button restart">Restart</a></li>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pause_menu" class="menu hidden">
+            <h1>PAUSED</h1>
+            <li><a href="javascript:void(0)" class="button resume">Resume</a></li>
         </div>
         
 

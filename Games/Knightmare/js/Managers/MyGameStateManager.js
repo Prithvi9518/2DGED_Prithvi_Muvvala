@@ -138,7 +138,7 @@ class MyGameStateManager extends GameStateManager {
                 this.updateLevel();
                 break;
 
-            case 30:
+            case GameData.LEVEL_2_THRESHOLD:
                 this.currentLevel = 2;
                 this.updateLevel();
                 break;
@@ -334,14 +334,13 @@ class MyGameStateManager extends GameStateManager {
                     )
                 );
 
-                // Resetting the time since player death and the game time back to 0
+                // Resetting the time since player death back to 0
                 this.timeSincePlayerDied = 0;
-                gameTime = new GameTime();
             }
         }
 
         // Creating a delay between levels
-        let finishedLv1 = this.playerScore == 30 && this.currentLevel == 1;
+        let finishedLv1 = this.playerScore == GameData.LEVEL_2_THRESHOLD && this.currentLevel == 1;
         
         if(finishedLv1 && this.levelEnded == false)
         {
