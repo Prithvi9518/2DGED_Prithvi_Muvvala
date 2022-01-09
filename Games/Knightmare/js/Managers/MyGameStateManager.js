@@ -161,12 +161,19 @@ class MyGameStateManager extends GameStateManager {
     // Called when the player reaches the required score to move on to the next level.
     endLevel()
     {
-        // Removing all existing enemies from the previous level
+        // Removing all existing enemies and pickups from the previous level
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
                 NotificationAction.RemoveAllByType,
                 [ActorType.Enemy]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Pickup]
             )
         );
 
@@ -284,12 +291,19 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Removing all existing enemies from the previous level
+        // Removing all existing enemies and pickups from the previous level
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
                 NotificationAction.RemoveAllByType,
                 [ActorType.Enemy]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Pickup]
             )
         );
 

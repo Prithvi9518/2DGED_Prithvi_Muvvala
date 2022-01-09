@@ -140,7 +140,7 @@ class MyMenuManager extends MenuManager {
         // If the audio button is clicked
         // Or more specifically - if an element which has
         // the audio class is clicked
-        $('#audio_button').click(function () {
+        $('.audio_button').click(function () {
 
             if(this.isAudioOn)
                 console.log("Turned on audio.");
@@ -176,6 +176,36 @@ class MyMenuManager extends MenuManager {
             $('#control_menu').show();
             $('#control_menu').removeClass('hidden');
         });
+
+        // If the main menu is clicked
+        $('.return_main_menu').click(function () {
+
+            // Hide pause menu and game over menu
+            $('#pause_menu').hide();
+            $('#pause_menu').addClass('hidden');
+            $('#game_over_menu').hide();
+            $('#game_over_menu').addClass('hidden');
+
+            // Show main menu
+            $('#main_menu').show();
+
+            // Restart the game, and pause the object manager
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.GameState,
+                    NotificationAction.Restart
+                )
+            )
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Menu,
+                    NotificationAction.ShowMenuChanged,
+                    [StatusType.Off]
+                )
+            );
+
+        });
+
     }
 
     toggleGameOverMenu(isShown)

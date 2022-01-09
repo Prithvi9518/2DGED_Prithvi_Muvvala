@@ -195,7 +195,7 @@ class SpawnManager {
         let sprite;
 
         transform = new Transform2D(
-            new Vector2(posX, 22),
+            new Vector2(posX, -20),
             GameData.HEALTH_POTION_SPRITE_DATA.rotation,
             GameData.HEALTH_POTION_SPRITE_DATA.scale,
             GameData.HEALTH_POTION_SPRITE_DATA.origin,
@@ -270,7 +270,7 @@ class SpawnManager {
 
     spawnHealthPotion()
     {
-        let pickupSpawnInterval = (Math.random()*4000) + 2000;
+        let pickupSpawnInterval = (Math.random()*4000) + 10000;
         let pickupPosX = 15 + (Math.random() * (canvas.clientWidth-15));
 
         if(this.timeSinceLastHealthPotionSpawnInMs >= pickupSpawnInterval)
@@ -291,7 +291,7 @@ class SpawnManager {
 
     update(gameTime)
     {
-        // Check object manager's status type to prevent enemies from being initialized before the player starts the game.
+        // Check object manager's status type to prevent enemies/pickups from being initialized before the player starts the game.
         if(objectManager.statusType == 0 || !this.isSpawning) return;
 
         let player = this.objectManager.get(ActorType.Player)[0];
