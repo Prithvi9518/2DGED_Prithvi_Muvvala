@@ -47,7 +47,7 @@ class MyGameStateManager extends GameStateManager {
         // Used to create a delay when progressing to the next level
         this.nextLevelDelayInMs = 5000;
         this.timeSinceLevelEnded = 0;
-        this.levelEnded = false;
+        this.levelFinished = false;
 
         // gameOverDelay and timeSincePlayerDied are used to display the game over menu after a short delay when the player dies.
         this.gameOverDelayInMs = 2000;
@@ -72,8 +72,6 @@ class MyGameStateManager extends GameStateManager {
                 this.handleHealthStateChange(notification.notificationArguments);
                 break;
 
-            // Add more cases here...
-
             case NotificationAction.Score: 
                 this.handleScoreChange(notification.notificationArguments);
                 break;
@@ -91,12 +89,12 @@ class MyGameStateManager extends GameStateManager {
 
         let amount = argArray[0];
 
-        // Add your own code here...
-
         // Incrementing existing player health by the amount
-
         this.playerHealth += amount;
 
+        // Checking if the updated player health is greater than the maximum, or below 0
+        // If the health goes above the maximum amount, set it back to the maximum
+        // If the health goes below 0, set it back to 0
         if(this.playerHealth > GameData.INITIAL_PLAYER_HEALTH)
         {
             this.playerHealth = GameData.INITIAL_PLAYER_HEALTH;
@@ -105,8 +103,6 @@ class MyGameStateManager extends GameStateManager {
         {
             this.playerHealth = 0;
         }
-
-        console.log("Health: " + this.playerHealth);
 
         // Updating Health Bar/Lives Display
         this.notificationCenter.notify(
@@ -125,8 +121,6 @@ class MyGameStateManager extends GameStateManager {
         // Incrementing existing score by the amount
         this.playerScore += amount;
 
-        console.log("Player Score: " + this.playerScore);
-
         // Updating Score Text to display current score
         this.notificationCenter.notify(
             new Notification(
@@ -136,37 +130,33 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
+        // Update Score to Next Level text
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.UI,
+                NotificationAction.UpdateScoreToNextLevelText,
+                [this.playerScore, GameData.SCORE_THRESHOLDS[this.currentLevel]]
+            )
+        );
+
     }
 
-    checkAndUpdateLevel()
-    {
-        // Sets currentLevel variable based on the current score, and calls the updateLevel function to start a new level
-        switch(this.playerScore)
-        {
-            case 0: 
-                this.currentLevel = 1;
-                this.updateLevel();
-                break;
-
-            case GameData.LEVEL_2_THRESHOLD:
-                this.currentLevel = 2;
-                this.updateLevel();
-                break;
-            
-            default:
-                break;
-        }
-    }
-
-    // Called when the player reaches the required score to move on to the next level.
+    // Called when the player reaches the required score to move on to the next level and levelFinished variable is true
     endLevel()
     {
-        // Removing all existing enemies and pickups from the previous level
+        // Removing all existing enemies,projectiles and pickups from the previous level
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
                 NotificationAction.RemoveAllByType,
                 [ActorType.Enemy]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Projectiles]
             )
         );
         this.notificationCenter.notify(
@@ -186,7 +176,7 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Number of seconds till the next level begins
+        // Calculate number of seconds till the next level begins
         let countDownTime = Math.ceil((this.nextLevelDelayInMs - this.timeSinceLevelEnded)/1000);
 
         // Show Level Finished Text
@@ -202,14 +192,41 @@ class MyGameStateManager extends GameStateManager {
             )
         );
         
-
+        // If the short delay between levels has ended, check and update the level
         if(this.timeSinceLevelEnded >= this.nextLevelDelayInMs)
         {
             this.checkAndUpdateLevel();
             this.timeSinceLevelEnded = 0;
-            this.levelEnded = false;
+            this.levelFinished = false;
         }
 
+    }
+
+    checkAndUpdateLevel()
+    {
+        // Sets currentLevel variable based on the current score, and calls the updateLevel function to start a new level
+        switch(this.playerScore)
+        {
+            // The case for 0 score is used in case of a Game Over. The score gets reset back to 0,
+            // hence the currentLevel variable is set back to 1
+            case GameData.SCORE_THRESHOLDS[0]: 
+                this.currentLevel = 1;
+                this.updateLevel();
+                break;
+
+            case GameData.SCORE_THRESHOLDS[1]:
+                this.currentLevel = 2;
+                this.updateLevel();
+                break;
+
+            case GameData.GameData.SCORE_THRESHOLDS[2]:
+                this.currentLevel = 3;
+                this.updateLevel();
+                break;
+            
+            default:
+                break;
+        }
     }
 
     // Starts a new level
@@ -291,7 +308,7 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Removing all existing enemies and pickups from the previous level
+        // Removing all existing enemies, projectiles and pickups from the previous level
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.Sprite,
@@ -303,9 +320,17 @@ class MyGameStateManager extends GameStateManager {
             new Notification(
                 NotificationType.Sprite,
                 NotificationAction.RemoveAllByType,
+                [ActorType.Projectile]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
                 [ActorType.Pickup]
             )
         );
+        
 
         // Reset player status type to Drawn | Updated
         // (When a player's health hits 0, we set the player's status type to Off, and move the transform outside the canvas,
@@ -324,6 +349,17 @@ class MyGameStateManager extends GameStateManager {
         // Update Level
         this.checkAndUpdateLevel();
 
+    }
+
+    checkLevelFinished()
+    {
+        let finishedLv1 = this.playerScore == GameData.SCORE_THRESHOLDS[1] && this.currentLevel == 1;
+        let finishedLv2 = this.playerScore == GameData.SCORE_THRESHOLDS[2] && this.currentLevel == 2;
+        
+        if((finishedLv1 || finishedLv2) && this.levelFinished == false)
+        {
+            this.levelFinished = true;
+        }
     }
 
 
@@ -364,28 +400,13 @@ class MyGameStateManager extends GameStateManager {
         }
 
         // Creating a delay between levels
-        let finishedLv1 = this.playerScore == GameData.LEVEL_2_THRESHOLD && this.currentLevel == 1;
-        
-        if(finishedLv1 && this.levelEnded == false)
-        {
-            this.levelEnded = true;
-        }
-        if(this.levelEnded)
+
+        this.checkLevelFinished();
+
+        if(this.levelFinished)
         {
             this.timeSinceLevelEnded += gameTime.elapsedTimeInMs;
             this.endLevel();
         }
-
-
-
-
-        // Play a sound?
-        // Pause the game?
-        // Play the 'player death' animation?
-        // Remove the player sprite from the game?
-        // Show the win/lose screen?
-
-        // How could we have these events fire one after each other, rather
-        // than all at the same time? Hint: use timers.
     }
 }

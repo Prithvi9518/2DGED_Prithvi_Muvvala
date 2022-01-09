@@ -43,6 +43,10 @@ class MyUIManager extends UIManager {
                 this.updateLevelFinishedText(notification.notificationArguments);
                 break;
 
+            case NotificationAction.UpdateScoreToNextLevelText:
+                this.updateScoreToNextLevelText(notification.notificationArguments);
+                break;
+
             default:
                 break;
         }
@@ -141,6 +145,19 @@ class MyUIManager extends UIManager {
         levelFinishedText[0].artist.text = "You Have Finished Level " + level + "!";
         levelFinishedText[1].artist.text = "Next Level Starts In " + countDownTime + "...";
 
+    }
+
+    updateScoreToNextLevelText(argArray)
+    {
+        let currentScore = argArray[0];
+        let requiredScore = argArray[1];
+
+        let scoreToNextLevelText = this.objectManager.get(ActorType.HUD).filter(function (el) {
+            return el.id.includes("ScoreToNextLevelText");
+        })[0];
+
+        // Update text to show current score and the required score to proceed to the next level
+        scoreToNextLevelText.artist.text = "Next Lv: " + currentScore + "/" + requiredScore;
     }
     
 

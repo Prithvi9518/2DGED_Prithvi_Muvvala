@@ -167,6 +167,16 @@ class MyMenuManager extends MenuManager {
             // Show exit menu
             $('#exit_menu').show();
             $('#exit_menu').removeClass('hidden');
+
+            // Stop background music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
+
         });
 
         // If the control button is clicked
@@ -177,7 +187,7 @@ class MyMenuManager extends MenuManager {
             $('#control_menu').removeClass('hidden');
         });
 
-        // If the main menu is clicked
+        // If the main menu button is clicked
         $('.return_main_menu').click(function () {
 
             // Hide pause menu and game over menu
@@ -185,6 +195,15 @@ class MyMenuManager extends MenuManager {
             $('#pause_menu').addClass('hidden');
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
+
+            // Stop background music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
 
             // Show main menu
             $('#main_menu').show();
@@ -215,6 +234,15 @@ class MyMenuManager extends MenuManager {
             $('#game_over_menu').show();
             $('#game_over_menu').removeClass('hidden');
 
+            // Stop background music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
+
             // If the restart button is clicked
             $('.restart').click(function () {
 
@@ -243,12 +271,30 @@ class MyMenuManager extends MenuManager {
             $('#pause_menu').show();
             $('#pause_menu').removeClass('hidden');
 
+            // Stop background music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
+
             // If the resume button is clicked
             $('.resume').click(function () {
                 
                 // Hide pause menu
                 $('#pause_menu').hide();
                 $('#pause_menu').addClass('hidden');
+
+                // Start playing game background music
+                notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Play,
+                        ["background"]
+                    )
+                );
 
                 // Resume object manager
                 notificationCenter.notify(

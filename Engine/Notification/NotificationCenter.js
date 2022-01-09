@@ -90,6 +90,9 @@ const NotificationAction = {
     // Adding notification to update level finished text
     UpdateLevelFinishedText: "UpdateLevelFinishedText",
 
+    // Adding notification to update score to next level text
+    UpdateScoreToNextLevelText: "UpdateScoreToNextLevelText",
+
     // Adding a notification action to enable editing certain parameters in the enemy spawn manager
     EditSpawnParameters: "EditSpawnParameters",
 

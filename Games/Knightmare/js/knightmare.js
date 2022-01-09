@@ -249,12 +249,20 @@ function initializeSprites() {
     initializeBackground();
     initializePlatform();
 
-    initializePlayer();
-
-    // Initialize pickups?
+    initializePlayer();    
 
     initializeHud();
     initializeOnScreenText();
+
+    // // Play menu music
+    // notificationCenter.notify(
+    //     new Notification(
+    //         NotificationType.Sound,
+    //         NotificationAction.Play,
+    //         ["menu_music"]
+    //     )
+    // );
+
 }
 
 // #region Player
@@ -599,7 +607,7 @@ function initializeHealthBar()
     for(let i = 1; i <= 4; i++)
     {
         spriteClone = sprite.clone();
-        spriteClone.transform.translateBy(new Vector2(30*i,0));
+        spriteClone.transform.translateBy(new Vector2(27*i,0));
 
         objectManager.add(spriteClone);
     }
@@ -663,6 +671,7 @@ function initializeOnScreenText()
     initializeLevelText();
     initializeLevelFinishedText1();
     initializeLevelFinishedText2();
+    initializeScoreToNextLevelText();
 }
 
 function initializeScoreText()
@@ -673,7 +682,7 @@ function initializeScoreText()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 100), 
+            (canvas.clientWidth / 2 - 195), 
             10
         ),
         0,
@@ -716,7 +725,7 @@ function initializeLevelText()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 + 60), 
+            (canvas.clientWidth / 2 - 65), 
             10
         ),
         0,
@@ -751,6 +760,49 @@ function initializeLevelText()
     objectManager.add(sprite);
 }
 
+function initializeScoreToNextLevelText()
+{
+    let transform;
+    let artist;
+    let sprite;
+
+    transform = new Transform2D(
+        new Vector2(
+            (canvas.clientWidth / 2 + 60), 
+            10
+        ),
+        0,
+        Vector2.One,
+        Vector2.Zero,
+        Vector2.Zero,
+        0
+    );
+
+    artist = new TextSpriteArtist(
+        context,                        // Context
+        1,                              // Alpha
+        "Next Lv: 0/" + GameData.SCORE_THRESHOLDS[1],               // Text
+        FontType.PixelatedFont,         // Font Type
+        Color.Black,                    // Color
+        TextAlignType.Left,             // Text Align
+        200,                            // Max Width
+        false                            // Fixed Position
+    );
+
+    sprite = new Sprite(
+        "ScoreToNextLevelText",
+        transform,
+        ActorType.HUD,
+        CollisionType.NotCollidable,
+        StatusType.Updated | StatusType.Drawn,
+        artist,
+        1,
+        1
+    );
+
+    objectManager.add(sprite);
+}
+
 function initializeLevelFinishedText1()
 {
     let transform;
@@ -759,8 +811,8 @@ function initializeLevelFinishedText1()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 170), 
-            70
+            (canvas.clientWidth / 2 - 165), 
+            120
         ),
         0,
         Vector2.One,
@@ -804,8 +856,8 @@ function initializeLevelFinishedText2()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 170), 
-            110
+            (canvas.clientWidth / 2 - 163), 
+            160
         ),
         0,
         Vector2.One,

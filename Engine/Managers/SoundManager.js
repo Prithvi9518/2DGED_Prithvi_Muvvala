@@ -271,19 +271,34 @@ class SoundManager {
      */
     pause(name) {
 
-        // Get the audio object
-        let audioObject = getAudioObject(name);
+        // Get the index of this audio cue from the audio cue array
+        let index = this.findIndex(name);
 
-        // If an audio object is present
-        if (audioObject) {
+        // Check if the audio cue exists
+        if (index != -1) {
 
-            // If theo audio object is not already playing
-            if (!audioObject.paused) {
+            // Get the audio cue
+            let audioCue = this.cueArray[index];
 
-                // Pause the audio object
-                cue.pause();
+            // Get the audio object
+            let audioObject = audioCue.audioObject;
+
+            // If an audio object is present
+            if (audioObject) {
+
+                // If the audio object is not already paused
+                if (!audioObject.paused) {
+                    // Pause the audio object
+                    audioObject.pause();
+                }
             }
         }
+
+        else {
+
+            throw "Error: No audio object was found for cue [" + this.cueName + "]";
+        }
+
     }
 
     /**

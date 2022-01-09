@@ -71,6 +71,7 @@ class SpawnManager {
 
     updateSkullDead()
     {
+        console.log("Skull Dead");
         this.isSkullDead = true;
     }
 
@@ -145,7 +146,7 @@ class SpawnManager {
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[2]
+            GameData.ENEMY_DATA[3]
         );
 
         // Set animation
@@ -178,9 +179,9 @@ class SpawnManager {
         let xVel;
 
         if(posX <=0)
-            xVel = 3;
+            xVel = 3 + (0.2*this.currentLevel-1);
         else
-            xVel = -3;
+            xVel = -(3 + (0.2*this.currentLevel-1));
 
         // Attach controller
         sprite.attachController(
@@ -190,7 +191,7 @@ class SpawnManager {
                 150,
                 300,
                 xVel,
-                3*(1 + 0.4*(this.currentLevel-1))
+                4 + (0.4*(this.currentLevel-1))
             )
         );
 
@@ -208,7 +209,7 @@ class SpawnManager {
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[3]
+            GameData.ENEMY_DATA[4]
         );
 
         // Set animation
@@ -230,7 +231,7 @@ class SpawnManager {
         );
 
         sprite = new Sprite(
-            GameData.ENEMY_DATA[3].id + this.numEnemiesSpawned,
+            GameData.ENEMY_DATA[4].id + this.numEnemiesSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,
@@ -244,7 +245,7 @@ class SpawnManager {
             new SkullShootController(
                 this.notificationCenter,
                 this.objectManager,
-                1000
+                1500 - (175*this.currentLevel)
             )
         );
 
@@ -371,15 +372,27 @@ class SpawnManager {
 
     spawnEnemies(playerPosX)
     {
-        // this.spawnSlime(playerPosX);
-        // this.spawnBat();
-        this.spawnFierySkull();
+        this.spawnSlime(playerPosX);
+        this.spawnBat();
+
+        if(this.currentLevel > 1)
+        {
+            this.spawnFierySkull();
+        }
     }
 
     update(gameTime)
     {
         // Check object manager's status type to prevent enemies/pickups from being initialized before the player starts the game.
-        if(objectManager.statusType == 0 || !this.isSpawning) return;
+        if(objectManager.statusType == 0 || !this.isSpawning)
+        {
+            this.timeSinceLastSlimeSpawnInMs = 0;
+            this.timeSinceLastBatSpawnInMs = 0;
+            this.timeSinceLastSkullSpawnInMs = 0;
+            this.isSkullDead = true;
+            this.timeSinceLastHealthPotionSpawnInMs = 0;
+            return;
+        }
 
         let player = this.objectManager.get(ActorType.Player)[0];
 

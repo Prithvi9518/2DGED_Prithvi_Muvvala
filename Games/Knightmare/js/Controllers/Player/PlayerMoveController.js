@@ -281,10 +281,12 @@
                      enemyBoundingBox.x + enemyBoundingBox.width <= playerBoundingBox.x + playerBoundingBox.width)
                   )
                   {
+                      console.log("Hi");
 
                     // Check if enemy was a skull, and notify spawn manager that a skull enemy has died
                     if(enemy.id.includes("FierySkull"))
                     {
+                        console.log("Hey");
                         this.notificationCenter.notify(
                             new Notification(
                                 NotificationType.SpawnManager,
@@ -387,7 +389,7 @@
                         new Notification(
                             NotificationType.GameState,
                             NotificationAction.Health,
-                            [-20]
+                            [-40]
                         )
                     );
 

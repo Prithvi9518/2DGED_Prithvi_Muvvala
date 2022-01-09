@@ -82,7 +82,6 @@ class SkullShootController {
 
     shootFireball(parent)
     {
-        console.log(this.timeSinceLastShot);
         if(this.noExistingFireballs && this.timeSinceLastShot >= this.shootInterval)
         {
             this.initializeFireball(parent);
@@ -100,10 +99,6 @@ class SkullShootController {
         {
             this.timeSinceLastShot += gameTime.elapsedTimeInMs;
         }
-        // if(this.timeSinceLastShot >= this.shootInterval)
-        // {
-        //     this.noExistingFireballs = true;
-        // }
     }
 
 }

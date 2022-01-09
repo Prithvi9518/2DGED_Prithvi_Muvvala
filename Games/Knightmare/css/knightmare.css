@@ -74,7 +74,7 @@ body {
 }
 
 #main_menu {
-    background-image: url('../assets/purple-clouds-background.jpg');
+    background-image: url('../assets/purple-clouds-moon-background.jpg');
     background-size: cover;
 }
 
@@ -126,7 +126,7 @@ a {
     font-weight: bold;
     line-height: 30px;
     text-shadow: 1px 1px 0 black;
-    background-image: linear-gradient(to bottom, #2B5754 0%, rgb(13, 179, 143) 100%);
+    background-image: linear-gradient(to bottom, #cf5006 0%, rgb(202, 84, 5) 100%);
     border: 1px solid white;
     border-radius: 10px;
 }

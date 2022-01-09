@@ -2,6 +2,8 @@ class GameData
 {
     static AUDIO_CUE_ARRAY = [
         new AudioCue("background", AudioType.Background, 0.2, 1, 0, true),
+        new AudioCue("menu_music", AudioType.Background, 0.5, 1, 0, true),
+
         // new AudioCue("jump", AudioType.Move, 1, 1, 0, false),
         // new AudioCue("boing", AudioType.All, 1, 1, 0, false),
         // new AudioCue("game_over", AudioType.WinLose, 1, 1, 0, false),
@@ -9,6 +11,8 @@ class GameData
 
     static BACKGROUND_1_DIMENSIONS = new Vector2(384, 240);
     static BACKGROUND_2_DIMENSIONS = new Vector2(1000,496);
+    static BACKGROUND_3_DIMENSIONS = new Vector2(1920,1080);
+
 
     // #region Background Data
     static BACKGROUND_DATA = [
@@ -34,6 +38,22 @@ class GameData
             spriteSheet: document.getElementById("knightmare_background_2"),
             sourcePosition: Vector2.Zero,
             sourceDimensions: this.BACKGROUND_2_DIMENSIONS,
+            translation: Vector2.Zero,
+            rotation: 0,
+            scale: Vector2.One,
+            origin: Vector2.Zero,
+            actorType: ActorType.Background,
+            collisionType: CollisionType.NotCollidable,
+            layerDepth: 0,
+            scrollSpeedMultiplier: 0,
+            fixedPosition: true
+        },
+
+        {
+            id: "Background 3",
+            spriteSheet: document.getElementById("knightmare_background_3"),
+            sourcePosition: Vector2.Zero,
+            sourceDimensions: this.BACKGROUND_3_DIMENSIONS,
             translation: Vector2.Zero,
             rotation: 0,
             scale: Vector2.One,
@@ -331,6 +351,56 @@ class GameData
         },
 
         {
+            // Red Slime
+            id: "Red Slime",
+            spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
+
+            takes: {
+
+                //Animation 1
+                "Move Right": {
+
+                    frameRatePerSec: 3,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(49,21,14,11),
+                        new Rect(64,22,16,10),
+                        new Rect(82,20,12,12)
+                    ]
+
+                },
+
+                //Animation 2
+                "Move Left": {
+
+                    frameRatePerSec: 6,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 2,
+
+                    boundingBoxDimensions: new Vector2(16,12),
+
+                    frames: [
+                        new Rect(82,20,12,12),
+                        new Rect(64,22,16,10),
+                        new Rect(49,21,14,11)
+                    ]
+
+                }
+
+            }
+        },
+
+        {
             // Red Bat
             id: "R_Bat",
             spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
@@ -433,7 +503,7 @@ class GameData
     ];
     // #endregion
 
-    // Fireball data
+    // #region Fireball data
     static FIREBALL_ANIMATION_DATA = {
         
         id: "Fireball",
@@ -507,12 +577,13 @@ class GameData
 
 
     };
+    // #endregion
 
     // Enemy spawn data
     static ENEMY_SPAWN_INTERVALS = [
         2500,       // Level 1
-        1700,       // Level 2
-        800         // Level 3
+        2000,       // Level 2
+        1400        // Level 3
     ];
 
     // Pickup data
@@ -546,7 +617,7 @@ class GameData
             sourceDimensions: this.FULL_HEART_DIMENSIONS,
             translation: new Vector2(10,10),
             rotation: 0,
-            scale: new Vector2(0.2,0.2),
+            scale: new Vector2(0.17,0.17),
             origin: Vector2.Zero,
             actorType: ActorType.HUD,
             collisionType: CollisionType.NotCollidable,
@@ -562,7 +633,7 @@ class GameData
             sourceDimensions: this.EMPTY_HEART_DIMENSIONS,
             translation: new Vector2(50,10),
             rotation: 0,
-            scale: new Vector2(0.2,0.2),
+            scale: new Vector2(0.17,0.17),
             origin: Vector2.Zero,
             actorType: ActorType.HUD,
             collisionType: CollisionType.NotCollidable,
@@ -574,8 +645,11 @@ class GameData
     ];
 
     // Score thresholds for different levels
-    static LEVEL_2_THRESHOLD = 30;
-    static LEVEL_3_THRESHOLD = 500;
+    static SCORE_THRESHOLDS = [
+        0,
+        30,         //Level 1 Threshold
+        200         // Level 2 Threshold
+    ]
 
 }
 
@@ -584,6 +658,6 @@ const FontType = {
     InformationSmall: "12px Arial",
     InformationMedium: "18px Arial",
     InformationLarge: "24px Arial",
-    PixelatedFont: "14px PixelFont"
+    PixelatedFont: "12px PixelFont"
   };
 
