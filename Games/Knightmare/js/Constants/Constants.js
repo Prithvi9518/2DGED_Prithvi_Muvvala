@@ -375,6 +375,53 @@ class GameData
 
             }
 
+        },
+
+        {
+            // Fiery Skull
+            id: "FierySkull",
+            spriteSheet: document.getElementById("enemy_sprite_sheet_3"),
+
+            takes: {
+
+                // Sprite 1
+                "Look Right": {
+
+                    frameRatePerSec: 1,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 0,
+
+                    boundingBoxDimensions: new Vector2(15,20),
+
+                    frames: [
+                        new Rect(0,3,15,20)
+                    ]
+
+                },
+
+                // Sprite 2
+                "Look Left": {
+                    
+                    frameRatePerSec: 1,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 0,
+
+                    boundingBoxDimensions: new Vector2(15,20),
+
+                    frames: [
+                        new Rect(0,35,15,20)
+                    ]
+
+                }
+
+            }
+
         }
         
     ];

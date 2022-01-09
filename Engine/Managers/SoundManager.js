@@ -250,6 +250,7 @@ class SoundManager {
                     audioObject.currentTime = audioCue.currentTime;
                     audioObject.volume = audioCue.volume;
                     audioObject.playbackRate = audioCue.playbackRate;
+                    audioObject.loop = audioCue.loop;
 
                     // Play the audio object
                     audioObject.play();

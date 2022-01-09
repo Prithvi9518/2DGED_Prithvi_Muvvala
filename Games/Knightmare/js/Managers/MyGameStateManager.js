@@ -180,7 +180,7 @@ class MyGameStateManager extends GameStateManager {
         // Turn off spawning
         this.notificationCenter.notify(
             new Notification(
-                NotificationType.SpawnParameters,
+                NotificationType.SpawnManager,
                 NotificationAction.ToggleSpawning,
                 [false]
             )
@@ -254,7 +254,7 @@ class MyGameStateManager extends GameStateManager {
         // Turn spawning back on
         this.notificationCenter.notify(
             new Notification(
-                NotificationType.SpawnParameters,
+                NotificationType.SpawnManager,
                 NotificationAction.ToggleSpawning,
                 [true]
             )
@@ -263,7 +263,7 @@ class MyGameStateManager extends GameStateManager {
         // Notify spawn manager to update spawn parameters (such as the spawning interval, enemy velocities, enemy sprites)
         this.notificationCenter.notify(
             new Notification(
-                NotificationType.SpawnParameters,
+                NotificationType.SpawnManager,
                 NotificationAction.EditSpawnParameters,
                 [this.currentLevel]
             )

@@ -14,9 +14,11 @@ class SpawnManager {
 
         // Internal Variables
         this.isSpawning = true;
+        this.isSkullDead = true;
 
         this.timeSinceLastSlimeSpawnInMs = 0;
         this.timeSinceLastBatSpawnInMs = 0;
+        this.timeSinceLastSkullSpawnInMs = 0;
 
         this.timeSinceLastHealthPotionSpawnInMs = 0;
 
@@ -35,7 +37,7 @@ class SpawnManager {
     // We use NotificationType.SpawnParameters to handle notifications related to the SpawnManager class.
     registerForNotifications() {
         this.notificationCenter.register(
-            NotificationType.SpawnParameters, 
+            NotificationType.SpawnManager, 
             this, 
             this.handleSpawnParameterNotification
         );
@@ -51,6 +53,11 @@ class SpawnManager {
 
             case NotificationAction.ToggleSpawning:
                 this.toggleSpawning(notification.notificationArguments[0]);
+                break;
+
+            case NotificationAction.SkullDead:
+                this.updateSkullDead();
+                break;
 
             default:
                 break;
@@ -60,6 +67,11 @@ class SpawnManager {
     toggleSpawning(spawning)
     {
         this.isSpawning = spawning;
+    }
+
+    updateSkullDead()
+    {
+        this.isSkullDead = true;
     }
 
     // Change the currentLevel and spawnInterval variables depending on the level being played.
@@ -186,8 +198,54 @@ class SpawnManager {
     } 
     // #endregion
 
+    // #region Fiery Skull
+    initializeFierySkull(posX)
+    {
+        let transform;
+        let artist;
+        let sprite;
 
-    // Health Potion
+        artist = new AnimatedSpriteArtist(
+            context,
+            1,
+            GameData.ENEMY_DATA[3]
+        );
+
+        // Set animation
+        if(posX < canvas.clientWidth/2)
+        {
+            artist.setTake("Look Right");
+        }
+        else{
+            artist.setTake("Look Left");
+        }
+
+        transform = new Transform2D(
+            new Vector2(posX, 300),
+            0,
+            new Vector2(2.5,2.5),
+            Vector2.Zero,
+            artist.getBoundingBoxByTakeName("Look Right"),
+            0
+        );
+
+        sprite = new Sprite(
+            GameData.ENEMY_DATA[3].id + this.numEnemiesSpawned,
+            transform,
+            ActorType.Enemy,
+            CollisionType.Collidable,
+            StatusType.Updated | StatusType.Drawn,
+            artist,
+            1,
+            1
+        );
+
+        this.objectManager.add(sprite);
+    }
+    // #endregion
+
+
+    //#region Health Potion
     initializeHealthPotion(posX)
     {
         let transform;
@@ -235,6 +293,7 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     }
+    // #endregion
 
     spawnSlime(playerPosX)
     {
@@ -268,10 +327,29 @@ class SpawnManager {
         }
     }
 
+    spawnFierySkull()
+    {
+        if((this.timeSinceLastSkullSpawnInMs >= 3 * this.enemySpawnInterval) && this.isSkullDead)
+        {
+            // Randomly picks either 0 or 1
+            let sideToSpawn = Math.floor(Math.random()*2);
+
+            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
+            let enemyPosX = sideToSpawn*(canvas.clientWidth-45) + 3;
+
+            this.initializeFierySkull(enemyPosX);
+            this.numEnemiesSpawned++;
+
+            this.isSkullDead = false;
+
+            this.timeSinceLastSkullSpawnInMs = 0;
+        }
+    }
+
     spawnHealthPotion()
     {
         let pickupSpawnInterval = (Math.random()*4000) + 10000;
-        let pickupPosX = 15 + (Math.random() * (canvas.clientWidth-15));
+        let pickupPosX = 15 + (Math.random() * (canvas.clientWidth-25));
 
         if(this.timeSinceLastHealthPotionSpawnInMs >= pickupSpawnInterval)
         {
@@ -285,8 +363,9 @@ class SpawnManager {
 
     spawnEnemies(playerPosX)
     {
-        this.spawnSlime(playerPosX);
-        this.spawnBat();
+        // this.spawnSlime(playerPosX);
+        // this.spawnBat();
+        this.spawnFierySkull();
     }
 
     update(gameTime)
@@ -305,6 +384,12 @@ class SpawnManager {
 
         this.timeSinceLastSlimeSpawnInMs += gameTime.elapsedTimeInMs;
         this.timeSinceLastBatSpawnInMs += gameTime.elapsedTimeInMs;
+
+        if(this.isSkullDead)
+        {
+            this.timeSinceLastSkullSpawnInMs += gameTime.elapsedTimeInMs;
+        }
+
         this.timeSinceLastHealthPotionSpawnInMs += gameTime.elapsedTimeInMs;
     }
 

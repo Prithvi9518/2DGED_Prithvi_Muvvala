@@ -42,7 +42,7 @@ const NotificationType = {
 
     // Add more here as necessary
 
-    SpawnParameters: "SpawnParameters"
+    SpawnManager: "SpawnParameters"
 };
 
 // Here we try to think of ALL the unique actions in our game that may 
@@ -95,6 +95,9 @@ const NotificationAction = {
 
     // Adding a notification action to enable/disable spawning
     ToggleSpawning: "ToggleSpawning",
+
+    // Adding a notification action to notify spawn manager when a skull-type enemy has died
+    SkullDead: "SkullDead",
 
     // Adding a notification action to show game over menu
     GameOverMenu: "GameOverMenu",

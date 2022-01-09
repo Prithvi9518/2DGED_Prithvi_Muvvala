@@ -280,7 +280,20 @@
                      enemyBoundingBox.x + enemyBoundingBox.width <= playerBoundingBox.x + playerBoundingBox.width)
                   )
                   {
-                    // Remove the enemy?
+
+                    // Check if enemy was a skull, and notify spawn manager that a skull enemy has died
+                    if(enemy.id.includes("FierySkull"))
+                    {
+                        this.notificationCenter.notify(
+                            new Notification(
+                                NotificationType.SpawnManager,
+                                NotificationAction.SkullDead
+                            )
+                        );
+                    }
+                    
+
+                    // Remove the enemy
                     this.notificationCenter.notify(
                         new Notification(
                             NotificationType.Sprite,    // Type
