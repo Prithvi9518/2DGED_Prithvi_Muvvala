@@ -100,7 +100,10 @@ const NotificationAction = {
     GameOverMenu: "GameOverMenu",
 
     // Adding a notification action to restart game
-    Restart: "Restart"
+    Restart: "Restart",
+
+    // Adding notification to toggle audio on/off
+    ToggleAudio: "ToggleAudio"
     
 };
 

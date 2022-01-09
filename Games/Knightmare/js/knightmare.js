@@ -176,11 +176,11 @@ function initializeManagers() {
     );
 
     // Initialize sound manager
-    // soundManager = new SoundManager(
-    //     "Sound Manager",
-    //     notificationCenter,
-    //     GameData.AUDIO_CUE_ARRAY
-    // );
+    soundManager = new SoundManager(
+        "Sound Manager",
+        notificationCenter,
+        GameData.AUDIO_CUE_ARRAY
+    );
 
     // Initialize keyboard manager
     keyboardManager = new KeyboardManager(

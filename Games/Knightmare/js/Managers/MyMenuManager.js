@@ -7,6 +7,9 @@ class MyMenuManager extends MenuManager {
         this.notificationCenter = notificationCenter;
         this.keyboardManager = keyboardManager;
 
+        // Internal variables
+        this.isAudioOn = false;
+
         this.initialize();
 
         // Register this object for notifications
@@ -122,6 +125,16 @@ class MyMenuManager extends MenuManager {
                     [StatusType.Updated | StatusType.Drawn]
                 )
             );
+
+            // Start playing game background music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Play,
+                    ["background"]
+                )
+            );
+
         });
 
         // If the audio button is clicked
@@ -129,11 +142,23 @@ class MyMenuManager extends MenuManager {
         // the audio class is clicked
         $('#audio_button').click(function () {
 
-            // Do something...
+            if(this.isAudioOn)
+                console.log("Turned on audio.");
+            else
+                console.log("Turned off audio.");
 
-            console.log("You clicked the audio button!");
-            
-            // Hint: Send a notification to toggle the audio on/off
+            // Send a notification to toggle the audio on/off based on the isAudioOn variable
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.ToggleAudio,
+                    [this.isAudioOn]
+                )
+            );
+
+            // Invert isAudioOn to achieve opposite result on the next click
+            this.isAudioOn = !this.isAudioOn;
+
         });
 
         // If the exit button is clicked

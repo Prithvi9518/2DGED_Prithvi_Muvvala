@@ -160,6 +160,11 @@ class SoundManager {
                     notification.notificationArguments[1]
                 );
                 break;
+
+            // Added new function toggleAudio to switch audio on/off
+            case NotificationAction.ToggleAudio:
+                this.toggleAudio(notification.notificationArguments[0]);
+                break;
         }
     }
 
@@ -372,13 +377,28 @@ class SoundManager {
                 // Reset the audio object's volume
                 audioObject.volume = this.cueArray[i].originalVolume;
 
-                this.cueArray[i].ResetVolume();
+                this.cueArray[i].resetVolume();
             }
 
             else {
 
                 throw "Error: Failed to reset all volumes!";
             }
+        }
+    }
+
+    // Takes in a boolean as an argument
+    // If false- set volume of all audio objects in the cue array to 0
+    // If true- reset all audio objects back to their original volume
+    toggleAudio(isOn)
+    {
+        if(!isOn)
+        {
+            this.setVolumeAll(0);
+        }   
+        else
+        {
+            this.resetVolumeAll();
         }
     }
 
