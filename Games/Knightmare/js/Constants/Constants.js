@@ -10,6 +10,7 @@ class GameData
     static BACKGROUND_1_DIMENSIONS = new Vector2(384, 240);
     static BACKGROUND_2_DIMENSIONS = new Vector2(1000,496);
 
+    // #region Background Data
     static BACKGROUND_DATA = [
 
         {
@@ -46,7 +47,9 @@ class GameData
 
 
     ];
+    // #endregion
 
+    // #region Platform Data
     static PLATFORM_DATA = [
 
         {
@@ -121,8 +124,9 @@ class GameData
         }
 
     ];
+    // #endregion
 
-    // Player Data
+    // #region Player Data
     static INITIAL_PLAYER_HEALTH = 100;
 
     // Player knight sprite data
@@ -145,7 +149,6 @@ class GameData
             // Animation 1
             "Idle": {
     
-            // frameRatePerSec: 2,
             frameRatePerSec: 1,
     
             // -1 = Loop forever
@@ -154,7 +157,7 @@ class GameData
             maxLoopCount: -1,
     
             startFrameIndex: 0,
-            // endFrameIndex: 4,
+
             endFrameIndex: 1,
     
             // Notice that I chose the largest of all the widths taken from the frames
@@ -221,6 +224,9 @@ class GameData
 
     };
 
+    // #endregion
+
+    // #region Enemy Data
     static ENEMY_DATA = [
 
         {
@@ -425,6 +431,82 @@ class GameData
         }
         
     ];
+    // #endregion
+
+    // Fireball data
+    static FIREBALL_ANIMATION_DATA = {
+        
+        id: "Fireball",
+        spriteSheet: document.getElementById("fireball_sprite_sheet"),
+
+        takes: {
+
+            // Charging Animation
+            "Charging": {
+
+                frameRatePerSec: 6,
+
+                maxLoopCount: -1,
+
+                startFrameIndex: 0,
+                endFrameIndex: 2,
+
+                boundingBoxDimensions: new Vector2(28,24),
+
+                frames: [
+                    new Rect(333, 3, 18, 18),
+                    new Rect(43, 72, 23, 24),
+                    new Rect(137, 72, 28, 24)
+                ]
+
+            },
+
+            // Fire Right Animation
+            "Fire Right": {
+
+                frameRatePerSec: 4,
+
+                maxLoopCount: -1,
+
+                startFrameIndex: 0,
+                endFrameIndex: 3,
+
+                boundingBoxDimensions: new Vector2(41,29),
+
+                frames: [
+                    new Rect(323,72,32,25),
+                    new Rect(33,143,36,27),
+                    new Rect(126,142,39,29),
+                    new Rect(220,141,41,29)
+                ]
+
+            },
+
+            // Fire Left Animation
+            "Fire Left": {
+
+                frameRatePerSec: 4,
+
+                maxLoopCount: -1,
+
+                startFrameIndex: 0,
+                endFrameIndex: 3,
+
+                boundingBoxDimensions: new Vector2(41,29),
+
+                frames: [
+                    new Rect(393,72,32,25),
+                    new Rect(679,143,36,27),
+                    new Rect(583,142,39,29),
+                    new Rect(487,141,41,29)
+                ]
+
+            },
+
+        }
+
+
+    };
 
     // Enemy spawn data
     static ENEMY_SPAWN_INTERVALS = [

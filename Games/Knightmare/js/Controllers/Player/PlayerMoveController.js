@@ -116,6 +116,7 @@
         this.handlePlatformCollision(parent);
         this.handlePickupCollision(parent);
         this.handleEnemyCollision(parent);
+        this.handleProjectileCollision(parent);
     }
 
     checkBoundaries(parent) {
@@ -364,6 +365,51 @@
                 // );
             }
         }
+    }
+
+    handleProjectileCollision(parent)
+    {
+        const projectiles = this.objectManager.get(ActorType.Projectile);
+
+        if(projectiles == null) return;
+
+        for (let i = 0; i < projectiles.length; i++) {
+
+            const projectile = projectiles[i];
+
+            if (parent.transform.boundingBox.intersects(projectile.transform.boundingBox)) {
+
+                // If the projectile is a fireball
+                if(projectile.id.includes("Fireball"))
+                {
+                    // Notify GameStateManager to decrease health by 40
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.GameState,
+                            NotificationAction.Health,
+                            [-20]
+                        )
+                    );
+
+                    // Push player back
+                    let pushDirection = parent.transform.translation.x - projectile.transform.translation.x;
+                    pushDirection = pushDirection/Math.abs(pushDirection);
+                    
+                    parent.transform.translateBy(new Vector2(pushDirection * 25, 0));
+
+                }
+
+                notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sprite,
+                        NotificationAction.Remove,
+                        [projectile]
+                    )
+                );
+
+            }
+        }
+
     }
 
     applyInput(parent) {

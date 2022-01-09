@@ -240,6 +240,14 @@ class SpawnManager {
             1
         );
 
+        sprite.attachController(
+            new SkullShootController(
+                this.notificationCenter,
+                this.objectManager,
+                1000
+            )
+        );
+
         this.objectManager.add(sprite);
     }
     // #endregion
