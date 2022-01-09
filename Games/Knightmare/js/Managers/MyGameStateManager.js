@@ -94,7 +94,17 @@ class MyGameStateManager extends GameStateManager {
         // Add your own code here...
 
         // Incrementing existing player health by the amount
+
         this.playerHealth += amount;
+
+        if(this.playerHealth > GameData.INITIAL_PLAYER_HEALTH)
+        {
+            this.playerHealth = GameData.INITIAL_PLAYER_HEALTH;
+        }
+        else if(this.playerHealth < 0)
+        {
+            this.playerHealth = 0;
+        }
 
         console.log("Health: " + this.playerHealth);
 

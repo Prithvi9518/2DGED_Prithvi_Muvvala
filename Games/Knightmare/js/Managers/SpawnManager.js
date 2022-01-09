@@ -1,6 +1,6 @@
 
 /**
- * This class is responsible for spawning all the enemies within the game.
+ * This class is responsible for spawning all the enemies and pickups within the game.
  *
  * @class SpawnManager
  */
@@ -18,10 +18,14 @@ class SpawnManager {
         this.timeSinceLastSlimeSpawnInMs = 0;
         this.timeSinceLastBatSpawnInMs = 0;
 
-        this.numSpawned = 0;
+        this.timeSinceLastHealthPotionSpawnInMs = 0;
+
+        this.numEnemiesSpawned = 0;
+        this.numPickupsSpawned = 0;
+
         this.currentLevel = 1;
 
-        this.spawnInterval = GameData.ENEMY_SPAWN_INTERVALS[0];
+        this.enemySpawnInterval = GameData.ENEMY_SPAWN_INTERVALS[0];
 
         this.registerForNotifications();
 
@@ -63,7 +67,7 @@ class SpawnManager {
     handleSpawnParametersChange(level)
     {
         this.currentLevel = level;
-        this.spawnInterval = GameData.ENEMY_SPAWN_INTERVALS[level-1];
+        this.enemySpawnInterval = GameData.ENEMY_SPAWN_INTERVALS[level-1];
     }
 
     // #region Slime
@@ -92,7 +96,7 @@ class SpawnManager {
         );
 
         sprite = new MoveableSprite(
-            GameData.ENEMY_DATA[this.currentLevel-1].id + " " + this.numSpawned,
+            GameData.ENEMY_DATA[this.currentLevel-1].id + " " + this.numEnemiesSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,
@@ -145,7 +149,7 @@ class SpawnManager {
         );
 
         sprite = new MoveableSprite(
-            "R_Bat " + this.numSpawned,
+            "R_Bat " + this.numEnemiesSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,
@@ -182,27 +186,107 @@ class SpawnManager {
     } 
     // #endregion
 
+
+    // Health Potion
+    initializeHealthPotion(posX)
+    {
+        let transform;
+        let artist;
+        let sprite;
+
+        transform = new Transform2D(
+            new Vector2(posX, 22),
+            GameData.HEALTH_POTION_SPRITE_DATA.rotation,
+            GameData.HEALTH_POTION_SPRITE_DATA.scale,
+            GameData.HEALTH_POTION_SPRITE_DATA.origin,
+            GameData.HEALTH_POTION_SPRITE_DATA.sourceDimensions,
+            0
+        );
+
+        artist = new SpriteArtist(
+            context,
+            1,
+            GameData.HEALTH_POTION_SPRITE_DATA.spriteSheet,
+            GameData.HEALTH_POTION_SPRITE_DATA.sourcePosition,
+            GameData.HEALTH_POTION_SPRITE_DATA.sourceDimensions
+        );
+
+        sprite = new MoveableSprite(
+            GameData.HEALTH_POTION_SPRITE_DATA.id + this.numPickupsSpawned,
+            transform,
+            GameData.HEALTH_POTION_SPRITE_DATA.actorType,
+            GameData.HEALTH_POTION_SPRITE_DATA.collisionType,
+            StatusType.Drawn | StatusType.Updated,
+            artist,
+            0,
+            1
+        );
+
+        sprite.body.maximumSpeed = 3;
+        sprite.body.friction = FrictionType.Normal;
+        sprite.body.gravity = GravityType.Normal;
+
+        sprite.attachController(
+            new HealthPotionDropController(
+                this.notificationCenter,
+                this.objectManager
+            )
+        );
+
+        this.objectManager.add(sprite);
+    }
+
     spawnSlime(playerPosX)
     {
-        let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
+        if(this.timeSinceLastSlimeSpawnInMs >= this.enemySpawnInterval)
+        {
+            let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
 
-        if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
+            if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
+    
+            this.initializeSlime(enemyPosX);
+            this.numEnemiesSpawned++;
 
-        this.initializeSlime(enemyPosX);
-        this.numSpawned++;
+            this.timeSinceLastSlimeSpawnInMs = 0;
+        }
     }
 
     spawnBat()
     {
-        // Randomly picks either 0 or 1
-        let sideToSpawn = Math.floor(Math.random()*2);
+        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.enemySpawnInterval)
+        {
+            // Randomly picks either 0 or 1
+            let sideToSpawn = Math.floor(Math.random()*2);
 
-        // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
-        let enemyPosX = sideToSpawn*950 - 50;
+            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
+            let enemyPosX = sideToSpawn*950 - 50;
 
-        this.initializeBat(enemyPosX);
-        this.numSpawned++;
+            this.initializeBat(enemyPosX);
+            this.numEnemiesSpawned++;
 
+            this.timeSinceLastBatSpawnInMs = 0;
+        }
+    }
+
+    spawnHealthPotion()
+    {
+        let pickupSpawnInterval = (Math.random()*4000) + 2000;
+        let pickupPosX = 15 + (Math.random() * (canvas.clientWidth-15));
+
+        if(this.timeSinceLastHealthPotionSpawnInMs >= pickupSpawnInterval)
+        {
+            this.initializeHealthPotion(pickupPosX);
+            this.numPickupsSpawned++;
+
+            this.timeSinceLastHealthPotionSpawnInMs = 0;
+        }
+
+    }
+
+    spawnEnemies(playerPosX)
+    {
+        this.spawnSlime(playerPosX);
+        this.spawnBat();
     }
 
     update(gameTime)
@@ -216,21 +300,12 @@ class SpawnManager {
         
         let playerPosX = player.transform.translation.x;
 
-        if(this.timeSinceLastSlimeSpawnInMs >= this.spawnInterval)
-        {
-            this.spawnSlime(playerPosX);
-            this.timeSinceLastSlimeSpawnInMs = 0;
-        }
-        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.spawnInterval)
-        {
-            this.spawnBat(playerPosX);
-            this.timeSinceLastBatSpawnInMs = 0;
-        }
+        this.spawnEnemies(playerPosX);
+        this.spawnHealthPotion();
 
         this.timeSinceLastSlimeSpawnInMs += gameTime.elapsedTimeInMs;
         this.timeSinceLastBatSpawnInMs += gameTime.elapsedTimeInMs;
-
-
+        this.timeSinceLastHealthPotionSpawnInMs += gameTime.elapsedTimeInMs;
     }
 
 

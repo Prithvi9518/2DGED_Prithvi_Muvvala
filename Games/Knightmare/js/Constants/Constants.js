@@ -386,6 +386,20 @@ class GameData
         800         // Level 3
     ];
 
+    // Pickup data
+    static HEALTH_POTION_SPRITE_DATA = {
+        id: "HealthPotion",
+        spriteSheet: document.getElementById("health_potion"),
+        sourcePosition: new Vector2(40,20),
+        sourceDimensions: new Vector2(90,140),
+        rotation: 0,
+        scale: new Vector2(0.15,0.15),
+        origin: Vector2.Zero,
+        actorType: ActorType.Pickup,
+        collisionType: CollisionType.Collidable
+    };
+
+
     // UI data
     static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");
     static PAUSE_KEY = Keys.P;

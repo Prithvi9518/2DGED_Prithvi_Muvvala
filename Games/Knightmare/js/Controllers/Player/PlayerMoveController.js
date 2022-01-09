@@ -220,6 +220,19 @@
 
                 // If the player has collided with a pickup, do something...
 
+                // If the pickup is a health potion
+                if(pickup.id.includes("HealthPotion"))
+                {
+                    // Notify GameStateManager to increase health by 20
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.GameState,
+                            NotificationAction.Health,
+                            [20]
+                        )
+                    );
+                }
+
                 // Create a notification that will ultimately remove
                 // the pickup sprite
                 notificationCenter.notify(
@@ -230,40 +243,6 @@
                     )
                 );
 
-                // Uncomment this code to see how we could remove ALL platforms    
-                // notificationCenter.notify(
-                //     new Notification(
-                //         NotificationType.Sprite,            // Who is registered to listen to this notification?        see ObjectManager -> registerForNotifications
-                //         NotificationAction.RemoveAllByType, // How does the ObjectManager handle the notification?      see ObjectManager -> handleSpriteNotification
-                //         [ActorType.Platform]                // What parameters does the method you are calling expect?  see ObjectManager -> removeAllByType()
-                //     )
-                // );
-
-                notificationCenter.notify(
-                    new Notification(
-                        NotificationType.Sound,
-                        NotificationAction.Play,
-                        ["jump"]
-                    )
-                );
-
-                notificationCenter.notify(
-                    new Notification(
-                        NotificationType.Sound,
-                        NotificationAction.Play,
-                        ["jump"]
-                    )
-                );
-
-                // Uncomment this code to see how we could remove the first platform that has an
-                // x position > 400
-                // notificationCenter.notify(
-                //     new Notification(
-                //         NotificationType.Sprite,
-                //         NotificationAction.RemoveFirstBy,
-                //         [ActorType.Platform, platform => platform.transform.translation.x > 400]
-                //     )
-                // );
             }
         }
     }
