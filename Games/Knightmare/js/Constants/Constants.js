@@ -1,8 +1,17 @@
 class GameData
 {
     static AUDIO_CUE_ARRAY = [
-        new AudioCue("background", AudioType.Background, 0.2, 1, 0, true),
+        new AudioCue("background", AudioType.Background, 0.4, 1, 0, true),
         new AudioCue("menu_music", AudioType.Background, 0.5, 1, 0, true),
+        new AudioCue("jump", AudioType.Move, 0.4, 1, 0, false),
+        new AudioCue("hit", AudioType.All, 1, 1, 0, false),
+        new AudioCue("hurt", AudioType.All, 1, 1, 0, false),
+        new AudioCue("pickup", AudioType.All, 1, 1, 0, false),
+        new AudioCue("fireball_charge", AudioType.All, 0.3, 2, 0, true),
+        new AudioCue("explosion", AudioType.Explosion, 1, 1, 0, false),
+        new AudioCue("fireball_shoot", AudioType.Explosion, 1, 1, 0, false),
+
+
 
         // new AudioCue("jump", AudioType.Move, 1, 1, 0, false),
         // new AudioCue("boing", AudioType.All, 1, 1, 0, false),

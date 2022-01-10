@@ -10,13 +10,22 @@ class FireballController {
         // Internal Variables
         this.timeSinceChargeBeganInMs = 0;
         this.fired = false;
+
+        // Play fireball charging sound
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sound,
+                NotificationAction.Play,
+                ["fireball_charge"]
+            )
+        );
+
     }
 
     handleOutOfBounds(parent)
     {
         if(parent.transform.translation.x < -5 || parent.transform.translation.x > canvas.clientWidth + 5)
         {
-            console.log("Fireball removed");
             this.notificationCenter.notify(
                 new Notification(
                     NotificationType.Sprite,
@@ -45,6 +54,15 @@ class FireballController {
     {
         if(this.fired)
         {
+            // Stop charging sound effect
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["fireball_charge"]
+                )
+            );
+
             parent.transform.translateBy(new Vector2(this.moveVelocity, 0));
         }
     }
@@ -54,6 +72,16 @@ class FireballController {
         if(this.timeSinceChargeBeganInMs >= this.chargeDuration)
         {
             this.fired = true;
+
+            // Play fired sound effect
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Play,
+                    ["fireball_shoot"]
+                )
+            );
+
             this.setAnimation(parent);
             this.timeSinceChargeBeganInMs = 0;
         }

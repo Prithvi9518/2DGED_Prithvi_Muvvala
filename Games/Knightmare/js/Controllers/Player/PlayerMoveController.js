@@ -94,13 +94,13 @@
             parent.body.setVelocityY(-this.jumpVelocity * gameTime.elapsedTimeInMs);
 
             // Create a jump sound notification
-            // notificationCenter.notify(
-            //     new Notification(
-            //         NotificationType.Sound,
-            //         NotificationAction.Play,
-            //         ["jump"]
-            //     )
-            // );
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Play,
+                    ["jump"]
+                )
+            );
         }
     }
 
@@ -234,6 +234,15 @@
                     );
                 }
 
+                // Play pickup sound effect
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Play,
+                        ["pickup"]
+                    )
+                );
+
                 // Create a notification that will ultimately remove
                 // the pickup sprite
                 notificationCenter.notify(
@@ -281,18 +290,25 @@
                      enemyBoundingBox.x + enemyBoundingBox.width <= playerBoundingBox.x + playerBoundingBox.width)
                   )
                   {
-                      console.log("Hi");
-
                     // Check if enemy was a skull, and notify spawn manager that a skull enemy has died
                     if(enemy.id.includes("FierySkull"))
                     {
-                        console.log("Hey");
                         this.notificationCenter.notify(
                             new Notification(
                                 NotificationType.SpawnManager,
                                 NotificationAction.SkullDead
                             )
                         );
+
+                        // Stop playing fireball charging sound
+                        this.notificationCenter.notify(
+                            new Notification(
+                                NotificationType.Sound,
+                                NotificationAction.Pause,
+                                ["fireball_charge"]
+                            )
+                        );
+
                     }
                     
 
@@ -302,6 +318,15 @@
                             NotificationType.Sprite,    // Type
                             NotificationAction.Remove,  // Action
                             [enemy]                     // Arguments
+                        )
+                    );
+
+                    // Play hit sound effect
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.Sound,
+                            NotificationAction.Play,
+                            ["hit"]
                         )
                     );
 
@@ -325,6 +350,15 @@
                               [-20]
                           )
                       );
+                      
+                      // Play hurt sound effect
+                        this.notificationCenter.notify(
+                            new Notification(
+                                NotificationType.Sound,
+                                NotificationAction.Play,
+                                ["hurt"]
+                            )
+                        );
 
                       // Push player back
                       let pushDirection = parent.transform.translation.x - enemy.transform.translation.x;
@@ -333,38 +367,6 @@
                       parent.transform.translateBy(new Vector2(pushDirection * 27, -5));
                       
                   }
-
-                // Play a sound?
-
-                // Update the player's health?
-
-                // Uncomment the below code to create three notifications
-                // that will be fired if the player collides with a pickup
-                // sprite
-
-                // notificationCenter.notify(
-                //     new Notification(
-                //         NotificationType.Sound,
-                //         NotificationAction.Play,
-                //         ["game_over"]
-                //     )
-                // );
-
-                // notificationCenter.notify(
-                //   new Notification(
-                //     NotificationType.Sprite,
-                //     NotificationAction.RemoveFirst,
-                //     [enemy]
-                //   )
-                // );
-
-                // notificationCenter.notify(
-                //     new Notification(
-                //         NotificationType.GameState,
-                //         NotificationAction.Health,
-                //         [-5]
-                //     )
-                // );
             }
         }
     }
@@ -390,6 +392,15 @@
                             NotificationType.GameState,
                             NotificationAction.Health,
                             [-40]
+                        )
+                    );
+
+                    // Play explosion sound effect
+                    this.notificationCenter.notify(
+                        new Notification(
+                            NotificationType.Sound,
+                            NotificationAction.Play,
+                            ["explosion"]
                         )
                     );
 

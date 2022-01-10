@@ -165,6 +165,11 @@ class SoundManager {
             case NotificationAction.ToggleAudio:
                 this.toggleAudio(notification.notificationArguments[0]);
                 break;
+
+            // Added new function to pause all audio
+            case NotificationAction.PauseAll:
+                this.pauseAll();
+                break;
         }
     }
 
@@ -299,6 +304,25 @@ class SoundManager {
             throw "Error: No audio object was found for cue [" + this.cueName + "]";
         }
 
+    }
+
+    pauseAll()
+    {
+        this.cueArray.forEach(element => {
+
+            let audioObject = element.audioObject;
+
+            // If an audio object is present
+            if (audioObject) {
+
+                // If the audio object is not already paused
+                if (!audioObject.paused) {
+                    // Pause the audio object
+                    audioObject.pause();
+                }
+            }
+            
+        });
     }
 
     /**

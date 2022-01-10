@@ -219,7 +219,7 @@ class MyGameStateManager extends GameStateManager {
                 this.updateLevel();
                 break;
 
-            case GameData.GameData.SCORE_THRESHOLDS[2]:
+            case GameData.SCORE_THRESHOLDS[2]:
                 this.currentLevel = 3;
                 this.updateLevel();
                 break;
@@ -241,6 +241,15 @@ class MyGameStateManager extends GameStateManager {
                     StatusType.Off,
                     this.currentLevel
                 ]
+            )
+        );
+
+        // Update Score to Next Level text
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.UI,
+                NotificationAction.UpdateScoreToNextLevelText,
+                [this.playerScore, GameData.SCORE_THRESHOLDS[this.currentLevel]]
             )
         );
 
@@ -345,6 +354,15 @@ class MyGameStateManager extends GameStateManager {
 
         // Reset score to 0 by subtracting the current player score from itself
         this.handleScoreChange([-this.playerScore]);
+
+        // Start playing background music
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sound,
+                NotificationAction.Play,
+                ["background"]
+            )
+        );
 
         // Update Level
         this.checkAndUpdateLevel();

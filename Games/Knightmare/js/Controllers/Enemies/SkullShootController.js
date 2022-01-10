@@ -9,7 +9,27 @@ class SkullShootController {
         // Internal Variables
         this.noExistingFireballs = true;
         this.timeSinceLastShot = shootInterval;
+        this.isFiring = true;
 
+    }
+
+    registerForNotifications() {
+        this.notificationCenter.register(
+            NotificationType.SkullShootController, 
+            this, 
+            this.handleSkullShootNotification
+        );
+    }
+
+    handleSkullShootNotification(notification)
+    {
+        switch (notification.notificationAction) {
+
+            case NotificationAction.
+
+            default:
+                break;
+        }
     }
 
     initializeFireball(parent)
@@ -26,9 +46,14 @@ class SkullShootController {
 
         artist.setTake("Charging");
 
+        // Calculating the direction to fire a fireball based on the difference in x axis
+        // between the midpoint of the canvas and the translation of the parent
         let fireDirection = new Vector2(canvas.clientWidth/2 - parent.transform.translation.x,0);
+
+        // Normalize to give either (1,0) or (-1,0)
         fireDirection = Vector2.Normalize(fireDirection);
 
+        // Caluclating the offset of fireball's x position from the skull's position
         let xPos = parent.transform.translation.x + (fireDirection.x * (parent.transform.boundingBox.width + 3));
 
         transform = new Transform2D(
@@ -66,24 +91,29 @@ class SkullShootController {
 
     checkForExistingFireballs()
     {
+        // Getting an array of all the projectiles from the object manager, and filtering it to see which elements
+        // have an id that includes Fireball
         let projectiles = this.objectManager.get(ActorType.Projectile);
+        if(projectiles == null) return;
 
         let fireballs = projectiles.filter(function(el) {
             return el.id.includes("Fireball");
         });
 
+        // Set noExistingFireballs to true, and reset timeSinceLast shot to 0 when there are no remaining fireballs on the canvas
         if(fireballs.length == 0 && !this.noExistingFireballs)
         {
             this.noExistingFireballs = true;
             this.timeSinceLastShot = 0;
-            return;
         }
     }
 
     shootFireball(parent)
     {
+        // After the shoot interval, shoot a new fireball if there are no other fireballs on the canvas
         if(this.noExistingFireballs && this.timeSinceLastShot >= this.shootInterval)
         {
+            console.log("Fired");
             this.initializeFireball(parent);
             this.noExistingFireballs = false;
         }
@@ -91,9 +121,14 @@ class SkullShootController {
 
     update(gameTime, parent)
     {
-        this.shootFireball(parent);
+        if(this.objectManager.statusType == 0 && this.noExistingFireballs)
+        {
+            return;
+        }
 
         this.checkForExistingFireballs();
+        this.shootFireball(parent);
+
 
         if(this.noExistingFireballs)
         {

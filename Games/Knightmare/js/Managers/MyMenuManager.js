@@ -196,12 +196,11 @@ class MyMenuManager extends MenuManager {
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
 
-            // Stop background music
+            // Pause all audio objects that are currently playing
             notificationCenter.notify(
                 new Notification(
                     NotificationType.Sound,
-                    NotificationAction.Pause,
-                    ["background"]
+                    NotificationAction.PauseAll,
                 )
             );
 

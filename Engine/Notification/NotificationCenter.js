@@ -42,7 +42,8 @@ const NotificationType = {
 
     // Add more here as necessary
 
-    SpawnManager: "SpawnParameters"
+    SpawnManager: "SpawnParameters",
+    SkullShootController: "SkullShootController"
 };
 
 // Here we try to think of ALL the unique actions in our game that may 
@@ -109,8 +110,12 @@ const NotificationAction = {
     Restart: "Restart",
 
     // Adding notification to toggle audio on/off
-    ToggleAudio: "ToggleAudio"
-    
+    ToggleAudio: "ToggleAudio",
+
+    // Adding notification to pause all audio
+    PauseAll: "PauseAll"
+
+    // Adding notification to pause fireball spawning
 };
 
 // Objects can register to particular notifications which they are
