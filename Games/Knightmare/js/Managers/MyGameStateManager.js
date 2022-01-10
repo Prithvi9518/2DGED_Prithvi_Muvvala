@@ -144,28 +144,7 @@ class MyGameStateManager extends GameStateManager {
     // Called when the player reaches the required score to move on to the next level and levelFinished variable is true
     endLevel()
     {
-        // Removing all existing enemies,projectiles and pickups from the previous level
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Enemy]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Projectiles]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Pickup]
-            )
-        );
+        this.removePreviousLevelObjects();
 
         // Turn off spawning
         this.notificationCenter.notify(
@@ -317,30 +296,8 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Removing all existing enemies, projectiles and pickups from the previous level
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Enemy]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Projectile]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Pickup]
-            )
-        );
+        this.removePreviousLevelObjects();
         
-
         // Reset player status type to Drawn | Updated
         // (When a player's health hits 0, we set the player's status type to Off, and move the transform outside the canvas,
         //  so we have to set it back to Drawn | Updated when the game restarts).
@@ -369,6 +326,10 @@ class MyGameStateManager extends GameStateManager {
 
     }
 
+    // If the current level is 1, and the score has reached the required score to progress to level 2,
+    // the levelFinished variable would be true. However, if level 2 starts and the score is the same,
+    // the level wouldn't be finished. Hence, levelFinished is false.
+    // This function determines the levelFinished variable based on the current level and score
     checkLevelFinished()
     {
         let finishedLv1 = this.playerScore == GameData.SCORE_THRESHOLDS[1] && this.currentLevel == 1;
@@ -377,47 +338,85 @@ class MyGameStateManager extends GameStateManager {
         if((finishedLv1 || finishedLv2) && this.levelFinished == false)
         {
             this.levelFinished = true;
+        } 
+    }
+
+    removePreviousLevelObjects()
+    {
+        // Removing all existing enemies, projectiles and pickups from the previous level
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Enemy]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Projectile]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Pickup]
+            )
+        );
+
+        // Turn off firing- this is to fix an issue with the SkullShootController where the fireballs
+        // would keep spawning even though all the enemies and projectiles from the previous level had
+        // been removed.
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.SkullShootController,
+                NotificationAction.ToggleFiring,
+                [ActorType.False]
+            )
+        );
+    }
+
+    handleGameOver()
+    {
+        let player = objectManager.get(ActorType.Player)[0];
+
+        // Hide player by setting statusType to Off and translating the sprite outside of the canvas
+        player.statusType = StatusType.Off;
+        player.transform.translation = new Vector2(-60,-60);
+        
+        // Start counting the time since player death
+        this.timeSincePlayerDied += gameTime.elapsedTimeInMs;
+
+        // Remove previous level objects, such as enemies, projectiles and pickups
+        // and display the game over menu after the short delay
+        if(this.timeSincePlayerDied >= this.gameOverDelayInMs)
+        {
+            this.removePreviousLevelObjects();
+
+            // We use NotificationAction.GameOverMenu and pass in a boolean as the argument.
+            // If true, display the menu. If false, hide the menu.
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Menu,
+                    NotificationAction.GameOverMenu,
+                    [true]
+                )
+            );
+
+            // Resetting the time since player death back to 0
+            this.timeSincePlayerDied = 0;
         }
     }
 
 
-    update(gameTime) {
+    update(gameTime) {        
 
-        // Add your code here...
-        
-        // For example, every update(), we could check the player's health. If
-        // the player's health is <= 0, then we can create a notification...
-
-        // If health hits 0, hide player by setting statusType to Off and translating the sprite outside of the canvas
         if(this.playerHealth <= 0)
         {
-            let player = objectManager.get(ActorType.Player)[0];
-
-            player.statusType = StatusType.Off;
-            player.transform.translation = new Vector2(-60,-60);
-            
-            // Start counting the time since player death
-            this.timeSincePlayerDied += gameTime.elapsedTimeInMs;
-
-            // Display the game over menu after the short delay
-            if(this.timeSincePlayerDied >= this.gameOverDelayInMs)
-            {
-                // We use NotificationAction.GameOverMenu and pass in a boolean as the argument.
-                // If true, display the menu. If false, hide the menu.
-                this.notificationCenter.notify(
-                    new Notification(
-                        NotificationType.Menu,
-                        NotificationAction.GameOverMenu,
-                        [true]
-                    )
-                );
-
-                // Resetting the time since player death back to 0
-                this.timeSincePlayerDied = 0;
-            }
+            this.handleGameOver();
         }
-
-        // Creating a delay between levels
 
         this.checkLevelFinished();
 

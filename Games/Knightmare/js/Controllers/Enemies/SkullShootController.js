@@ -11,8 +11,13 @@ class SkullShootController {
         this.timeSinceLastShot = shootInterval;
         this.isFiring = true;
 
+        this.registerForNotifications();
+
     }
 
+    // We register this controller for notifications in order to set the isFiring variable to true/false
+    // depending on the game state.
+    // This is done to fix an issue where the fireballs keep spawning even after the game is over.
     registerForNotifications() {
         this.notificationCenter.register(
             NotificationType.SkullShootController, 
@@ -25,11 +30,18 @@ class SkullShootController {
     {
         switch (notification.notificationAction) {
 
-            case NotificationAction.
+            case NotificationAction.ToggleFiring:
+                this.toggleFiring(notification.notificationArguments[0]);
+                break;
 
             default:
                 break;
         }
+    }
+
+    toggleFiring(firing)
+    {
+        this.isFiring = firing;
     }
 
     initializeFireball(parent)
@@ -110,25 +122,21 @@ class SkullShootController {
 
     shootFireball(parent)
     {
-        // After the shoot interval, shoot a new fireball if there are no other fireballs on the canvas
-        if(this.noExistingFireballs && this.timeSinceLastShot >= this.shootInterval)
+        if(this.isFiring)
         {
-            console.log("Fired");
-            this.initializeFireball(parent);
-            this.noExistingFireballs = false;
+            // After the shoot interval, shoot a new fireball if there are no other fireballs on the canvas
+            if(this.noExistingFireballs && this.timeSinceLastShot >= this.shootInterval)
+            {
+                this.initializeFireball(parent);
+                this.noExistingFireballs = false;
+            }
         }
     }
 
     update(gameTime, parent)
     {
-        if(this.objectManager.statusType == 0 && this.noExistingFireballs)
-        {
-            return;
-        }
-
         this.checkForExistingFireballs();
         this.shootFireball(parent);
-
 
         if(this.noExistingFireballs)
         {

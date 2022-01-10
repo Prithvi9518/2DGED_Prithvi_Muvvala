@@ -35,6 +35,9 @@ class SpawnManager {
     }
 
     // We use NotificationType.SpawnParameters to handle notifications related to the SpawnManager class.
+    // The spawn manager recieves notifications to update spawn parameters when there is a change in levels
+    // (such as decreasing the spawn interval), start/stop spawning when the game restarts/ends, and notify that
+    // a skull-type enemy has died
     registerForNotifications() {
         this.notificationCenter.register(
             NotificationType.SpawnManager, 
@@ -69,10 +72,23 @@ class SpawnManager {
         this.isSpawning = spawning;
     }
 
+    // This function, and the isSkullDead variable are used to control the spawning of skull-type enemies.
+    // There can only be one skull on the screen at a time, so the next skull is only allowed to spawn when
+    // the existing skull has died.
+    // When a player kills a skull, the spawn manager recieves a notification from the PlayerMoveController,
+    // and then sets isSkullDead to true. This allows the next skull to spawn.
     updateSkullDead()
     {
-        console.log("Skull Dead");
         this.isSkullDead = true;
+
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.SkullShootController,
+                NotificationAction.ToggleFiring,
+                [false]
+            )
+        );
+
     }
 
     // Change the currentLevel and spawnInterval variables depending on the level being played.
@@ -134,6 +150,22 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     }
+
+    spawnSlime(playerPosX)
+    {
+        if(this.timeSinceLastSlimeSpawnInMs >= this.enemySpawnInterval)
+        {
+            let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
+
+            if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
+    
+            this.initializeSlime(enemyPosX);
+            this.numEnemiesSpawned++;
+
+            this.timeSinceLastSlimeSpawnInMs = 0;
+        }
+    }
+
     // #endregion
 
     // #region Bat
@@ -197,6 +229,24 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     } 
+
+    spawnBat()
+    {
+        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.enemySpawnInterval)
+        {
+            // Randomly picks either 0 or 1
+            let sideToSpawn = Math.floor(Math.random()*2);
+
+            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
+            let enemyPosX = sideToSpawn*950 - 50;
+
+            this.initializeBat(enemyPosX);
+            this.numEnemiesSpawned++;
+
+            this.timeSinceLastBatSpawnInMs = 0;
+        }
+    }
+
     // #endregion
 
     // #region Fiery Skull
@@ -251,8 +301,35 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     }
-    // #endregion
 
+    spawnFierySkull()
+    {
+        if((this.timeSinceLastSkullSpawnInMs >= 3 * this.enemySpawnInterval) && this.isSkullDead)
+        {
+            // Randomly picks either 0 or 1
+            let sideToSpawn = Math.floor(Math.random()*2);
+
+            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
+            let enemyPosX = sideToSpawn*(canvas.clientWidth-45) + 3;
+
+            this.initializeFierySkull(enemyPosX);
+            this.numEnemiesSpawned++;
+
+            this.isSkullDead = false;
+
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.SkullShootController,
+                    NotificationAction.ToggleFiring,
+                    [true]
+                )
+            );
+
+            this.timeSinceLastSkullSpawnInMs = 0;
+        }
+    }
+
+    // #endregion
 
     //#region Health Potion
     initializeHealthPotion(posX)
@@ -302,58 +379,6 @@ class SpawnManager {
 
         this.objectManager.add(sprite);
     }
-    // #endregion
-
-    spawnSlime(playerPosX)
-    {
-        if(this.timeSinceLastSlimeSpawnInMs >= this.enemySpawnInterval)
-        {
-            let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
-
-            if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
-    
-            this.initializeSlime(enemyPosX);
-            this.numEnemiesSpawned++;
-
-            this.timeSinceLastSlimeSpawnInMs = 0;
-        }
-    }
-
-    spawnBat()
-    {
-        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.enemySpawnInterval)
-        {
-            // Randomly picks either 0 or 1
-            let sideToSpawn = Math.floor(Math.random()*2);
-
-            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
-            let enemyPosX = sideToSpawn*950 - 50;
-
-            this.initializeBat(enemyPosX);
-            this.numEnemiesSpawned++;
-
-            this.timeSinceLastBatSpawnInMs = 0;
-        }
-    }
-
-    spawnFierySkull()
-    {
-        if((this.timeSinceLastSkullSpawnInMs >= 3 * this.enemySpawnInterval) && this.isSkullDead)
-        {
-            // Randomly picks either 0 or 1
-            let sideToSpawn = Math.floor(Math.random()*2);
-
-            // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
-            let enemyPosX = sideToSpawn*(canvas.clientWidth-45) + 3;
-
-            this.initializeFierySkull(enemyPosX);
-            this.numEnemiesSpawned++;
-
-            this.isSkullDead = false;
-
-            this.timeSinceLastSkullSpawnInMs = 0;
-        }
-    }
 
     spawnHealthPotion()
     {
@@ -370,6 +395,8 @@ class SpawnManager {
 
     }
 
+    // #endregion
+
     spawnEnemies(playerPosX)
     {
         this.spawnSlime(playerPosX);
@@ -383,29 +410,43 @@ class SpawnManager {
 
     update(gameTime)
     {
-        // Check object manager's status type to prevent enemies/pickups from being initialized before the player starts the game.
+        // Check object manager's status type, and the isSpawning variable to prevent enemies/pickups
+        // from being initialized before the player starts the game/when the game is over/when the level ends
         if(objectManager.statusType == 0 || !this.isSpawning)
         {
+            // Reset all time-related variables
             this.timeSinceLastSlimeSpawnInMs = 0;
             this.timeSinceLastBatSpawnInMs = 0;
             this.timeSinceLastSkullSpawnInMs = 0;
-            this.isSkullDead = true;
             this.timeSinceLastHealthPotionSpawnInMs = 0;
+
+            // Set isSkullDead = true, as this enables spawning of the skulls when the game restarts/the next level begins
+            this.isSkullDead = true;
+
+            // Disable firing of fireballs, to fix an issue where fireballs spawn even after a level ends/game over
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.SkullShootController,
+                    NotificationAction.ToggleFiring,
+                    [false]
+                )
+            );
+
             return;
         }
 
         let player = this.objectManager.get(ActorType.Player)[0];
-
         if(player.statusType == StatusType.Off || player == null) return;
-        
+
+        // Update player position
         let playerPosX = player.transform.translation.x;
 
         this.spawnEnemies(playerPosX);
         this.spawnHealthPotion();
 
+        // Update time-related variables
         this.timeSinceLastSlimeSpawnInMs += gameTime.elapsedTimeInMs;
         this.timeSinceLastBatSpawnInMs += gameTime.elapsedTimeInMs;
-
         if(this.isSkullDead)
         {
             this.timeSinceLastSkullSpawnInMs += gameTime.elapsedTimeInMs;

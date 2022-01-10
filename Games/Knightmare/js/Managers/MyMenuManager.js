@@ -196,11 +196,11 @@ class MyMenuManager extends MenuManager {
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
 
-            // Pause all audio objects that are currently playing
+            // Stop all music
             notificationCenter.notify(
                 new Notification(
                     NotificationType.Sound,
-                    NotificationAction.PauseAll,
+                    NotificationAction.PauseAll
                 )
             );
 
@@ -213,7 +213,7 @@ class MyMenuManager extends MenuManager {
                     NotificationType.GameState,
                     NotificationAction.Restart
                 )
-            )
+            );
             notificationCenter.notify(
                 new Notification(
                     NotificationType.Menu,
@@ -233,12 +233,11 @@ class MyMenuManager extends MenuManager {
             $('#game_over_menu').show();
             $('#game_over_menu').removeClass('hidden');
 
-            // Stop background music
+            // Stop all music
             notificationCenter.notify(
                 new Notification(
                     NotificationType.Sound,
-                    NotificationAction.Pause,
-                    ["background"]
+                    NotificationAction.PauseAll
                 )
             );
 
@@ -270,12 +269,11 @@ class MyMenuManager extends MenuManager {
             $('#pause_menu').show();
             $('#pause_menu').removeClass('hidden');
 
-            // Stop background music
+            // Stop all music
             notificationCenter.notify(
                 new Notification(
                     NotificationType.Sound,
-                    NotificationAction.Pause,
-                    ["background"]
+                    NotificationAction.PauseAll,
                 )
             );
 

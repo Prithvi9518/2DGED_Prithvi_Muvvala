@@ -113,9 +113,10 @@ const NotificationAction = {
     ToggleAudio: "ToggleAudio",
 
     // Adding notification to pause all audio
-    PauseAll: "PauseAll"
+    PauseAll: "PauseAll",
 
-    // Adding notification to pause fireball spawning
+    // Adding notification to toggle fireball spawning
+    ToggleFiring: "ToggleFireball"
 };
 
 // Objects can register to particular notifications which they are
