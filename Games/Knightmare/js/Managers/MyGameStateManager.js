@@ -50,6 +50,9 @@ class MyGameStateManager extends GameStateManager {
         this.levelFinished = false;
 
         // gameOverDelay and timeSincePlayerDied are used to display the game over menu after a short delay when the player dies.
+        this.playGameOverSound = false;
+        this.gameOverSoundTime = 0;
+        this.stopGameOverSoundTime = 4000;
         this.gameOverDelayInMs = 2000;
         this.timeSincePlayerDied = 0;
         
@@ -385,7 +388,48 @@ class MyGameStateManager extends GameStateManager {
         // Hide player by setting statusType to Off and translating the sprite outside of the canvas
         player.statusType = StatusType.Off;
         player.transform.translation = new Vector2(-60,-60);
-        
+
+        // the playGameOverSound variable allows us to only play the game over sound once, without it being repeatedly played
+        // Once the game over sound starts playing, we set this variable to false
+        // If the game over sound time goes over the specified stop time, the sound will be paused.
+        if(this.playGameOverSound)
+        {
+    
+            // Pause background music
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
+
+            if(this.gameOverSoundTime < this.stopGameOverSoundTime)
+            {
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Play,
+                        ["game_over"]
+                    )
+                );
+                this.playGameOverSound = false;
+            }
+        }
+        else
+        {
+            if(this.gameOverSoundTime >= this.stopGameOverSoundTime)
+            {
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Pause,
+                        ["game_over"]
+                    )
+                );
+            }
+        }
+
         // Start counting the time since player death
         this.timeSincePlayerDied += gameTime.elapsedTimeInMs;
 
@@ -415,6 +459,8 @@ class MyGameStateManager extends GameStateManager {
 
         if(this.playerHealth <= 0)
         {
+            this.playGameOverSound = true;
+            this.gameOverSoundTime += gameTime.elapsedTimeInMs;
             this.handleGameOver();
         }
 

@@ -10,12 +10,7 @@ class GameData
         new AudioCue("fireball_charge", AudioType.All, 0.3, 2, 0, true),
         new AudioCue("explosion", AudioType.Explosion, 1, 1, 0, false),
         new AudioCue("fireball_shoot", AudioType.Explosion, 1, 1, 0, false),
-
-
-
-        // new AudioCue("jump", AudioType.Move, 1, 1, 0, false),
-        // new AudioCue("boing", AudioType.All, 1, 1, 0, false),
-        // new AudioCue("game_over", AudioType.WinLose, 1, 1, 0, false),
+        new AudioCue("game_over", AudioType.WinLose, 1, 1, 0, false),
       ];
 
     static BACKGROUND_1_DIMENSIONS = new Vector2(384, 240);
@@ -454,6 +449,59 @@ class GameData
                         new Rect(62,26,10,6),
                         new Rect(53,28,8,7),
                         new Rect(42,29,10,6)
+                    ]
+
+                }
+
+            }
+
+        },
+
+        {
+            // Dark Bat
+            id: "D_Bat",
+            spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
+
+            takes: {
+
+                // Animation 1
+                "Move Right": {
+
+                    frameRatePerSec: 3,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 3,
+
+                    boundingBoxDimensions: new Vector2(10,7),
+
+                    frames: [
+                        new Rect(0,39,8,6),
+                        new Rect(9,38,10,6),
+                        new Rect(20,40,8,7),
+                        new Rect(29,41,10,6)
+                    ]
+
+                },
+
+                // Animation 2
+                "Move Left": {
+                    
+                    frameRatePerSec: 4,
+
+                    maxLoopCount: -1,
+            
+                    startFrameIndex: 0,
+                    endFrameIndex: 3,
+
+                    boundingBoxDimensions: new Vector2(10,7),
+
+                    frames: [
+                        new Rect(73,39,8,6),
+                        new Rect(62,38,10,6),
+                        new Rect(53,40,8,7),
+                        new Rect(42,41,10,6)
                     ]
 
                 }

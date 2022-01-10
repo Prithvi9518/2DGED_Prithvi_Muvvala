@@ -175,10 +175,13 @@ class SpawnManager {
         let artist;
         let sprite;
 
+        // Setting the index of the bat animation data based on the current level
+        let animationDataIndex = (this.currentLevel < 3) ? 3 : 4;
+
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[3]
+            GameData.ENEMY_DATA[animationDataIndex]
         );
 
         // Set animation
@@ -194,7 +197,7 @@ class SpawnManager {
         );
 
         sprite = new MoveableSprite(
-            "R_Bat " + this.numEnemiesSpawned,
+            GameData.ENEMY_DATA[animationDataIndex].id + this.numEnemiesSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,
@@ -259,7 +262,7 @@ class SpawnManager {
         artist = new AnimatedSpriteArtist(
             context,
             1,
-            GameData.ENEMY_DATA[4]
+            GameData.ENEMY_DATA[5]
         );
 
         // Set animation
@@ -281,7 +284,7 @@ class SpawnManager {
         );
 
         sprite = new Sprite(
-            GameData.ENEMY_DATA[4].id + this.numEnemiesSpawned,
+            GameData.ENEMY_DATA[5].id + this.numEnemiesSpawned,
             transform,
             ActorType.Enemy,
             CollisionType.Collidable,

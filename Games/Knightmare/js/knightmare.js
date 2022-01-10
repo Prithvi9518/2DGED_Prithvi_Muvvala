@@ -253,16 +253,6 @@ function initializeSprites() {
 
     initializeHud();
     initializeOnScreenText();
-
-    // // Play menu music
-    // notificationCenter.notify(
-    //     new Notification(
-    //         NotificationType.Sound,
-    //         NotificationAction.Play,
-    //         ["menu_music"]
-    //     )
-    // );
-
 }
 
 // #region Player
