@@ -387,7 +387,7 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Turn off firing- this is to fix an issue with the SkullShootController where the fireballs
+        // Turn off firing and turn off the charging audio- this is to fix an issue with the SkullShootController where the fireballs
         // would keep spawning even though all the enemies and projectiles from the previous level had
         // been removed.
         this.notificationCenter.notify(
@@ -395,6 +395,13 @@ class MyGameStateManager extends GameStateManager {
                 NotificationType.SkullShootController,
                 NotificationAction.ToggleFiring,
                 [ActorType.False]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sound,
+                NotificationAction.Pause,
+                ["fireball_charge"]
             )
         );
     }

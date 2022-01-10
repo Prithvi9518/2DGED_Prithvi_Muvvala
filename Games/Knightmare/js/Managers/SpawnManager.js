@@ -298,7 +298,7 @@ class SpawnManager {
             new SkullShootController(
                 this.notificationCenter,
                 this.objectManager,
-                1500 - (175*this.currentLevel)
+                1500 - (200*this.currentLevel)
             )
         );
 

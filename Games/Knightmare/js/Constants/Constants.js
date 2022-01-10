@@ -156,6 +156,41 @@ class GameData
 
 
             ]
+        },
+
+        {
+            // Dungeon Tiles
+            spriteSheet: document.getElementById("dungeon_tileset"),
+            actorType: ActorType.Platform,
+            collisionType: CollisionType.Collidable,
+            layerDepth: 0,
+            explodeBoundingBoxInPixels: -6,
+            sourceDimensions: new Vector2(16,16),
+            rotation: 0,
+            scale: new Vector2(2.5,2.5),
+            origin: Vector2.Zero,
+
+            platformSpriteData: [       // Data for different tiles inside the dungeon_tileset spritesheet
+                {
+                    id: "Dungeon 1",
+                    sourcePosition: new Vector2(32,0),
+                    translation: new Vector2(0,350)
+                },
+
+                {
+                    id: "Dungeon 2",
+                    sourcePosition: new Vector2(48,0),
+                    translation: new Vector2(0,350)
+                },
+
+                {
+                    id: "Dungeon 3",
+                    sourcePosition: new Vector2(64,0),
+                    translation: new Vector2(0,350)
+                }
+
+            ]
+
         }
 
     ];

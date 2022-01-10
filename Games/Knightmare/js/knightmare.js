@@ -390,9 +390,6 @@ function initializePlatform()
 
         initializeGround(i, spriteIndex, transform, artist, sprite, spriteClone);
         initializeUnderGround(i, spriteIndex,transform, artist, sprite, spriteClone);
-        initializeBedrock(i, spriteIndex,transform, artist, sprite, spriteClone);
-
-
     }
 }
 
