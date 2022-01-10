@@ -130,7 +130,7 @@
         }
     }
 
-    // Added by Prithvi Muvvala
+    // To access the current take of the arist
     getCurrentTake()
     {
         return this.currentTakeName;

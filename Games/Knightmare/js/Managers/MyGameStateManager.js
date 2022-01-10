@@ -55,6 +55,13 @@ class MyGameStateManager extends GameStateManager {
         this.stopGameOverSoundTime = 4000;
         this.gameOverDelayInMs = 2000;
         this.timeSincePlayerDied = 0;
+
+        // Used to create delay between when player wins and when win screen is displayed
+        this.winDelayInMs = 1500;
+        this.timeSincePlayerWon = 0;
+        this.playWinSound = false;
+        this.winSoundTime = 0;
+        this.stopWinSoundTime = 4000;
         
         this.registerForNotifications();
     }
@@ -158,29 +165,39 @@ class MyGameStateManager extends GameStateManager {
             )
         );
 
-        // Calculate number of seconds till the next level begins
-        let countDownTime = Math.ceil((this.nextLevelDelayInMs - this.timeSinceLevelEnded)/1000);
-
-        // Show Level Finished Text
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.UI,
-                NotificationAction.UpdateLevelFinishedText,
-                [
-                    StatusType.Updated | StatusType.Drawn,
-                    this.currentLevel,
-                    countDownTime
-                ]
-            )
-        );
-        
-        // If the short delay between levels has ended, check and update the level
-        if(this.timeSinceLevelEnded >= this.nextLevelDelayInMs)
+        if(this.currentLevel < 3)
         {
-            this.checkAndUpdateLevel();
-            this.timeSinceLevelEnded = 0;
-            this.levelFinished = false;
+            // Calculate number of seconds till the next level begins
+            let countDownTime = Math.ceil((this.nextLevelDelayInMs - this.timeSinceLevelEnded)/1000);
+
+            // Show Level Finished Text
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.UI,
+                    NotificationAction.UpdateLevelFinishedText,
+                    [
+                        StatusType.Updated | StatusType.Drawn,
+                        this.currentLevel,
+                        countDownTime
+                    ]
+                )
+            );
+
+            // If the short delay between levels has ended, check and update the level
+            if(this.timeSinceLevelEnded >= this.nextLevelDelayInMs)
+            {
+                this.checkAndUpdateLevel();
+                this.timeSinceLevelEnded = 0;
+                this.levelFinished = false;
+            }
+
         }
+        else
+        {
+            this.handleWin();
+        }
+       
+       
 
     }
 
@@ -337,8 +354,9 @@ class MyGameStateManager extends GameStateManager {
     {
         let finishedLv1 = this.playerScore == GameData.SCORE_THRESHOLDS[1] && this.currentLevel == 1;
         let finishedLv2 = this.playerScore == GameData.SCORE_THRESHOLDS[2] && this.currentLevel == 2;
+        let finishedLv3 = this.playerScore == GameData.SCORE_THRESHOLDS[3] && this.currentLevel == 3;
         
-        if((finishedLv1 || finishedLv2) && this.levelFinished == false)
+        if((finishedLv1 || finishedLv2 || finishedLv3) && this.levelFinished == false)
         {
             this.levelFinished = true;
         } 
@@ -454,6 +472,67 @@ class MyGameStateManager extends GameStateManager {
         }
     }
 
+    handleWin()
+    {
+
+        if(this.playWinSound)
+        {
+    
+            // Pause background music
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.Pause,
+                    ["background"]
+                )
+            );
+
+            if(this.winSoundTime < this.stopWinSoundTime)
+            {
+                // Play win sound
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Play,
+                        ["win"]
+                    )
+                );
+                this.playWinSound = false;
+            }
+        }
+        else
+        {
+            if(this.winSoundTime >= this.stopWinSoundTime)
+            {
+                this.notificationCenter.notify(
+                    new Notification(
+                        NotificationType.Sound,
+                        NotificationAction.Pause,
+                        ["win"]
+                    )
+                );
+            }
+        }
+
+
+
+        this.timeSincePlayerWon += gameTime.elapsedTimeInMs;
+
+        if(this.timeSincePlayerWon >= this.winDelayInMs)
+        {
+            this.notificationCenter.notify(
+                new Notification(
+                    NotificationType.Menu,
+                    NotificationAction.WinMenu,
+                    [true]
+                )
+            );
+
+            this.timeSincePlayerWon = 0;
+        }
+
+    }
+
 
     update(gameTime) {        
 
@@ -470,6 +549,13 @@ class MyGameStateManager extends GameStateManager {
         {
             this.timeSinceLevelEnded += gameTime.elapsedTimeInMs;
             this.endLevel();
+
+            if(this.currentLevel == 3)
+            {
+                this.playWinSound = true;
+                this.winSoundTime += gameTime.elapsedTimeInMs;
+            }
+
         }
     }
 }

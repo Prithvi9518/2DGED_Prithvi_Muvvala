@@ -14,6 +14,7 @@ body {
 
 #title h1 {
     color: rgb(90, 41, 0);
+    font-size: 24px;
 }
 
 #game_window {
@@ -78,6 +79,13 @@ body {
     background-size: cover;
 }
 
+#main_menu h1 {
+    position: relative;
+    bottom: 10px;
+    font-size: 24px;
+    color: orangered;
+}
+
 #exit_menu {
     background-color: black;
 }
@@ -88,6 +96,11 @@ body {
 }
 
 #game_over_menu {
+    background-color: black;
+    color: crimson;
+}
+
+#win_menu {
     background-color: black;
 }
 

@@ -33,7 +33,7 @@ let spawnManager;
 
 let debugDrawer;
 
-const debugMode = true;
+const debugMode = false;
 
 function start() {
 
@@ -220,24 +220,18 @@ function initializeManagers() {
 function initializeCamera() {
 
     let transform = new Transform2D(
-        Vector2.Zero,
-        0,
-        Vector2.One,
-        new Vector2(
-            canvas.clientWidth / 2,
-            canvas.clientHeight / 2
-        ),
-        new Vector2(
-            canvas.clientWidth,
-            canvas.clientHeight
-        )
+        GameData.CAMERA_DATA.translation,
+        GameData.CAMERA_DATA.rotation,
+        GameData.CAMERA_DATA.scale,
+        new Vector2(canvas.clientWidth/2, canvas.clientHeight/2),
+        new Vector2(canvas.clientWidth, canvas.clientHeight)
     );
 
     let camera = new Camera2D(
-        "Camera 1",
+        GameData.CAMERA_DATA.id,
         transform,
-        ActorType.Camera,
-        StatusType.Updated
+        GameData.CAMERA_DATA.actorType,
+        GameData.CAMERA_DATA.statusType
     );
 
     cameraManager.add(camera);
@@ -594,10 +588,10 @@ function initializeHealthBar()
 
     let spriteClone;
 
-    for(let i = 1; i <= 4; i++)
+    for(let i = 1; i <= (GameData.INITIAL_PLAYER_HEALTH/20)-1; i++)
     {
         spriteClone = sprite.clone();
-        spriteClone.transform.translateBy(new Vector2(27*i,0));
+        spriteClone.transform.translateBy(new Vector2(GameData.HEART_OFFSET_X*i,0));
 
         objectManager.add(spriteClone);
     }
@@ -612,22 +606,22 @@ function initializePauseButton()
 
     transform = new Transform2D(
         new Vector2(
-            canvas.clientWidth - 40,
-            10
+            canvas.clientWidth - GameData.PAUSE_BUTTON_DATA.offsetX,
+            GameData.PAUSE_BUTTON_DATA.offsetY
         ),
         0,
-        new Vector2(3, 3),
+        GameData.PAUSE_BUTTON_DATA.scale,
         Vector2.Zero,
-        new Vector2(10, 10),
+        GameData.PAUSE_BUTTON_DATA.dimensions,
         0
     );
 
     artist = new SpriteArtist(
         context,                                        // Context
         1,                                              // Alpha
-        GameData.PAUSE_BUTTON_SPRITE_SHEET,             // Spritesheet
+        GameData.PAUSE_BUTTON_DATA.spriteSheet,         // Spritesheet
         Vector2.Zero,                                   // Source Position
-        new Vector2(32, 32),                            // Source Dimension
+        GameData.PAUSE_BUTTON_DATA.sourceDimensions,    // Source Dimension
         
         // Set this to true if you want the sprite to stay in one
         // position on the screen (i.e., the sprite WON'T scroll
@@ -637,11 +631,11 @@ function initializePauseButton()
         // the world (i.e., the sprite WILL scroll off-screen when
         // the camera moves to the right or to the left.
 
-        true                                            // Fixed Position
+        GameData.PAUSE_BUTTON_DATA.fixedPosition        // Fixed Position
     );
 
     sprite = new Sprite(
-        "Pause Button",
+        GameData.PAUSE_BUTTON_DATA.id,
         transform,
         ActorType.HUD,
         CollisionType.NotCollidable,
@@ -672,8 +666,8 @@ function initializeScoreText()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 195), 
-            10
+            (canvas.clientWidth / 2 - GameData.SCORE_TEXT_DATA.offsetX), 
+            GameData.SCORE_TEXT_DATA.offsetY
         ),
         0,
         Vector2.One,
@@ -715,8 +709,8 @@ function initializeLevelText()
 
     transform = new Transform2D(
         new Vector2(
-            (canvas.clientWidth / 2 - 65), 
-            10
+            (canvas.clientWidth / 2 - GameData.LEVEL_TEXT_DATA.offsetX), 
+            GameData.LEVEL_TEXT_DATA.offsetY
         ),
         0,
         Vector2.One,

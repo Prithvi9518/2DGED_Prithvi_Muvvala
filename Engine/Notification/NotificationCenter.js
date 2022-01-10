@@ -106,6 +106,9 @@ const NotificationAction = {
     // Adding a notification action to show game over menu
     GameOverMenu: "GameOverMenu",
 
+    // Adding a notification action to show game over menu
+    WinMenu: "WinMenu",
+
     // Adding a notification action to restart game
     Restart: "Restart",
 

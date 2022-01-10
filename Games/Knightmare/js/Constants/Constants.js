@@ -1,5 +1,15 @@
 class GameData
 {
+
+    static CAMERA_DATA = {
+        id: "Camera 1",
+        translation: Vector2.Zero,
+        rotation: 0,
+        scale: Vector2.One,
+        actorType: ActorType.Camera,
+        statusType: StatusType.Updated
+    };
+
     static AUDIO_CUE_ARRAY = [
         new AudioCue("background", AudioType.Background, 0.4, 1, 0, true),
         new AudioCue("menu_music", AudioType.Background, 0.5, 1, 0, true),
@@ -11,14 +21,15 @@ class GameData
         new AudioCue("explosion", AudioType.Explosion, 1, 1, 0, false),
         new AudioCue("fireball_shoot", AudioType.Explosion, 1, 1, 0, false),
         new AudioCue("game_over", AudioType.WinLose, 1, 1, 0, false),
+        new AudioCue("win", AudioType.WinLose, 0.6, 0.4, 0, false),
       ];
+
+    // #region Background Data
 
     static BACKGROUND_1_DIMENSIONS = new Vector2(384, 240);
     static BACKGROUND_2_DIMENSIONS = new Vector2(1000,496);
     static BACKGROUND_3_DIMENSIONS = new Vector2(1920,1080);
 
-
-    // #region Background Data
     static BACKGROUND_DATA = [
 
         {
@@ -657,13 +668,31 @@ class GameData
     };
 
 
-    // UI data
-    static PAUSE_BUTTON_SPRITE_SHEET = document.getElementById("pause_button");
-    static PAUSE_KEY = Keys.P;
+    // UI data    
+    static PAUSE_BUTTON_DATA = {
+        id: "Pause Button",
+        spriteSheet: document.getElementById("pause_button"),
+        offsetX: 40,
+        offsetY: 10,
+        scale: new Vector2(3,3),
+        dimensions: new Vector2(10,10),
+        sourceDimensions: new Vector2(32, 32),
+        fixedPosition: true
+    };
+
+    static SCORE_TEXT_DATA = {
+        offsetX: 195,
+        offsetY: 10,
+    };
+
+    static LEVEL_TEXT_DATA = {
+        offsetX: 65,
+        offsetY: 10
+    };
 
     static FULL_HEART_DIMENSIONS = new Vector2(140,131);
     static EMPTY_HEART_DIMENSIONS = new Vector2(140,130);
-
+    static HEART_OFFSET_X = 27;
 
     static HEART_SPRITE_DATA = [
 
@@ -704,8 +733,9 @@ class GameData
     // Score thresholds for different levels
     static SCORE_THRESHOLDS = [
         0,
-        30,         //Level 1 Threshold
-        200         // Level 2 Threshold
+        100,         //Level 1 Threshold
+        300,        // Level 2 Threshold
+        600         // Win
     ]
 
 }

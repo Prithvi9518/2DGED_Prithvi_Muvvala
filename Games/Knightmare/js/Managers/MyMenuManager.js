@@ -40,6 +40,11 @@ class MyMenuManager extends MenuManager {
                 this.toggleGameOverMenu(notification.notificationArguments[0]);
                 break;
 
+            case NotificationAction.WinMenu:
+
+                this.toggleWinMenu(notification.notificationArguments[0]);
+                break;
+
             case NotificationAction.Pause:
 
                 this.togglePauseMenu(notification.notificationArguments[0]);
@@ -103,6 +108,10 @@ class MyMenuManager extends MenuManager {
         // Hide the game over menu
         $('#game_over_menu').hide();
         $('#game_over_menu').addClass('hidden');
+
+        // Hide the win menu
+        $('#win_menu').hide();
+        $('#win_menu').addClass('hidden');
 
         $('#pause_menu').hide();
         $('#pause_menu').addClass('hidden');
@@ -187,7 +196,7 @@ class MyMenuManager extends MenuManager {
             $('#control_menu').removeClass('hidden');
         });
 
-        // If the main menu button is clicked
+        // If the return to main menu button is clicked
         $('.return_main_menu').click(function () {
 
             // Hide pause menu and game over menu
@@ -195,6 +204,8 @@ class MyMenuManager extends MenuManager {
             $('#pause_menu').addClass('hidden');
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
+            $('#win_menu').hide();
+            $('#win_menu').addClass('hidden');
 
             // Stop all music
             notificationCenter.notify(
@@ -259,6 +270,29 @@ class MyMenuManager extends MenuManager {
         {
             $('#game_over_menu').hide();
             $('#game_over_menu').addClass('hidden');
+        }
+    }
+
+    toggleWinMenu(isShown)
+    {
+        if(isShown)
+        {
+            $('#win_menu').show();
+            $('#win_menu').removeClass('hidden');
+
+            // Stop all music
+            notificationCenter.notify(
+                new Notification(
+                    NotificationType.Sound,
+                    NotificationAction.PauseAll
+                )
+            );
+
+        }
+        else
+        {
+            $('#win_menu').hide();
+            $('#win_menu').addClass('hidden');
         }
     }
 
