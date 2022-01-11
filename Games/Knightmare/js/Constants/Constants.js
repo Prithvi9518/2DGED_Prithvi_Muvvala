@@ -19,8 +19,8 @@ class GameData
         new AudioCue("fireball_charge", AudioType.All, 0.3, 2, 0, true),
         new AudioCue("explosion", AudioType.Explosion, 1, 1, 0, false),
         new AudioCue("fireball_shoot", AudioType.Explosion, 1, 1, 0, false),
-        new AudioCue("game_over", AudioType.WinLose, 1, 1, 0, false),
-        new AudioCue("win", AudioType.WinLose, 0.6, 0.4, 0, false),
+        new AudioCue("game_over", AudioType.WinLose, 0.6, 1, 0, false),
+        new AudioCue("win", AudioType.WinLose, 0.5, 0.4, 0, false),
       ];
 
     // #region Background Data
@@ -808,7 +808,7 @@ class GameData
         0,
         100,         //Level 1 Threshold
         300,        // Level 2 Threshold
-        600         // Win
+        600        // Win
     ]
 
 }
