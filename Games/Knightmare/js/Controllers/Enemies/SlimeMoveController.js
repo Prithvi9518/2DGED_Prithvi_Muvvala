@@ -24,7 +24,7 @@ class SlimeMoveController {
         // if enough time has passed since sprite last moved, move the sprite again
         if(this.timeSinceLastMoveInMs >= this.intervalBetweenInMs)
         {
-            let translateBy = Vector2.MultiplyScalar(this.moveVelocity, this.moveDirection);
+            let translateBy = Vector2.MultiplyScalar(this.moveVelocity, this.moveDirection*gameTime.elapsedTimeInMs);
 
             parent.transform.translateBy(translateBy);
 

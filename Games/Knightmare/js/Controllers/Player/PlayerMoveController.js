@@ -282,7 +282,7 @@
 
                 // Remove enemy only if enemy gets hit by the player's sword.
                 // If the enemy makes contact with any part of the player's sprite other than the sword,
-                // decrease player health (Removing the player as a temporary measure until a health system is added)
+                // decrease player health
                 if(
                     (parent.artist.getCurrentTake() == "Run Right" &&
                      enemyBoundingBox.x + enemyBoundingBox.width >= playerBoundingBox.x + playerBoundingBox.width) || 

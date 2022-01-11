@@ -697,17 +697,17 @@ class GameData
 
     static STARTING_SLIME_POS_X = 500;
     static SLIME_POS_Y = 331;
-    static SLIME_MOVE_INTERVAL = 500;
-    static SLIME_MAX_SPEED = 6;
-    static SLIME_VELOCITY_MULTIPLIER = 10;
+    static SLIME_MOVE_INTERVAL = 650;
+    static SLIME_MAX_SPEED = 5;
+    static SLIME_VELOCITY_MULTIPLIER = 0.8;
     static SLIME_OFFSET_PLAYER = 30;
 
     static BAT_POS_Y = 200;
     static BAT_MAX_SPEED = 100;
-    static BAT_X_VEL_MIN = 3;
-    static BAT_X_VEL_MULTIPLIER = 0.2;
-    static BAT_Y_VEL_MIN = 4;
-    static BAT_Y_VEL_MULTIPLIER = 0.4;
+    static BAT_X_VEL_MIN = 0.2;
+    static BAT_X_VEL_MULTIPLIER = 0.03;
+    static BAT_Y_VEL_MIN = 0.23;
+    static BAT_Y_VEL_MULTIPLIER = 0.03;
     static BAT_MIN_Y = 150;
     static BAT_MAX_Y = 300;
     static BAT_INTERVAL_MULTIPLIER = 1.5;
@@ -718,7 +718,7 @@ class GameData
     static SKULL_INTERVAL_MULTIPLIER = 3;
 
     static FIREBALL_CHARGE_DURATION = 2000;
-    static FIREBALL_VELOCITY_MULTIPLIER = 5;
+    static FIREBALL_VELOCITY_MULTIPLIER = 0.6;
 
 
 

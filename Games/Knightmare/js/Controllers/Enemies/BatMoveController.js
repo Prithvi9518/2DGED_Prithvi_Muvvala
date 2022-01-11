@@ -32,7 +32,7 @@ class BatMoveController {
            this.yVel = -this.yVel;
        }
 
-       parent.transform.translateBy(new Vector2(this.xVel, this.yVel));
+       parent.transform.translateBy(new Vector2(this.xVel*gameTime.elapsedTimeInMs, this.yVel*gameTime.elapsedTimeInMs));
    }
 
 }

@@ -88,7 +88,7 @@ class HealthPotionDropController {
     update(gameTime, parent)
     {
         this.applyForces(gameTime, parent);
-        parent.transform.translateBy(new Vector2(parent.body.velocityX,parent.body.velocityY));
+        parent.transform.translateBy(new Vector2(0,parent.body.velocityY));
         this.checkCollisions(gameTime, parent);
     }
  

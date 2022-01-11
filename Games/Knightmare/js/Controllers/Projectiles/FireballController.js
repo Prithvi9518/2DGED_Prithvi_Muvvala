@@ -55,7 +55,7 @@ class FireballController {
         }
     }
 
-    move(parent)
+    move(gameTime, parent)
     {
         if(this.fired)
         {
@@ -68,7 +68,7 @@ class FireballController {
                 )
             );
 
-            parent.transform.translateBy(new Vector2(this.moveVelocity, 0));
+            parent.transform.translateBy(new Vector2(this.moveVelocity * gameTime.elapsedTimeInMs, 0));
         }
     }
 
@@ -95,7 +95,7 @@ class FireballController {
             this.timeSinceChargeBeganInMs = 0;
         }
         
-        this.move(parent);
+        this.move(gameTime, parent);
         this.handleOutOfBounds(parent);
 
         if(!this.fired)
