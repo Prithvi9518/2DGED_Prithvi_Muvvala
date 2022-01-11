@@ -12,7 +12,6 @@ class GameData
 
     static AUDIO_CUE_ARRAY = [
         new AudioCue("background", AudioType.Background, 0.4, 1, 0, true),
-        new AudioCue("menu_music", AudioType.Background, 0.5, 1, 0, true),
         new AudioCue("jump", AudioType.Move, 0.4, 1, 0, false),
         new AudioCue("hit", AudioType.All, 1, 1, 0, false),
         new AudioCue("hurt", AudioType.All, 1, 1, 0, false),

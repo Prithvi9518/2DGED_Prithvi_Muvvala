@@ -12,7 +12,10 @@ body {
     right: 0;
     top: 0;
     z-index: 1;
+
+    /* Reference: https://wallpapercave.com/hyper-light-drifter-wallpapers */
     background-image: url(../assets/9f1add05efe33ea7621ac7f9557bc140.png);
+
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -47,14 +50,6 @@ body {
 }
 
 #menu_block {
-    /* position: absolute;
-    width: 850;
-    height: 460;
-    left: 0;
-    top: 0;
-
-    text-align: center;
-    color: white; */
 
     position: absolute;
     width: 100%;
@@ -68,17 +63,7 @@ body {
 }
 
 .menu {
-    /* position: absolute;
     
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    width: 850;
-    height: 460;
-    left: 0;
-    top: 0; */
-
     position: absolute;
     
     display: flex;
@@ -93,6 +78,8 @@ body {
 }
 
 #main_menu {
+
+    /* Reference: https://www.artstation.com/artwork/Ya9PLP */
     background-image: url('../assets/purple-clouds-moon-background.jpg');
     background-size: cover;
 }
