@@ -6,9 +6,10 @@ class HealthPotionDropController {
         this.objectManager = objectManager;
         
         this.timeUntilPickupDespawnInMs = 0;
-        this.despawnTimeInMs = 5000;
+        this.despawnTimeInMs = GameData.PICKUP_DESPAWN_TIME;
     }
  
+    // Used to apply gravity to make the pickup drop down from above the screen
     applyForces(gameTime, parent) {
 
         if(!parent.body.onGround)

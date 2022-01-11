@@ -54,10 +54,15 @@ class MyUIManager extends UIManager {
 
     updateHealthBar(health) {
 
-        // TO DO: Your code here...
+        // The number of full hearts is calculated as the current health divided by 20 and floored to get an integer value
+        // So if health = 100, full hearts = 100/20 = 5
+        // If health = 40, full hearts = 40/20 = 2
         let numFullHearts = Math.floor(health/20);
+
+        // The number of empty hearts is just calculated as the max number of hearts(5) - the current number of full hearts
         let heartsToRemove = 5-numFullHearts;
     
+        // Accessing the heart sprites by getting all the ui sprites and filtering the array
         let uiSprites = this.objectManager.get(ActorType.HUD);
 
         let heartSprites = uiSprites.filter(function (el) {
@@ -104,6 +109,7 @@ class MyUIManager extends UIManager {
 
     updateScoreText(score) {
 
+        // Getting all ui sprites and filtering the array to find the score text
         let uiSprites = this.objectManager.get(ActorType.HUD);
         let scoreText = uiSprites.filter(function (el) {
             return el.id == "ScoreText";

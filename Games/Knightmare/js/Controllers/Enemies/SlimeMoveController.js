@@ -21,7 +21,7 @@ class SlimeMoveController {
     {
         this.followPlayer(parent);
 
-        // if enough time has passed since sprite last moved
+        // if enough time has passed since sprite last moved, move the sprite again
         if(this.timeSinceLastMoveInMs >= this.intervalBetweenInMs)
         {
             let translateBy = Vector2.MultiplyScalar(this.moveVelocity, this.moveDirection);
@@ -32,16 +32,6 @@ class SlimeMoveController {
         }
 
         this.timeSinceLastMoveInMs += gameTime.elapsedTimeInMs;
-    }
-
-    clone() {
-
-        return new SlimeMoveController(
-            this.moveVelocity,
-            this.intervalBetweenInMs,
-            this.moveDirection
-        );
-
     }
 
     followPlayer(parent)

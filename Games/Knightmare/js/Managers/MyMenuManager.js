@@ -113,6 +113,7 @@ class MyMenuManager extends MenuManager {
         $('#win_menu').hide();
         $('#win_menu').addClass('hidden');
 
+        // Hide the pause menu
         $('#pause_menu').hide();
         $('#pause_menu').addClass('hidden');
 
@@ -123,7 +124,7 @@ class MyMenuManager extends MenuManager {
         // If the play button is clicked
         $('.play').click(function () {
 
-            // Hide the menu
+            // Hide the main menu
             $('#main_menu').hide();
 
             // Send a notification to update and draw the game
@@ -218,7 +219,7 @@ class MyMenuManager extends MenuManager {
             // Show main menu
             $('#main_menu').show();
 
-            // Restart the game, and pause the object manager
+            // Restart the game, and pause the object manager by sending a ShowMenuChanged notification
             notificationCenter.notify(
                 new Notification(
                     NotificationType.GameState,

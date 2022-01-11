@@ -92,8 +92,8 @@ class SkullShootController {
             new FireballController(
                 this.notificationCenter,
                 this.objectManager,
-                fireDirection.x * 5,
-                2000
+                fireDirection.x * GameData.FIREBALL_VELOCITY_MULTIPLIER,
+                GameData.FIREBALL_CHARGE_DURATION
             )
         );
 
@@ -101,6 +101,7 @@ class SkullShootController {
 
     }
 
+    // Checks every frame if a fireball sprite currently exists
     checkForExistingFireballs()
     {
         // Getting an array of all the projectiles from the object manager, and filtering it to see which elements

@@ -303,6 +303,7 @@ class GameData
             //Orange Slime
             id: "Orange Slime",
             spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
+            scale: new Vector2(2,2),
 
             takes: {
 
@@ -354,6 +355,7 @@ class GameData
             // Green Slime
             id: "Green Slime",
             spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
+            scale: new Vector2(2,2),
 
             takes: {
 
@@ -404,6 +406,7 @@ class GameData
             // Red Slime
             id: "Red Slime",
             spriteSheet: document.getElementById("enemy_sprite_sheet_1"),
+            scale: new Vector2(2,2),
 
             takes: {
 
@@ -454,13 +457,14 @@ class GameData
             // Red Bat
             id: "R_Bat",
             spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
+            scale: new Vector2(4,4),
 
             takes: {
 
                 // Animation 1
                 "Move Right": {
 
-                    frameRatePerSec: 3,
+                    frameRatePerSec: 4,
 
                     maxLoopCount: -1,
             
@@ -507,13 +511,14 @@ class GameData
             // Dark Bat
             id: "D_Bat",
             spriteSheet: document.getElementById("enemy_sprite_sheet_2"),
+            scale: new Vector2(4,4),
 
             takes: {
 
                 // Animation 1
                 "Move Right": {
 
-                    frameRatePerSec: 3,
+                    frameRatePerSec: 6,
 
                     maxLoopCount: -1,
             
@@ -534,7 +539,7 @@ class GameData
                 // Animation 2
                 "Move Left": {
                     
-                    frameRatePerSec: 4,
+                    frameRatePerSec: 6,
 
                     maxLoopCount: -1,
             
@@ -560,6 +565,7 @@ class GameData
             // Fiery Skull
             id: "FierySkull",
             spriteSheet: document.getElementById("enemy_sprite_sheet_3"),
+            scale: new Vector2(2.5,2.5),
 
             takes: {
 
@@ -689,6 +695,33 @@ class GameData
         1400        // Level 3
     ];
 
+    static STARTING_SLIME_POS_X = 500;
+    static SLIME_POS_Y = 331;
+    static SLIME_MOVE_INTERVAL = 500;
+    static SLIME_MAX_SPEED = 6;
+    static SLIME_VELOCITY_MULTIPLIER = 10;
+    static SLIME_OFFSET_PLAYER = 30;
+
+    static BAT_POS_Y = 200;
+    static BAT_MAX_SPEED = 100;
+    static BAT_X_VEL_MIN = 3;
+    static BAT_X_VEL_MULTIPLIER = 0.2;
+    static BAT_Y_VEL_MIN = 4;
+    static BAT_Y_VEL_MULTIPLIER = 0.4;
+    static BAT_MIN_Y = 150;
+    static BAT_MAX_Y = 300;
+    static BAT_INTERVAL_MULTIPLIER = 1.5;
+
+    static SKULL_POS_Y = 300;
+    static SKULL_SHOOT_INTERVAL_MAX = 1500;
+    static SKULL_SHOOT_INTERVAL_MULTIPLIER = 200;
+    static SKULL_INTERVAL_MULTIPLIER = 3;
+
+    static FIREBALL_CHARGE_DURATION = 2000;
+    static FIREBALL_VELOCITY_MULTIPLIER = 5;
+
+
+
     // Pickup data
     static HEALTH_POTION_SPRITE_DATA = {
         id: "HealthPotion",
@@ -696,11 +729,17 @@ class GameData
         sourcePosition: new Vector2(40,20),
         sourceDimensions: new Vector2(90,140),
         rotation: 0,
-        scale: new Vector2(0.15,0.15),
+        scale: new Vector2(0.17,0.17),
         origin: Vector2.Zero,
         actorType: ActorType.Pickup,
         collisionType: CollisionType.Collidable
     };
+
+    static POTION_POS_Y = -20;
+    static POTION_MAX_SPEED = 3;
+    static PICKUP_SPAWN_INTERVAL_MIN = 10000;
+    static PICKUP_SPAWN_INTERVAL_MULTIPLIER = 4000;
+    static PICKUP_DESPAWN_TIME = 5000;
 
 
     // UI data    
@@ -765,7 +804,7 @@ class GameData
 
     ];
 
-    // Score thresholds for different levels
+    // Level Data
     static SCORE_THRESHOLDS = [
         0,
         100,         //Level 1 Threshold

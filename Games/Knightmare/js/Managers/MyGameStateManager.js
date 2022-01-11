@@ -39,9 +39,7 @@ class MyGameStateManager extends GameStateManager {
 
         // Internal Variables
         this.playerHealth = GameData.INITIAL_PLAYER_HEALTH;
-
         this.playerScore = 0;
-
         this.currentLevel = 1;
 
         // Used to create a delay when progressing to the next level
@@ -50,15 +48,17 @@ class MyGameStateManager extends GameStateManager {
         this.levelFinished = false;
 
         // gameOverDelay and timeSincePlayerDied are used to display the game over menu after a short delay when the player dies.
+        this.gameOverDelayInMs = 2000;
+        this.timeSincePlayerDied = 0;
+
         this.playGameOverSound = false;
         this.gameOverSoundTime = 0;
         this.stopGameOverSoundTime = 4000;
-        this.gameOverDelayInMs = 2000;
-        this.timeSincePlayerDied = 0;
 
         // Used to create delay between when player wins and when win screen is displayed
         this.winDelayInMs = 1500;
         this.timeSincePlayerWon = 0;
+
         this.playWinSound = false;
         this.winSoundTime = 0;
         this.stopWinSoundTime = 4000;
@@ -151,9 +151,26 @@ class MyGameStateManager extends GameStateManager {
 
     }
 
-    // Called when the player reaches the required score to move on to the next level and levelFinished variable is true
-    endLevel()
+    // If the current level is 1, and the score has reached the required score to progress to level 2,
+    // the levelFinished variable would be true. However, if level 2 starts and the score is the same,
+    // the level wouldn't be finished. Hence, levelFinished is false.
+    // This function determines the levelFinished variable based on the current level and score
+    checkLevelFinished()
     {
+        let finishedLv1 = this.playerScore == GameData.SCORE_THRESHOLDS[1] && this.currentLevel == 1;
+        let finishedLv2 = this.playerScore == GameData.SCORE_THRESHOLDS[2] && this.currentLevel == 2;
+        let finishedLv3 = this.playerScore == GameData.SCORE_THRESHOLDS[3] && this.currentLevel == 3;
+        
+        if((finishedLv1 || finishedLv2 || finishedLv3) && this.levelFinished == false)
+        {
+            this.levelFinished = true;
+        } 
+    }
+
+    // Called when the player reaches the required score to move on to the next level and levelFinished variable is true
+    handleLevelEnd()
+    {
+        // Remove all the enemies, projectiles, pickups from the previous level
         this.removePreviousLevelObjects();
 
         // Turn off spawning
@@ -192,13 +209,13 @@ class MyGameStateManager extends GameStateManager {
             }
 
         }
+        // If the curernt level is 3 and the level has ended, it means that the player has won the game.
+        // Hence, we call the handleWin function
         else
         {
             this.handleWin();
         }
        
-       
-
     }
 
     checkAndUpdateLevel()
@@ -346,66 +363,6 @@ class MyGameStateManager extends GameStateManager {
 
     }
 
-    // If the current level is 1, and the score has reached the required score to progress to level 2,
-    // the levelFinished variable would be true. However, if level 2 starts and the score is the same,
-    // the level wouldn't be finished. Hence, levelFinished is false.
-    // This function determines the levelFinished variable based on the current level and score
-    checkLevelFinished()
-    {
-        let finishedLv1 = this.playerScore == GameData.SCORE_THRESHOLDS[1] && this.currentLevel == 1;
-        let finishedLv2 = this.playerScore == GameData.SCORE_THRESHOLDS[2] && this.currentLevel == 2;
-        let finishedLv3 = this.playerScore == GameData.SCORE_THRESHOLDS[3] && this.currentLevel == 3;
-        
-        if((finishedLv1 || finishedLv2 || finishedLv3) && this.levelFinished == false)
-        {
-            this.levelFinished = true;
-        } 
-    }
-
-    removePreviousLevelObjects()
-    {
-        // Removing all existing enemies, projectiles and pickups from the previous level
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Enemy]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Projectile]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sprite,
-                NotificationAction.RemoveAllByType,
-                [ActorType.Pickup]
-            )
-        );
-
-        // Turn off firing and turn off the charging audio- this is to fix an issue with the SkullShootController where the fireballs
-        // would keep spawning even though all the enemies and projectiles from the previous level had
-        // been removed.
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.SkullShootController,
-                NotificationAction.ToggleFiring,
-                [ActorType.False]
-            )
-        );
-        this.notificationCenter.notify(
-            new Notification(
-                NotificationType.Sound,
-                NotificationAction.Pause,
-                ["fireball_charge"]
-            )
-        );
-    }
-
     handleGameOver()
     {
         let player = objectManager.get(ActorType.Player)[0];
@@ -521,10 +478,9 @@ class MyGameStateManager extends GameStateManager {
             }
         }
 
-
-
         this.timeSincePlayerWon += gameTime.elapsedTimeInMs;
 
+        // Display the win menu if the time since player won has passed the short delay
         if(this.timeSincePlayerWon >= this.winDelayInMs)
         {
             this.notificationCenter.notify(
@@ -540,9 +496,54 @@ class MyGameStateManager extends GameStateManager {
 
     }
 
+    removePreviousLevelObjects()
+    {
+        // Removing all existing enemies, projectiles and pickups from the previous level
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Enemy]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Projectile]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sprite,
+                NotificationAction.RemoveAllByType,
+                [ActorType.Pickup]
+            )
+        );
+
+        // Turn off firing and turn off the charging audio- this is to fix an issue with the SkullShootController where the fireballs
+        // would keep spawning even though all the enemies and projectiles from the previous level had
+        // been removed.
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.SkullShootController,
+                NotificationAction.ToggleFiring,
+                [ActorType.False]
+            )
+        );
+        this.notificationCenter.notify(
+            new Notification(
+                NotificationType.Sound,
+                NotificationAction.Pause,
+                ["fireball_charge"]
+            )
+        );
+    }
+
 
     update(gameTime) {        
 
+        // Update the game over related variables and call the handleGameOver function
         if(this.playerHealth <= 0)
         {
             this.playGameOverSound = true;
@@ -550,12 +551,14 @@ class MyGameStateManager extends GameStateManager {
             this.handleGameOver();
         }
 
+        // Checks if a level has been finished (A level is finished when the score requirement to beat the level has been met)
         this.checkLevelFinished();
 
+        // Update the time since level ended and call the handleLevelEnd function
         if(this.levelFinished)
         {
             this.timeSinceLevelEnded += gameTime.elapsedTimeInMs;
-            this.endLevel();
+            this.handleLevelEnd();
 
             if(this.currentLevel == 3)
             {

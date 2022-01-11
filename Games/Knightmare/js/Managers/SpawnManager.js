@@ -31,7 +31,8 @@ class SpawnManager {
 
         this.registerForNotifications();
 
-        this.initializeSlime(500);
+        // To start off the game with one enemy present, we initialize a single slime in the constructor
+        this.initializeSlime(GameData.STARTING_SLIME_POS_X);
     }
 
     // We use NotificationType.SpawnParameters to handle notifications related to the SpawnManager class.
@@ -81,6 +82,8 @@ class SpawnManager {
     {
         this.isSkullDead = true;
 
+        // Notify SkullShootController to stop spawning fireballs- this is to fix an issue where the fireballs
+        // keep spawning even after the skull sprite has been removed when a level ends/game ends
         this.notificationCenter.notify(
             new Notification(
                 NotificationType.SkullShootController,
@@ -91,7 +94,7 @@ class SpawnManager {
 
     }
 
-    // Change the currentLevel and spawnInterval variables depending on the level being played.
+    // Changes the currentLevel and spawnInterval variables depending on the level being played.
     // The spawn interval gets shorter as the level increases.
     handleSpawnParametersChange(level)
     {
@@ -116,9 +119,9 @@ class SpawnManager {
         artist.setTake("Move Right");
 
         transform = new Transform2D(
-            new Vector2(posX, 331),
+            new Vector2(posX, GameData.SLIME_POS_Y),
             0,
-            new Vector2(2,2),
+            GameData.ENEMY_DATA[this.currentLevel-1].scale,
             Vector2.Zero,
             artist.getBoundingBoxByTakeName("Move Right"),
             0
@@ -135,16 +138,17 @@ class SpawnManager {
             1
         );
 
-        sprite.body.maximumSpeed = 6;
+        sprite.body.maximumSpeed = GameData.SLIME_MAX_SPEED;
         sprite.body.friction = FrictionType.Normal;
         sprite.body.gravity = GravityType.Normal;
 
         // Attach controller
+        // Increase the movement velocity of the slime based on the current level
         sprite.attachController(
             new SlimeMoveController(
-                this.objectManager,
-                new Vector2(10*this.currentLevel,0),
-                500
+                this.objectManager,                                                  // Object Manager
+                new Vector2(GameData.SLIME_VELOCITY_MULTIPLIER*this.currentLevel,0), // Move Velocity
+                GameData.SLIME_MOVE_INTERVAL                                         // Move Interval
             )
         );
 
@@ -155,9 +159,14 @@ class SpawnManager {
     {
         if(this.timeSinceLastSlimeSpawnInMs >= this.enemySpawnInterval)
         {
+            // Randomly pick a position on the x-axis within the bounds of the canvas
+            // This calculation picks any number between 1 and (canvas width - 2)
             let enemyPosX = 1 + (Math.random() * (canvas.clientWidth-2));
 
-            if(enemyPosX < playerPosX + 30 && enemyPosX > playerPosX-30) return;
+            // If the x position is anywhere within 30 units of the player's current position,
+            // The function returns and doesn't initialize the slime.
+            // This is to make sure that slimes don't spawn right under the player, or right beside them
+            if(enemyPosX < playerPosX + GameData.SLIME_OFFSET_PLAYER && enemyPosX > playerPosX-GameData.SLIME_OFFSET_PLAYER) return;
     
             this.initializeSlime(enemyPosX);
             this.numEnemiesSpawned++;
@@ -176,6 +185,8 @@ class SpawnManager {
         let sprite;
 
         // Setting the index of the bat animation data based on the current level
+        // If the level is either one or two, the animation data of the Red Bat sprite is selected (index 3).
+        // In case of level 3, the Dark Bat sprite is selected (index 4).
         let animationDataIndex = (this.currentLevel < 3) ? 3 : 4;
 
         artist = new AnimatedSpriteArtist(
@@ -188,9 +199,9 @@ class SpawnManager {
         artist.setTake("Move Right");
 
         transform = new Transform2D(
-            new Vector2(posX, 200),
+            new Vector2(posX, GameData.BAT_POS_Y),
             0,
-            new Vector2(4,4),
+            GameData.ENEMY_DATA[animationDataIndex].scale,
             Vector2.Zero,
             artist.getBoundingBoxByTakeName("Move Right"),
             0
@@ -207,26 +218,28 @@ class SpawnManager {
             1
         );
 
-        sprite.body.maximumSpeed = 100;
+        sprite.body.maximumSpeed = GameData.BAT_MAX_SPEED;
         sprite.body.friction = FrictionType.Normal;
         sprite.body.gravity = GravityType.Normal;
 
         let xVel;
 
         if(posX <=0)
-            xVel = 3 + (0.2*this.currentLevel-1);
+            xVel = GameData.BAT_X_VEL_MIN + (GameData.BAT_X_VEL_MULTIPLIER*(this.currentLevel-1));
         else
-            xVel = -(3 + (0.2*this.currentLevel-1));
+            xVel = -(GameData.BAT_X_VEL_MIN + (GameData.BAT_X_VEL_MULTIPLIER*(this.currentLevel-1)));
+
+        let yVel = GameData.BAT_Y_VEL_MIN + (GameData.BAT_Y_VEL_MULTIPLIER*(this.currentLevel-1));
 
         // Attach controller
         sprite.attachController(
             new BatMoveController(
                 this.notificationCenter,
                 this.objectManager,
-                150,
-                300,
+                GameData.BAT_MIN_Y,         // Minimum y position (Highest the bat can fly)
+                GameData.BAT_MAX_Y,         // Max y position   (Lowest the bat can fly)
                 xVel,
-                4 + (0.4*(this.currentLevel-1))
+                yVel
             )
         );
 
@@ -235,13 +248,14 @@ class SpawnManager {
 
     spawnBat()
     {
-        if(this.timeSinceLastBatSpawnInMs >= 1.5 * this.enemySpawnInterval)
+        if(this.timeSinceLastBatSpawnInMs >= GameData.BAT_INTERVAL_MULTIPLIER * this.enemySpawnInterval)
         {
             // Randomly picks either 0 or 1
             let sideToSpawn = Math.floor(Math.random()*2);
 
             // If sideToSpawn = 0, bat spawns on left side of screen. If sideToSpawn = 1, bat spawns on right side.
-            let enemyPosX = sideToSpawn*950 - 50;
+            // If left side, pos x would be -50. If right, pos x would be the canvas width + 50
+            let enemyPosX = sideToSpawn*(canvas.clientWidth + 100) - 50;
 
             this.initializeBat(enemyPosX);
             this.numEnemiesSpawned++;
@@ -275,9 +289,9 @@ class SpawnManager {
         }
 
         transform = new Transform2D(
-            new Vector2(posX, 300),
+            new Vector2(posX, GameData.SKULL_POS_Y),
             0,
-            new Vector2(2.5,2.5),
+            GameData.ENEMY_DATA[5].scale,
             Vector2.Zero,
             artist.getBoundingBoxByTakeName("Look Right"),
             0
@@ -298,7 +312,7 @@ class SpawnManager {
             new SkullShootController(
                 this.notificationCenter,
                 this.objectManager,
-                1500 - (200*this.currentLevel)
+                GameData.SKULL_SHOOT_INTERVAL_MAX - (GameData.SKULL_SHOOT_INTERVAL_MULTIPLIER*this.currentLevel)
             )
         );
 
@@ -307,7 +321,7 @@ class SpawnManager {
 
     spawnFierySkull()
     {
-        if((this.timeSinceLastSkullSpawnInMs >= 3 * this.enemySpawnInterval) && this.isSkullDead)
+        if((this.timeSinceLastSkullSpawnInMs >= GameData.SKULL_INTERVAL_MULTIPLIER * this.enemySpawnInterval) && this.isSkullDead)
         {
             // Randomly picks either 0 or 1
             let sideToSpawn = Math.floor(Math.random()*2);
@@ -342,7 +356,7 @@ class SpawnManager {
         let sprite;
 
         transform = new Transform2D(
-            new Vector2(posX, -20),
+            new Vector2(posX, GameData.POTION_POS_Y),
             GameData.HEALTH_POTION_SPRITE_DATA.rotation,
             GameData.HEALTH_POTION_SPRITE_DATA.scale,
             GameData.HEALTH_POTION_SPRITE_DATA.origin,
@@ -369,7 +383,7 @@ class SpawnManager {
             1
         );
 
-        sprite.body.maximumSpeed = 3;
+        sprite.body.maximumSpeed = GameData.POTION_MAX_SPEED;
         sprite.body.friction = FrictionType.Normal;
         sprite.body.gravity = GravityType.Normal;
 
@@ -385,7 +399,10 @@ class SpawnManager {
 
     spawnHealthPotion()
     {
-        let pickupSpawnInterval = (Math.random()*4000) + 10000;
+        // Randomize the pickup spawn interval to be between 10 and 14 seconds.
+        let pickupSpawnInterval = (Math.random()*GameData.PICKUP_SPAWN_INTERVAL_MULTIPLIER) + GameData.PICKUP_SPAWN_INTERVAL_MIN;
+
+        // Randomize x position of pickup
         let pickupPosX = 15 + (Math.random() * (canvas.clientWidth-25));
 
         if(this.timeSinceLastHealthPotionSpawnInMs >= pickupSpawnInterval)
@@ -438,6 +455,7 @@ class SpawnManager {
             return;
         }
 
+        // Access player from object manager and return if player doesn't exist or if player's status type is set to Off
         let player = this.objectManager.get(ActorType.Player)[0];
         if(player.statusType == StatusType.Off || player == null) return;
 
