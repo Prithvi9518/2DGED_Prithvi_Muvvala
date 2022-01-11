@@ -200,7 +200,9 @@ class MyMenuManager extends MenuManager {
         // If the return to main menu button is clicked
         $('.return_main_menu').click(function () {
 
-            // Hide pause menu and game over menu
+            // Hide control, pause, game over and win menus
+            $('#control_menu').hide();
+            $('#control_menu').addClass('hidden');
             $('#pause_menu').hide();
             $('#pause_menu').addClass('hidden');
             $('#game_over_menu').hide();
